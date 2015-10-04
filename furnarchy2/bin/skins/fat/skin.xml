@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<skin onLoad="onLoad">
+   
+   <!-- The module list. -->
+   <frame id="modlist" x="300" y="16" visible="no"
+    onMouseWheel="onMouseWheel">
+   
+      <!-- Left part of the bar. -->
+      <frame id="bar_l" x="0" width="20">
+         <image src="bar_l.tga"/>
+         <button id="scroll_l" src="scroll_l.tga" x="8" y="14" width="12"
+          visible="no"
+          onMouseClick="onLScroll"/>
+      </frame>
+      <!-- Right part of the bar. -->
+      <frame id="bar_r" x="30" width="22">
+         <image src="bar_r.tga"/>
+         <button id="scroll_r" src="scroll_r.tga" x="0" y="14" width="12"
+          visible="no"
+          onMouseClick="onRScroll"/>
+      </frame>
+      
+      <!-- Per-module elements. -->
+      <template id="tmpl_mod">
+         <frame x="20" width="59" height="50"
+          onMouseOver="onModOver" onMouseOut="onModOut"
+          onMouseClick="onModClick" onMouseRClick="onModRClick"
+          onModState="onModState">
+            <image id="slot" x="0" y="0" height="50" scrollY="50" src="bar_m.tga"/>
+            <image id="glow" x="9" y="2" src="glow.tga" visible="no"/>
+            <image id="thumb" x="15" y="8" width="32" height="32"/>
+         </frame>
+      </template>
+      
+   </frame>
+   
+   <!-- The "mini icon." -->
+   <button id="icon" x="590" y="20" height="36" scrollY="36"
+    tip="Show modules" src="icon.tga"
+    onMouseClick="onIconClick" onMouseDown="onIconDown"/>
+   
+</skin>

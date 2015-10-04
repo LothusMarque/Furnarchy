@@ -1,0 +1,20 @@
+ctlRegister 510 318 119 38
+ctlPlay 510 368 119 38
+ctlClose 510 418 119 38
+ctlSave 516 21 119 38
+ctlSaveAs 516 77 119 38
+ctlSettings 50 257 119 38
+ctlCharacters 17 79 177 172
+ctlPortrait 230 18 97 97
+ctlName 362 34 140 21
+ctlPassword 362 93 140 21
+ctlDescription 362 155 259 134
+ctlSpecies 218 149 122 222
+ctlGender 218 208 122 222
+ctlCode 218 269 122 22
+ctlColors 85 312 112 222
+ctlPalette 16 339 181 113
+ctlPreview 221 322 128 128
+ctlDigo 374 336 113 115
+ctlFileName 10 460 413 20 "Arial" 15 FFFFFF
+ctlStatus 430 460 200 20 "Arial" 15 FFFFFF

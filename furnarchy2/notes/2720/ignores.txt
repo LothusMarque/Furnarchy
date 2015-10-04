@@ -1,0 +1,93 @@
+2720
+----
+
+00409940: void __cdecl ignore( const char* name )
+
+00409D00: int __fastcall _add_ignore( const char* name : ECX )
+00409E30: int __cdecl _rm_ignore( const char* name )
+00409BE0: int __cdecl is_ignored( const char* name : EBX )
+
+!!! line is no longer passed through ECX !!!
+00409F50: bool __cdecl is_line_not_ignored( const char* line, int len );
+
+
+2610
+----
+
+004099A0: void __cdecl ignore( const char* name )
+
+00409BF0: int __fastcall _add_ignore( const char* name : ECX )
+00409D50: int __cdecl _rm_ignore( const char* name )
+
+00409AC0: int __cdecl is_ignored( const char* name : EBX )
+00409E90: bool __cdecl is_line_not_ignored( const char* line : ECX, int len );
+
+2520
+----
+
+004098C0: void __cdecl ignore( const char* name )
+
+00409B10: int __fastcall _add_ignore( const char* name : ECX )
+00409C70: int __cdecl _rm_ignore( const char* name )
+
+004099E0: int __cdecl is_ignored( const char* name : EBX )
+00409DB0: bool __cdecl is_line_not_ignored( const char* line : ECX, int len );
+
+
+2510
+----
+
+00409820: void __cdecl ignore( const char* name )
+
+00409A70: int __fastcall _add_ignore( const char* name : ECX )
+00409BD0: int __cdecl _rm_ignore( const char* name )
+
+00409940: int __cdecl is_ignored( const char* name : EBX )
+0040C6EE: bool __cdecl is_line_not_ignored( const char* line : ECX, int len );
+
+2410
+----
+
+0040F3E2: void __cdecl ignore( const char* name )
+
+00409C40: int __fastcall _add_ignore( const char* name : ECX )
+00409DA0: int __cdecl _rm_ignore( const char* name )
+
+00409B10: int __cdecl is_ignored( const char* name : EBX )
+00409EE0: bool __cdecl is_line_not_ignored( const char* line : ECX, int len );
+
+2320
+----
+
+Tracking the 'ignore' command/string, you can get to the ignore function:
+
+00409430 void __cdecl ignore( const char* name )
+
+The "ignore off" command is an exception that's handled before calling ignore().
+The ignore() function decides whether to toggle an ignore on or off, then calls the REAL
+ignore functions:
+
+00409680 int __fastcall _add_ignore( const char* name : ECX )
+004097E0 int __cdecl _rm_ignore( const char* name )
+
+_add_ignore() and _rm_ignore() return 0 on success.
+
+Ignores are stored in a huge static array:
+
+00697B78 char s_ignores[ 100 ][ 64 ]
+
+To find out if someone is ignored, you go through all 100 elements.
+New ignores are just inserted wherever an empty string appears.
+
+In order to know how to toggle an ignore, ignore() calls
+
+00409550 int __cdecl is_ignored( const char* name )
+
+is_ignored() returns < -1 if name is not ignored.
+
+If you look at the calls to is_ignored(), you find the higher-level version of it:
+
+00409910 bool __cdecl is_line_not_ignored( const char* line : ECX, int len );
+
+The above function seems to be refactored, with line in ECX and the len on the stack.
+

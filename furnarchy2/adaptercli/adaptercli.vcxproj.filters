@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="common">
+      <UniqueIdentifier>{b56b0426-5c04-4741-bc5e-157b783d2dd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="subsystems">
+      <UniqueIdentifier>{143ba89d-6090-4308-b574-8744c63e6099}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="yiffurc">
+      <UniqueIdentifier>{b94f86f5-3000-40a2-8c26-4a2e8bddcfb2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="common\DirStack.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\xml_charset.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>subsystems</Filter>
+    </ClInclude>
+    <ClInclude Include="Furnarchy.h">
+      <Filter>subsystems</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleHost.h">
+      <Filter>subsystems</Filter>
+    </ClInclude>
+    <ClInclude Include="Net.h">
+      <Filter>subsystems</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts.h">
+      <Filter>subsystems</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>subsystems</Filter>
+    </ClInclude>
+    <ClInclude Include="yiffurc\auth.h">
+      <Filter>yiffurc</Filter>
+    </ClInclude>
+    <ClInclude Include="yiffurc\avatar.h">
+      <Filter>yiffurc</Filter>
+    </ClInclude>
+    <ClInclude Include="yiffurc\colors.hpp">
+      <Filter>yiffurc</Filter>
+    </ClInclude>
+    <ClInclude Include="yiffurc\common.h">
+      <Filter>yiffurc</Filter>
+    </ClInclude>
+    <ClInclude Include="yiffurc\fsh.hpp">
+      <Filter>yiffurc</Filter>
+    </ClInclude>
+    <ClInclude Include="yiffurc\net.h">
+      <Filter>yiffurc</Filter>
+    </ClInclude>
+    <ClInclude Include="yiffurc\util.hpp">
+      <Filter>yiffurc</Filter>
+    </ClInclude>
+    <ClInclude Include="yiffurc\yiffurc.h">
+      <Filter>yiffurc</Filter>
+    </ClInclude>
+    <ClInclude Include="cli_util.h" />
+    <ClInclude Include="net_scan.h" />
+    <ClInclude Include="shortname.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="common\xml_charset.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>subsystems</Filter>
+    </ClCompile>
+    <ClCompile Include="Furnarchy.cpp">
+      <Filter>subsystems</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleHost.cpp">
+      <Filter>subsystems</Filter>
+    </ClCompile>
+    <ClCompile Include="Net.cpp">
+      <Filter>subsystems</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts.cpp">
+      <Filter>subsystems</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>subsystems</Filter>
+    </ClCompile>
+    <ClCompile Include="adaptercli.cpp" />
+    <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="entry.cpp" />
+    <ClCompile Include="net_scan.cpp" />
+    <ClCompile Include="shortname.cpp" />
+  </ItemGroup>
+</Project>

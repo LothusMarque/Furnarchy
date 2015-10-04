@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="common">
+      <UniqueIdentifier>{f7050bde-2d29-4d90-a012-964bfe82e8f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tinyxml">
+      <UniqueIdentifier>{99ca099e-98f8-4a77-8d5e-1f5d31647d52}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="common\crc32.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\IniFile.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\x86pp.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml\tinystr.h">
+      <Filter>tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml\tinyxml.h">
+      <Filter>tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="process_locate.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="common\IniFile.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\x86pp.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml\tinystr.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml\tinyxml.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml\tinyxmlerror.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml\tinyxmlparser.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="process_locate.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\f2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="furnarchylaunch.rc" />
+  </ItemGroup>
+</Project>

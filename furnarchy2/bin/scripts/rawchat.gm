@@ -1,0 +1,10 @@
+/*
+Simple rawchat-ish filter script for Furnarchy.
+Only filters < and > currently, being the most likely to cause issues.
+*/
+global onOutbound = function( line, from, num )
+{
+ line = reSubst2(line,"&lt;","<","g");
+ line = reSubst2(line,"&gt;",">","g");
+ return line;
+};

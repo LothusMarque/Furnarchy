@@ -1,0 +1,11 @@
+September 08, 2007 - 2.1
+------
+ADDED   Can now broadcast the song as an emote, if you prefix the 
+        broadcast string with a ':' character.
+CHANGED Now reads in song titles as unicode.
+
+December 12, 2006 - 2.0-r1
+--------------------
+
+ADDED module message support; see interop.txt for details.
+ADDED ability to customize the strings used by editing strings.txt.

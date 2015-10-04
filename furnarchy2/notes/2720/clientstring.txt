@@ -1,0 +1,57 @@
+Here's some bits of its definition.
+ClientString
+{
+   /* Note that the sizeof( GLYPH ) is 8 because of alignment. */
+   GLYPH
+   {
+      int  glyph;
+      char unkl;
+   };
+   
+   size_t m_capacity;
+   bool   m_unk1; /* true for the input box string. */
+   bool   m_unk2; /* true for the input box string. */
+   int    m_unk3; /* 0 for the input box string. */
+   int    m_unk4; /* -1 for the input box string. */
+   int    m_unk5; /* 0 for the input box string. */
+   GLYPH* m_str;  /* glyph buffer. terminated by a zero glyph. */
+   int    m_unks[7]; /* Haven't really looked at these. */
+   
+   void insertChar( char c, int off ); @ 00466930
+   
+   /* Just a wrapper for _toSz( ). */
+   void toSz( char* out, size_t max ); @ 00464F70
+   
+   /* Watch out, converts characters < ' ' to '@' */
+   void _toSz( int off, size_t len, char* buf, size_t max ); @ 00464900
+   
+      // In ClientString::_toSz( )
+      ...
+      00464D7D  |. 833CC2 20      |CMP DWORD PTR DS:[EDX+EAX*8],20
+      00464D81  |. 0F8C DA000000  |JL Furcadia.00464E61
+      ...
+      
+      There's the comparison for pruning out characters < ' '.
+
+   void fromSz( const char* s ); @ 00466310
+   
+   void assign( ClientString* s ); @ 00466340
+   
+   /* Strips unreadable characters. Neither of the bools seem to affect it. */
+   void copyAndClean( ClientString* s, bool unk1, bool unk2 ); @ 00465A50
+   
+      // In ClientString::copyAndClean( )
+      ...
+      004661FA  |. 833CC2 20      |CMP DWORD PTR DS:[EDX+EAX*8],20
+      004661FE  |. 7D 12          |JGE SHORT Furcadia.00466212
+      00466200  |. 8B4D D4        |MOV ECX,[LOCAL.11]
+      00466203  |. 8B51 18        |MOV EDX,DWORD PTR DS:[ECX+18]
+      00466206  |. 8B45 E8        |MOV EAX,[LOCAL.6]
+      00466209  |. C704C2 2000000>|MOV DWORD PTR DS:[EDX+EAX*8],20
+      00466210  |. EB 18          |JMP SHORT Furcadia.0046622A
+      00466212  |> 8B4D 08        |MOV ECX,[ARG.1]
+      ...
+      This bit replaces everything < ' ' with a space.
+
+
+};

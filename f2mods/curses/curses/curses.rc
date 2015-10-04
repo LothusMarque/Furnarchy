@@ -1,0 +1,168 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_SCREEN_MENU MENU 
+BEGIN
+    POPUP "Chars"
+    BEGIN
+        MENUITEM "Make Default",                ID_CHARS_MAKEDEFAULT
+        MENUITEM SEPARATOR
+        MENUITEM "New",                         ID_CHARS_NEW
+        MENUITEM "Delete",                      ID_CHARS_DELETE
+        MENUITEM SEPARATOR
+        MENUITEM "Refresh",                     ID_CHARS_REFRESH
+    END
+END
+
+IDR_OPTIONS MENU 
+BEGIN
+    POPUP "Folders"
+    BEGIN
+        MENUITEM "Add...",                      ID_FOLDERS_ADD
+        MENUITEM "Remove",                      ID_FOLDERS_REMOVE
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_JOB_DLG DIALOGEX 0, 0, 229, 134
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,172,113,50,14
+    EDITTEXT        IDC_JOB_STATUS,7,7,215,103,ES_MULTILINE | ES_READONLY | WS_VSCROLL
+END
+
+IDD_JOB_EMAIL DIALOGEX 0, 0, 186, 73
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Registration Prompt"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,76,52,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,52,50,14
+    EDITTEXT        IDC_EMAIL,7,32,172,14,ES_AUTOHSCROLL
+    LTEXT           "What email address should be associated with this character?",IDC_STATIC,7,7,172,21
+END
+
+IDD_OPTIONS DIALOGEX 0, 0, 262, 188
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Curses2 Options"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,151,167,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,205,167,50,14
+    GROUPBOX        "Character Folders",IDC_STATIC,6,61,249,102
+    LTEXT           "Curses will search the following folders for character files.\nRight-click to modify the list. ",IDC_STATIC,15,75,229,19
+    GROUPBOX        "General Options",IDC_STATIC,7,7,248,49
+    CONTROL         "Enable on Startup.",IDC_AUTOENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,22,76,10
+    CONTROL         "Remember Passwords.",IDC_REMEMBERPW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,38,89,10
+	LTEXT           "Curses 2.2-r4 - By Cluracan && MEP",IDC_STATIC,7,173,142,8 
+    LISTBOX         IDC_FOLDERS,15,99,230,53,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_JOB_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 222
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 127
+    END
+
+    IDD_JOB_EMAIL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 66
+    END
+
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 255
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 181
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

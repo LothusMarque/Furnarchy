@@ -1,0 +1,12 @@
+//BrowserBack
+//Add Alt-Left as "back" command, similar to three of the major browsers - Firefox, IE8, and Chrome.
+
+import("keys");
+
+global onChar = function( ch, repeat )
+{
+	if ((ch == KEY_LEFT) && (altState())) {
+		netOutLine("goback");
+		return true;
+	}
+};

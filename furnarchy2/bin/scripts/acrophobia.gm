@@ -1,0 +1,766 @@
+/**********************************************************/
+/* acrophobia.gm                                          */
+/* Hosts a friendly game of Acrophobia!                   */
+/* Random acronyms are generated per round, each player   */
+/* submits phrases to fit the acronyms, then everyone     */
+/* votes on their favorite. Players may not vote for      */
+/* themselves and are penalized for not voting. Voting    */
+/* for the top voted acronym also nets you points.        */
+/* The best of 5 rounds wins the game!                    */
+/*                                                        */
+/* A game can be started by saying "!acrophobia [theme]"  */
+/* where "[theme]" is an arbitrary theme for the game.    */
+/* If no theme is specified, then a random theme is       */
+/* chosen.                                                */
+/* The bot host may also start the game with the          */
+/* "@acro start [theme]" command.                         */
+/* To stop a game prematurely, the bot host must issue a  */
+/* "@acro stop" command.                                  */
+/*                                                        */
+/* To prevent just anybody from starting a game, put the  */
+/* script into private mode with the "@acro private"      */
+/* command, and "@acro public" to do the opposite.        */
+/* When in private mode, only those on the "blessed" list */
+/* Are allowed to start games with the "!acrophobia"      */
+/* command. To add people to the blessed list, use the    */
+/* "@acro bless <name>" command, or the                   */
+/* "@acro unbless <name>" command to unbless a person.    */
+/* The "@acro blessed" command lists all players blessed. */
+/**********************************************************/
+
+// Import constants needed by the parseChat() function.
+import( "parsechat" );
+
+global NUM_ROUNDS        = 5;
+global MAX_PLAYERS       = 10;
+global MIN_INITIALS      = 3;
+global MAX_INITIALS      = 5;
+global DELAY_ACCEPTACROS = 60; // In seconds.
+global DELAY_ACCEPTVOTES = 30; // In seconds.
+global DELAY_ROUNDBEGIN  = 10; // In seconds.
+global DELAY_PERPLAYER   = 9;  // In seconds.
+
+global STAGE_GAMEOVER    = 0;
+global STAGE_ROUNDBEGIN  = 1;
+global STAGE_ACCEPTACROS = 2;
+global STAGE_ACCEPTVOTES = 3;
+global STAGE_ROUNDOVER   = 4;
+
+global THEMES = { "Insults", "Furcadia", "Pop Culture", "Romance",
+                  "History" };
+
+//////////////////////////////////////////////////////////////////////////
+
+global g_theme       = "Anything Goes";
+global g_players     = { };
+global g_round       = 0;
+global g_stage       = STAGE_GAMEOVER;
+global g_initials    = "";
+global g_initials_re = "";
+global g_countdown   = 0;
+global g_10secwarn   = false;
+global g_public      = true;
+global g_whitelist   = { };
+
+//////////////////////////////////////////////////////////////////////////
+
+global onRun = function( args )
+{
+   desctag( "<b>[<i>!</i>]</b> Running the Acrophobia script for Furnarchy 2. "
+            "Say <i>!acrophobia</i> to start a game." );
+   
+   // Load the DB file.
+   acroLoad( );
+   
+   if (g_public) { speak( "Running in public mode." ); }
+   else          { speak( "Running in private mode." ); }
+};
+
+global onCommand = function( args )
+{
+   if (args[ 0 ] == "acro")
+   {
+      if (args[ 1 ] == "start")
+      {
+         // Join the rest of the arguments and use it as the theme.
+         global g_theme = join( slice( args, { 2, -1 } ), " " );
+         
+         // If no theme or a bad theme, use a random one.
+         if (!length( g_theme ) || reMatch2( g_theme, `^\s+$` )) {
+            g_theme = THEMES[ rand( length( THEMES ) ) ];
+         }
+         
+         // Start the game.
+         acroGameBegin( );
+         return true;
+      }
+      else if (args[ 1 ] == "stop")
+      {
+         speak( "Game stopped." );
+         g_round = 0;
+         global g_stage = STAGE_GAMEOVER;
+         g_players = {};
+         return true;         
+      }
+      else if (args[ 1 ] == "public")
+      {
+         global g_public = true;
+         speak( "Running in public mode." );
+         acroSave( );
+         return true;
+      }
+      else if (args[ 1 ] == "private")
+      {
+         global g_public = false;
+         speak( "Running in private mode." );
+         acroSave( );
+         return true;
+      }
+      else if (args[ 1 ] == "bless")
+      {
+         if (length( args[ 2 ] ))
+         {
+            global g_whitelist;
+            
+            name = join( slice( args, { 2 } ), " " );
+            name = reSubst2( name, " ", "|", "g" );
+            
+            foreach (i in g_whitelist)
+            {
+               if (strCaseCmp( i, name ) == 0) 
+               {
+                  speak( name + " is already on the whitelist." );
+                  return true;
+               }
+            }
+            
+            g_whitelist[ length( g_whitelist ) ] = name;
+            speak( name + " added to whitelist." );
+            acroSave( );
+            return true;
+         }
+      }
+      else if (args[ 1 ] == "unbless")
+      {
+         if (length( args[ 2 ] ))
+         {
+            global g_whitelist;
+            
+            name = join( slice( args, { 2 } ), " " );
+            name = reSubst2( name, " ", "|", "g" );
+            
+            wl_count = length( g_whitelist );
+            for (i=0; i < wl_count; i+=1)
+            {
+               if (strCaseCmp( g_whitelist[ i ], name ) == 0) 
+               {
+                  g_whitelist = slice( g_whitelist, { 0, i }, { i+1 } );
+                  speak( name + " removed from whitelist." );
+                  acroSave( );
+                  return true;
+               }
+            }
+            
+            speak( name + " isn't on the whitelist." );
+            return true;
+         }
+      }
+      else if (args[ 1 ] == "blessed")
+      {
+         global g_whitelist;
+         if (!length( g_whitelist)) {
+            speak( "No one is blessed." );
+         }
+         else {
+            speak( join( g_whitelist, ", " ) );
+         }
+         return true;
+      }
+   }
+};
+
+global onInbound = function( line, from, num )
+{   
+   global g_stage;
+   
+   // Only look at chat text.
+   if (line[ 0 ] == '(')
+   {
+      // Parse the chat text.
+      chat = parseChat( line );
+
+      // Handle whispered commands.
+      if (chat && chat.type == CHAT_WHISPER)
+      {
+         if (g_stage == STAGE_ACCEPTACROS) {
+            acroSubmit( chat.from, chat.message );
+         }
+         else if (g_stage == STAGE_ACCEPTVOTES) {
+            acroVote( chat.from, chat.message );
+         }
+      }
+      // Handle spoken commands.
+      else if (g_stage == STAGE_GAMEOVER && (chat && chat.type == CHAT_SPEECH))
+      {
+         // Handle the !acrophobia command.
+         if (reMatch2( chat.message, `^!acrophobia(?:\s+(.+))?$` ))
+         {         
+            global g_public;
+            if (!g_public)  // Private mode.
+            {
+               // Only people on the whitelist can start a game.         
+               found = false;
+               
+               global g_whitelist;
+               foreach (i in g_whitelist) {
+                  if (strCaseCmp( chat.from, i ) == 0) { found = true; break; }
+               }
+               
+               if (!found) {
+                  return;
+               }
+            }           
+               
+            global g_theme = reSubst2( reCap( 1 ), `^(\S*)\s+$`, `\1` );
+            
+            // If no theme or a bad theme, use a random one.
+            if (!length( g_theme ) || reMatch2( g_theme, `^\s+$` )) {
+               g_theme = THEMES[ rand( length( THEMES ) ) ];
+            }
+            
+            // Start the game.
+            acroGameBegin( );
+         }
+      }
+   }
+};
+
+global onTick = function( dt )
+{
+   global g_stage;
+   global g_countdown;
+   global g_10secwarn;
+   
+   if (g_stage == STAGE_GAMEOVER) { 
+      return; 
+   }
+   
+   if (g_countdown - dt > 0) { 
+      g_countdown -= dt; 
+   }
+   else { 
+      g_countdown = 0;
+   }
+   
+   if (g_countdown > 10000) { 
+      g_10secwarn = false; 
+   }
+   else if (!g_10secwarn) { 
+      g_10secwarn = true;
+      acroMsgGlobal( "Less than 10 seconds remaining..." );
+   }
+   
+   if (g_countdown > 0) {
+      return;
+   }
+   
+   /* Countdown completed.  Handle the stages. */
+   global g_round;
+   
+   if (g_stage == STAGE_ROUNDBEGIN)
+   {
+      acroRoundAcceptAcros( );      
+   }
+   else if (g_stage == STAGE_ACCEPTACROS)
+   {
+      acroRoundAcceptVotes( );
+   }
+   else if (g_stage == STAGE_ACCEPTVOTES)
+   {
+      acroRoundTally( );
+   }
+   else if (g_stage == STAGE_ROUNDOVER)
+   {
+      acroRoundOver( );
+   }
+};
+
+//////////////////////////////////////////////////////////////////////////
+
+/* Start at round 1 and begin the round. */
+global acroGameBegin = function( )
+{
+   acroMsgGlobal( "Starting a new game of Acrophobia!" );
+   
+   global g_round = 1;
+   global g_players = { };
+   acroRoundBegin( );
+};
+
+/* Countdown to round begin. */
+global acroRoundBegin = function( )
+{
+   global g_stage     = STAGE_ROUNDBEGIN;
+   global g_countdown = DELAY_PERPLAYER * length( g_players );
+   if (g_countdown < DELAY_ROUNDBEGIN) {
+      g_countdown = DELAY_ROUNDBEGIN;
+   }
+    
+   acroMsgGlobal( "Next round will begin in " + g_countdown
+                  + " seconds..." );
+   
+   g_countdown *= 1000;
+   
+   return;
+};
+
+/* Generate initials and begin accepting acronyms. */
+global acroRoundAcceptAcros = function( )
+{  
+   global g_stage     = STAGE_ACCEPTACROS;
+   global g_countdown = DELAY_ACCEPTACROS * 1000;
+   
+   global g_players;
+   foreach (i in g_players) { i.acro = ""; i.time = 0; }
+   
+   acroMsgGlobal( "<i>Round " + g_round + "!</i>"
+                  " Theme: <b>" + g_theme + "</b>" );
+   
+   acroGenerateInitials( );
+   
+   global g_initials;   
+   acroMsgGlobal( "The initials for this round are <b>" 
+                  + reSubst2( g_initials, `.`, `\0 `, "g" ) 
+                  + "</b>" );
+   
+   acroMsgGlobal( "Players have " + DELAY_ACCEPTACROS + 
+                  " seconds to whisper me their acronyms." );
+   return;
+};
+
+/* Shuffle players, list acronyms, and begin accepting votes. */
+global acroRoundAcceptVotes = function( )
+{   
+   global g_stage     = STAGE_ACCEPTVOTES;
+   global g_countdown = 0; // Countdown set further down.
+   global g_quickest  = 0;
+   global g_players;
+   
+   // Count the acronyms.
+   num_acros = 0;
+   foreach (i in g_players) { 
+      if (length( i.acro )) { num_acros += 1; }
+   }
+   
+   /* List the submitted acronyms. */
+   if (g_round == 1 && num_acros < 3)
+   {
+      // End the game.
+      g_round = 0;
+      g_stage = STAGE_GAMEOVER;
+      acroMsgGlobal( "At least 3 people must participate. <i>Game Over!</i>" );
+      return;
+   }
+   if (!num_acros)
+   {
+      acroMsgGlobal( "I received no acronyms." );
+      acroRoundOver( ); // Skip to next round.
+      return;
+   }
+   
+   // Reset vote info.
+   foreach (i in g_players) { i.vote = null; i.time = 0; }
+   
+   // Shuffle the players.
+   num_players = length( g_players );
+   for (i=0; i < num_players; i+=1)
+   {
+      j = rand( num_players );
+      t = g_players[ j ];
+      g_players[ j ] = g_players[ i ];
+      g_players[ i ] = t;
+   }
+   
+   // Set up the delay.
+   g_countdown = num_acros * DELAY_PERPLAYER;
+   if (g_countdown < DELAY_ACCEPTVOTES) {
+      g_countdown = DELAY_ACCEPTVOTES;
+   }
+   
+   // List the acronyms.
+   acroMsgGlobal( "I received <b>" + num_acros + "</b> acronyms:" );
+   
+   n = 1;
+   foreach (i in g_players) 
+   {
+      if (length( i.acro )) {
+         acroMsgGlobal( n + ". <i>" + i.acro + "</i>" );
+         n += 1;
+      }
+   }
+   
+   acroMsgGlobal( "Players have " + g_countdown + " seconds to whisper "
+                  "me their favorite acronym (by number)."
+                  " Remember, non-voters will be penalized!" );
+   
+   g_countdown *= 1000;
+   
+   return;
+};
+
+/* Display the vote results and tally the scores. */
+global acroRoundTally = function( )
+{
+   global g_stage     = STAGE_ROUNDOVER;
+   global g_countdown = 0;
+   global g_players;
+   
+   /* Calculate round rewards and bonuses. */   
+   foreach (i in g_players) { i.rewards = 0; i.bonuses = 0; }
+   
+   // Score acronyms.
+   num_votes = 0;
+   foreach (i in g_players)
+   {
+      if (i.vote)
+      {
+         num_votes      += 1;
+         i.vote.rewards += 2;
+      }
+   }
+   
+   // Find the quickest player to receive votes.
+   quickest = null;
+   foreach (i in g_players)
+   {
+      if (i.rewards) // Someone voted for this player.
+      {
+         if (!quickest || quickest.time > i.time) {
+            quickest = i;
+         }
+      }
+   }
+   
+   // Reward the quickest.
+   if (quickest) {
+      quickest.bonuses += 1;
+   }
+   
+   // Find the highest vote score.
+   high = 0;
+   foreach (i in g_players)
+   {
+      if (high < i.rewards) {
+         high = i.rewards;
+      }
+   }
+         
+   // Give bonuses to those that voted for the highest scored acronym(s).
+   if (high)
+   {
+      foreach (i in g_players)
+      {
+         if (i.vote && i.vote.rewards == high) {
+            i.bonuses += 1;
+         }
+      }
+   }
+   
+   // Count the acronyms.
+   num_acros = 0;
+   last_submitter = null;
+   foreach (i in g_players) { 
+      if (length( i.acro )) { num_acros += 1; last_submitter = i; }
+   }
+   
+   // Penalize those who didn't vote (unless they couldn't).   
+   if (num_acros > 0)
+   {
+      foreach (i in g_players)
+      {
+         if (!i.vote) // Non-voter.
+         {
+            if (num_acros == 1 && last_submitter == i) {
+               // Couldn't vote because he was the only one who tried.
+               // Don't penalize.
+            }
+            else { 
+               i.bonuses -= 15;
+            }
+         }
+      }
+   }
+   
+   // Compound rewards with total points.
+   foreach (i in g_players) {
+      i.score += i.rewards + i.bonuses;
+   }
+   
+   // Sort players by score.
+   acroSortPlayers( );
+   
+   /* Display the tally. */
+   acroMsgGlobal( "Round results:" );
+   
+   foreach (i in g_players)
+   {
+      r = i.rewards;
+      if (r >= 0) { r = "+" + r; }
+      else { r = "" + r; }
+      b = i.bonuses;
+      if (b >= 0) { b = "+" + b; }
+      else { b = "" + b; }
+      
+      acroMsgGlobal( strCat( "<i>", i.acro, "</i> - <b>", 
+                             i.name, "</b> (", r, b, ") : ", 
+                             i.score ) );
+   }
+   
+   return;
+};
+
+/* End one round and go to the next one. */
+global acroRoundOver = function( )
+{
+   global g_round;
+   if (g_round >= NUM_ROUNDS)
+   {
+      /* Game over. */
+      global g_players;
+      
+      acroMsgGlobal( "<i>Game Over!</i>" );
+      
+      // Sort by score.
+      acroSortPlayers( );
+      
+      num_players = length( g_players );
+      
+      if (num_players)
+      {
+         // Assume the list is sorted by score.
+         hi_score = g_players[ 0 ].score;
+         s = "The winner(s): <b>" + g_players[ 0 ].name + "</b>";
+         
+         for (i=1; i < num_players; i+=1)
+         {
+            if (g_players[ i ].score < hi_score) {
+               break;
+            }
+            s += ", <b>" + g_players[ i ].name + "</b>";
+         }
+         
+         acroMsgGlobal( s );
+      }
+      
+      g_round = 0;
+      global g_stage = STAGE_GAMEOVER;
+      g_players = {};
+      return;
+   }
+   
+   /* Advance to the next round. */
+   g_round += 1;
+   acroRoundBegin( );
+   return;
+};   
+
+/* Sort the players by score and name. */
+global acroSortPlayers = function( )
+{
+   global g_players;
+   
+   // Just bubble sort.
+   num_players = length( g_players );
+   num_swaps = 1;
+   while (num_swaps)
+   {
+      num_swaps = 0;
+      for (i = 1; i < num_players; i+=1)
+      {
+         a = g_players[ i - 1 ];
+         b = g_players[ i ];
+         
+         if (a.score < b.score ||
+             (a.score == b.score && strCaseCmp( a.name, b.name ) > 0))
+         {
+            g_players[ i - 1 ] = b;
+            g_players[ i ] = a;
+            num_swaps += 1;
+         }
+      }
+   }
+};
+
+/* Handle whispered acronym submissions. */
+global acroSubmit = function( name, acro )
+{
+   global g_players;
+   global g_initials_re;
+   
+   /* Convert the acronym to latin. */
+   acro = asciiToLatin( acro );
+   
+   /* Validate the acronym with the matching regex. */   
+   if (!reMatch2( acro, g_initials_re, "i" )) {
+      acroMsgPlayer( name, "Invalid acronym." );
+      return false;
+   }
+   
+   /* Find the player. */
+   foreach (player in g_players)
+   {
+      if (strCaseCmp( player.name, name ) == 0)
+      {
+         // Found him.
+         player.acro = acro;
+         player.time = getTime( );
+         acroMsgPlayer( name, "Your acronym has been accepted." );
+         return true;
+      }
+   }
+   
+   /* Player wasn't found, add him to the game. */
+   num_players = length( g_players );
+   if (num_players > MAX_PLAYERS)
+   {
+      acroMsgPlayer( name, "Sorry, the maximum number of players "
+                           "has been reached." );
+      return false;
+   }
+   
+   g_players[ num_players ] = { name=name, acro=acro, 
+                                time=getTime( ), vote=null, score=0,
+                                rewards=0, bonuses=0 };
+   
+   acroMsgPlayer( name, "Your acronym has been accepted." );
+   return true;
+};
+
+/* Handle whispered vote submissions. */
+global acroVote = function( name, vote )
+{
+   global g_players;
+   
+   /* Find the player. */
+   player = null;
+   foreach (i in g_players)
+   {
+      if (strCaseCmp( i.name, name ) == 0)
+      {
+         // Found him.
+         player = i;
+         break;
+      }
+   }
+   
+   if (!player) {
+      // Only players can vote.
+      return false;
+   }
+   
+   // Validate the vote.
+   if (!reMatch2( vote, `^\s*(\d+)\s*$` )) {
+      acroMsgPlayer( name, "Bad vote number." );
+      return false;
+   }
+   
+   // Extract player from vote index.
+   n = toInt( reCap( 1 ) );
+   vote = null;
+   foreach (i in g_players)
+   { 
+      if (length( i.acro ))
+      {
+         n -= 1;
+         if (n == 0) { vote = i; break; }
+      }
+   }
+   
+   if (!vote) {
+      acroMsgPlayer( name, "Vote out of range." );
+      return false;
+   }
+   
+   // No voting for yourself!
+   if (vote == player) {
+      acroMsgPlayer( name, "You can't vote for yourself!" );
+      return false;
+   }
+   
+   // Record the vote.
+   player.vote = vote;
+   acroMsgPlayer( name, "Your vote has been recorded." );
+   return true;
+};
+
+global acroGenerateInitials = function( )
+{
+   /* Number of initials increase linearly with round number. */
+   global g_round;
+   n = MIN_INITIALS + 
+       (g_round + 1) / toFloat( NUM_ROUNDS ) * (MAX_INITIALS - MIN_INITIALS);
+   
+   n = toInt( n );
+   
+   if (n > MAX_INITIALS) {
+      n = MAX_INITIALS;
+   }
+
+   /* Generate random initials. */
+   chars = "AAAAABBBBBCCCCCDDDDDEEEEEFFFFFGGGGGHHHHHIIIIIJJJJKKLLLLL"
+           "MMMMMNNNNNOOOOOPPPPPQQRRRRRSSSSSTTTTTUUUVVWWYYYY";
+   
+   global g_initials = "";
+   for (i = 0; i < n; i+=1) {
+      g_initials += strSub( chars, rand( length( chars ) ), 1 );
+   }
+   
+   /* Generate the matching regex. */
+   global g_initials_re = "^['\" ]*";
+   for (i = 0; i < n; i+=1)
+   {
+      g_initials_re += strSub( g_initials, i, 1 ) + "[-a-z']*";
+      if (i + 1 < n) { g_initials_re += "[\" !.?,:;&()]+"; }
+   }
+   g_initials_re += "[\".!?,:; ()]*$";
+};
+
+global acroMsgGlobal = function( msg )
+{
+  netOut( "\"" + msg + "\n" );   
+};
+
+global acroMsgPlayer = function( name, msg )
+{
+   // Don't whisper ourselves.
+   if (strCaseCmp( getName( ), name ) == 0)
+   {
+      speak( "Acrophobia: ", msg );
+   }
+   else
+   {
+      netOut( "wh %" + name + " " + msg + "\n" );
+   }
+};
+
+global acroSave = function( )
+{
+   global g_whitelist;
+   global g_public;
+   
+   dbOpen( );
+   dbWrite( "private", toString( !g_public ) );
+   dbWrite( "whitelist", join( g_whitelist, " " ) );
+   dbClose( );
+};
+
+global acroLoad = function( )
+{
+   global g_whitelist;
+   global g_public;
+   
+   dbOpen( );
+   g_public = !toInt( dbRead( "private" ) );
+   g_whitelist = split( dbRead( "whitelist" ), " " );
+   dbClose( );
+};

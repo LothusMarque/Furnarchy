@@ -1,0 +1,347 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_BUDDYLIST MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Close",                      ID_FILE_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "Offline Messages...",         ID_EDIT_OFFLINEMESSAGES
+        MENUITEM "&Options...",                 ID_EDIT_OPTIONS
+        MENUITEM SEPARATOR
+        MENUITEM "View Auto&Log",               ID_EDIT_VIEWLOG
+        MENUITEM "&Browse Log Folder",          ID_EDIT_BROWSELOGFOLDER
+    END
+    POPUP "Help"
+    BEGIN
+        MENUITEM "&About...",                   ID_HELP_ABOUT
+        MENUITEM "Report Bugs...",              ID_HELP_REPORTBUGS
+    END
+END
+
+IDR_LISTPOPUP MENU 
+BEGIN
+    POPUP "Empty"
+    BEGIN
+        POPUP "&Add"
+        BEGIN
+            MENUITEM "&Buddy",                      ID_LIST_ADDBUDDY
+            MENUITEM "&Group",                      ID_LIST_ADDGROUP
+        END
+    END
+    POPUP "Buddy"
+    BEGIN
+        MENUITEM "&Message",                    ID_LIST_MESSAGE
+        MENUITEM "Join",                        ID_LIST_JOIN
+        MENUITEM "Summon",                      ID_LIST_SUMMON
+        MENUITEM SEPARATOR
+        POPUP "&Add"
+        BEGIN
+            MENUITEM "&Buddy",                      ID_LIST_ADDBUDDY
+            MENUITEM "&Group",                      ID_LIST_ADDGROUP
+        END
+        MENUITEM "&Delete",                     ID_LIST_DELETE
+    END
+    POPUP "Group"
+    BEGIN
+        POPUP "&Message"
+        BEGIN
+            MENUITEM "All",                         ID_LIST_MESSAGEALL
+            MENUITEM "Online",                      ID_LIST_MESSAGEONLINE
+        END
+        MENUITEM "Summon",                      ID_LIST_SUMMON
+        MENUITEM "&Freeze",                     ID_LIST_FREEZE
+        MENUITEM SEPARATOR
+        POPUP "&Add"
+        BEGIN
+            MENUITEM "&Buddy",                      ID_LIST_ADDBUDDY
+            MENUITEM "&Group",                      ID_LIST_ADDGROUP
+        END
+        MENUITEM "&Delete",                     ID_LIST_DELETE
+    END
+    POPUP "Multi"
+    BEGIN
+        MENUITEM "&Message All",                ID_LIST_MESSAGE
+        MENUITEM SEPARATOR
+        POPUP "&Add"
+        BEGIN
+            MENUITEM "&Buddy",                      ID_LIST_ADDBUDDY
+            MENUITEM "&Group",                      ID_LIST_ADDGROUP
+        END
+        MENUITEM "&Delete",                     ID_LIST_DELETE
+    END
+END
+
+IDR_RECIP MENU 
+BEGIN
+    POPUP "Recip"
+    BEGIN
+        MENUITEM "Add",                         ID_RECIP_ADD
+        MENUITEM SEPARATOR
+        MENUITEM "Share",                       ID_RECIP_SHARE
+    END
+    POPUP "Recip"
+    BEGIN
+        MENUITEM "Summon",                      ID_RECIP_SUMMON
+        MENUITEM "Join",                        ID_RECIP_JOIN
+        MENUITEM SEPARATOR
+        MENUITEM "Ignore",                      ID_RECIP_IGNORE
+        MENUITEM "Unignore",                    ID_RECIP_UNIGNORE
+        MENUITEM SEPARATOR
+        MENUITEM "Detach",                      ID_RECIP_DETACH
+        MENUITEM "Add",                         ID_RECIP_ADD
+        MENUITEM "Remove",                      ID_RECIP_DELETE
+        MENUITEM SEPARATOR
+        MENUITEM "Share",                       ID_RECIP_SHARE
+    END
+END
+
+IDR_LINK MENU 
+BEGIN
+    POPUP "link"
+    BEGIN
+        MENUITEM "&Copy Link",                  ID_LINK_COPYLINK
+        MENUITEM "&Launch",                     ID_LINK_LAUNCH
+    END
+END
+
+IDR_PLAYERMENU MENU 
+BEGIN
+    POPUP "player"
+    BEGIN
+        MENUITEM "Message",                     ID_PLAYER_MESSAGE
+        POPUP "Add to Session", GRAYED
+        BEGIN
+            MENUITEM "Session",                     ID_ADDTOSESSION_SESSION
+        END
+        POPUP "Add to Buddies", GRAYED
+        BEGIN
+            MENUITEM "Group",                       ID_ADDTOBUDDIES_GROUP
+        END
+    END
+END
+
+IDR_OFFLINEMESSAGES MENU 
+BEGIN
+    POPUP "OfflineMessages"
+    BEGIN
+        MENUITEM "Add...",                      ID_OFFLINEMESSAGES_ADD
+        MENUITEM "Edit...",                     ID_OFFLINEMESSAGES_EDIT
+        MENUITEM "Remove",                      ID_OFFLINEMESSAGES_REMOVE
+        MENUITEM SEPARATOR
+        MENUITEM "Clear All",                   ID_OFFLINEMESSAGES_CLEARALL
+    END
+    POPUP "OfflineMessages"
+    BEGIN
+        MENUITEM "Add...",                      ID_OFFLINEMESSAGES_ADD
+        MENUITEM SEPARATOR
+        MENUITEM "Clear All",                   ID_OFFLINEMESSAGES_CLEARALL
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON1               ICON                    "ico.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_LIST                BITMAP                  "list_icons.bmp"
+IDB_PMICONS             BITMAP                  "pm_icons.bmp"
+IDB_PMTOOLBAROFF        BITMAP                  "pm_toolbaroff_icons.bmp"
+IDB_PMTOOLBAR           BITMAP                  "pm_toolbar_icons.bmp"
+IDB_PMMSGICONS          BITMAP                  "pm_msg_icons.bmp"
+IDB_EGGY_V              BITMAP                  "eggy.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTIONS DIALOGEX 0, 0, 190, 279
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Eggy: Options"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,76,258,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,133,258,50,14
+    GROUPBOX        "General",IDC_STATIC,7,7,176,47
+    CONTROL         "Enable on Startup",IDC_AUTOENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,21,73,10
+    GROUPBOX        "Online Checking",IDC_STATIC,7,59,176,66
+    LTEXT           "Poll Rate (seconds):",IDC_STATIC,17,76,65,8
+    EDITTEXT        IDC_POLLRATE,87,73,48,14,ES_AUTOHSCROLL
+    GROUPBOX        "PM Sessions",IDC_STATIC,7,131,176,122
+    CONTROL         "Create Sessions Automatically",IDC_AUTOPM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,145,112,10
+    CONTROL         "Hide Whispers",IDC_HIDEWHISPERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,159,61,10
+    CONTROL         "Hide Errors",IDC_HIDEERRORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,173,51,10
+    CONTROL         "Log Messages Automatically",IDC_AUTOLOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,187,105,10
+    LTEXT           "Log File:",IDC_AUTOLOGSTATIC,28,234,28,8
+    EDITTEXT        IDC_AUTOLOGFILE,60,231,94,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_AUTOLOGBROWSE,156,231,18,14
+    CONTROL         "Announce Log-offs",IDC_ANNOUNCELOGOFFS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,92,77,10
+    CONTROL         "Log Whispers Separately",IDC_LOGSEPARATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,201,95,10
+    CONTROL         "Announce Nearby Buddies",IDC_ANNOUNCENEARBY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,107,100,10
+    CONTROL         "Create Offline Messages Automatically",IDC_AUTOOFFLINE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,215,139,10
+    CONTROL         "Buddy List Always On Top",IDC_BUDDYLISTAOT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,36,99,10
+END
+
+IDD_ABOUT DIALOGEX 0, 0, 151, 130
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Eggy: About"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,52,109,50,14
+    CONTROL         124,IDC_STATIC,"Static",SS_BITMAP,7,7,137,27
+    CTEXT           "Eggy %s\nA buddy list and instant messenger module for Furnarchy 2.\n\nWritten by Cluracan\n(strangelove@heroinpuppy.com)\nwww.heroinpuppy.com/forums",IDC_ABOUT_TEXT,7,43,137,59,SS_NOPREFIX
+END
+
+IDD_OFFLINEMESSAGES DIALOGEX 0, 0, 316, 152
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOPMOST | WS_EX_APPWINDOW
+CAPTION "Offline Messages"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,259,131,50,14
+    CONTROL         "",IDC_OFFLINEMESSAGES,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,7,32,302,95
+    CTEXT           "These messages will be sent to their respective recipient as soon as Eggy detects they are online. Right-click the list to edit them.",IDC_STATIC,7,7,302,19
+    LTEXT           "20 Total",IDC_OFFLINEMESSAGESTOTAL,7,135,188,10
+END
+
+IDD_OFFLINEMESSAGEEDIT DIALOGEX 0, 0, 219, 110
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOPMOST
+CAPTION "Edit Offline Message"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,108,89,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,161,89,50,14
+    LTEXT           "From:",IDC_STATIC,110,10,20,8
+    EDITTEXT        IDC_OFFLINEMESSAGEFROM,135,7,76,14,ES_AUTOHSCROLL
+    LTEXT           "To:",IDC_STATIC,7,10,12,8
+    EDITTEXT        IDC_OFFLINEMESSAGETO,24,7,77,14,ES_AUTOHSCROLL
+    LTEXT           "Message:",IDC_STATIC,7,26,32,8
+    EDITTEXT        IDC_OFFLINEMESSAGEMSG,7,38,204,44,ES_AUTOHSCROLL
+    LTEXT           "-1",IDC_OFFLINEMESSAGEID,7,91,8,8,NOT WS_VISIBLE
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 183
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 272
+    END
+
+    IDD_ABOUT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 144
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 123
+    END
+
+    IDD_OFFLINEMESSAGES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 309
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 145
+    END
+
+    IDD_OFFLINEMESSAGEEDIT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 211
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 103
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

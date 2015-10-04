@@ -1,0 +1,57 @@
+/****************************************************/
+/* Bloom, a tiny clone of Tape's Orlando. By Merc.  */
+/* @online <name> to use. Spaces will be converted  */
+/* to pipes.                                        */
+/* Updated for Furnarchy2.1 by KrayZier             */
+/* Release 1.2: Adds on-current-map check.          */
+/****************************************************/
+
+global ID="";
+
+global onCommand = function( args )
+{
+global ID;
+str = "";
+if (args[ 0 ] == "online") 
+ {
+ total = tableCount(args);
+ for (z=1; z < total; z+=1) 
+  { if (z != 1) {str = strCat(str, "|",args[z]);}
+  else
+  {str = strCat(str,args[z]);}
+ }
+ ID = str;
+ netOutLine( "onln ", str );
+ //Local mapcheck
+ tempmonst = getMonsterInfo(str);
+ if (tempmonst != null) {
+  speak("Bloom: ",str," is on the map");
+  }
+ //all done
+ return true;
+ }
+};
+
+global onInbound = function( line, from, num ) {
+global ID;
+if (ID != ""){
+ if (reMatch2(line, `^]%(0|1)([\x21-\x3B\=\x3F-\x7E]+)$`)) {
+  tmp = reCap(2);
+  if (strCaseCmp(tmp,ID) == 0) {
+   if (reCap(1) == "0") {
+    str = strCat("Bloom: ",tmp," is not online.");
+    ID = "";
+    speak(str);
+    }
+   else {
+    str = strCat("Bloom: ",tmp," is online.");
+    ID = "";
+    speak(str); 
+    }
+   }
+  }
+ }
+};
+
+ 
+

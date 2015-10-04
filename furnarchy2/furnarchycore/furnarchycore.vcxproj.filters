@@ -1,0 +1,397 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="common">
+      <UniqueIdentifier>{7b81d04b-2201-49ef-a342-0fd4d5a5eb4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="subsystems">
+      <UniqueIdentifier>{ea2b3751-d0ce-481e-8dd3-368567e26b39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gm">
+      <UniqueIdentifier>{1ba18674-bca3-4fa9-939d-e6bd1a1046af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tinyxml">
+      <UniqueIdentifier>{e3c903d3-cf0b-4988-9fea-0a0a4bd86b53}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="common\CacheMap.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\ChatLexer.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\IniFile.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\latin_1.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\NetBuffer.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\PoorTextBox.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\RegexOp.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\StringQueue.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\x86pp.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\xml_charset.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="apihooks.h">
+      <Filter>subsystems</Filter>
+    </ClInclude>
+    <ClInclude Include="client.h">
+      <Filter>subsystems</Filter>
+    </ClInclude>
+    <ClInclude Include="core.h">
+      <Filter>subsystems</Filter>
+    </ClInclude>
+    <ClInclude Include="ifilters.h">
+      <Filter>subsystems</Filter>
+    </ClInclude>
+    <ClInclude Include="memlocs.h">
+      <Filter>subsystems</Filter>
+    </ClInclude>
+    <ClInclude Include="modules.h">
+      <Filter>subsystems</Filter>
+    </ClInclude>
+    <ClInclude Include="net.h">
+      <Filter>subsystems</Filter>
+    </ClInclude>
+    <ClInclude Include="news.h">
+      <Filter>subsystems</Filter>
+    </ClInclude>
+    <ClInclude Include="ofilters.h">
+      <Filter>subsystems</Filter>
+    </ClInclude>
+    <ClInclude Include="options.h">
+      <Filter>subsystems</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts.h">
+      <Filter>subsystems</Filter>
+    </ClInclude>
+    <ClInclude Include="skin.h">
+      <Filter>subsystems</Filter>
+    </ClInclude>
+    <ClInclude Include="window.h">
+      <Filter>subsystems</Filter>
+    </ClInclude>
+    <ClInclude Include="world.h">
+      <Filter>subsystems</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmArraySimple.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmByteCode.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmByteCodeGen.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmCall.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmCodeGen.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmCodeGenHooks.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmCodeTree.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmConfig.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmConfig_p.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmCrc.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmDebug.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmFunctionObject.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmHash.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmIncGC.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmIterator.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmLibHooks.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmListDouble.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmLog.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmMachine.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmMachineLib.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmMem.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmMemChain.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmMemFixed.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmMemFixedSet.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmOperators.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmParser.cpp.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmScanner.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmStream.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmStreamBuffer.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmStringObject.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmTableObject.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmThread.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmUserObject.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmUtil.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="gm\gmVariable.h">
+      <Filter>gm</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml\tinystr.h">
+      <Filter>tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml\tinyxml.h">
+      <Filter>tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h" />
+    <ClInclude Include="furn2.h" />
+    <ClInclude Include="net_scan.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="ScriptInst.h" />
+    <ClInclude Include="ScriptTerm.h" />
+    <ClInclude Include="shortname.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="common\ChatLexer.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\IniFile.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\latin_1.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\PoorTextBox.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\RegexOp.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\x86pp.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\xml_charset.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="apihooks.cpp">
+      <Filter>subsystems</Filter>
+    </ClCompile>
+    <ClCompile Include="client.cpp">
+      <Filter>subsystems</Filter>
+    </ClCompile>
+    <ClCompile Include="core.cpp">
+      <Filter>subsystems</Filter>
+    </ClCompile>
+    <ClCompile Include="ifilters.cpp">
+      <Filter>subsystems</Filter>
+    </ClCompile>
+    <ClCompile Include="memlocs.cpp">
+      <Filter>subsystems</Filter>
+    </ClCompile>
+    <ClCompile Include="modules.cpp">
+      <Filter>subsystems</Filter>
+    </ClCompile>
+    <ClCompile Include="net.cpp">
+      <Filter>subsystems</Filter>
+    </ClCompile>
+    <ClCompile Include="news.cpp">
+      <Filter>subsystems</Filter>
+    </ClCompile>
+    <ClCompile Include="ofilters.cpp">
+      <Filter>subsystems</Filter>
+    </ClCompile>
+    <ClCompile Include="options.cpp">
+      <Filter>subsystems</Filter>
+    </ClCompile>
+    <ClCompile Include="scripts.cpp">
+      <Filter>subsystems</Filter>
+    </ClCompile>
+    <ClCompile Include="skin.cpp">
+      <Filter>subsystems</Filter>
+    </ClCompile>
+    <ClCompile Include="window.cpp">
+      <Filter>subsystems</Filter>
+    </ClCompile>
+    <ClCompile Include="world.cpp">
+      <Filter>subsystems</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmArraySimple.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmByteCode.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmByteCodeGen.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmCall.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmCodeGen.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmCodeGenHooks.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmCodeTree.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmCrc.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmDebug.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmFunctionObject.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmHash.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmIncGC.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmLibHooks.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmListDouble.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmLog.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmMachine.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmMachineLib.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmMem.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmMemChain.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmMemFixed.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmMemFixedSet.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmOperators.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmParser.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmScanner.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmStream.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmStreamBuffer.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmStringObject.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmTableObject.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmThread.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmUserObject.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmUtil.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="gm\gmVariable.cpp">
+      <Filter>gm</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml\tinystr.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml\tinyxml.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml\tinyxmlerror.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml\tinyxmlparser.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="common.cpp" />
+    <ClCompile Include="entry.cpp" />
+    <ClCompile Include="furn2.cpp" />
+    <ClCompile Include="net_scan.cpp" />
+    <ClCompile Include="ScriptInst.cpp" />
+    <ClCompile Include="ScriptTerm.cpp" />
+    <ClCompile Include="shortname.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\ChangeLog.txt" />
+    <None Include="changelog.txt" />
+    <None Include="term.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="furnarchycore.rc" />
+  </ItemGroup>
+</Project>

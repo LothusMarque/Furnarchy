@@ -1,0 +1,66 @@
+/**********************************************************/
+/* Prefixes and suffixes random pirate expressions into   */
+/* what you say.                                          */
+/**********************************************************/
+
+/* Table of pirate prefixes. */
+global prefixes = { "yarr ", "arrr ",
+                    "now ye listen 'ere... ", "avast ", "ahoy ", };
+/* Table of pirate suffixes. */
+global suffixes = { " yo-ho-ho", " arr", " *glug*", " *glurp*", };
+
+/* Furnarchy calls this for each client-to-server line.
+*  line is the client-to-server line (as a string).
+*  from is 0 if the line is originally from the client (not generated).
+*  If you return a string in this function, Furnarchy will
+*  replace the current line with that string. */
+global onOutbound = function( line, from, num )
+{
+   /* We only want to deal with chat commands, which
+   *  start with a '"' character in the raw protocol. */
+   /* Also, only make modifications 1 out of 3 times. */
+   if (line[ 0 ] == '"' && !rand( 3 ))
+   {
+      /* Declare the prefixes and suffixes variables to be
+      *  from the global scope. */
+      global prefixes;
+      global suffixes;
+      
+      /* Get a random number from 0 - 2 */
+      r = rand( 3 );
+      
+      /* If the random number was 0, add a prefix to the message. */
+      if (r == 0)
+      {
+         /* Grab a random prefix string. */
+         pfx = prefixes[ rand( length( prefixes ) ) ];
+         
+         /* Create a new chat command using the old message. */
+         line = "\"" + pfx + strSub( line, 1 );
+      }
+      /* If the random number was 1, add a suffix to the message. */
+      else if (r == 1)
+      {
+         /* Grab a random suffix string. */
+         sfx = suffixes[ rand( length( suffixes ) ) ];
+         
+         /* Create a new chat command using the old message. */
+         line = "\"" + strSub( line, 1 ) + sfx;
+      }
+      /* If the random number was 2, add both a prefix and suffix. */
+      else
+      {
+         /* Grab a random prefix string. */
+         pfx = prefixes[ rand( length( prefixes ) ) ];
+         /* Grab a random suffix string. */
+         sfx = suffixes[ rand( length( suffixes ) ) ];
+         
+         /* Create a new chat command using the old message. */
+         line = "\"" + pfx + strSub( line, 1 ) + sfx;
+      }
+      
+      /* Return the modified line for furnarchy to replace the
+      *  current line with. */
+      return line;
+   } // if (line[ 0 ] == '"' && !rand( 3 ))
+};

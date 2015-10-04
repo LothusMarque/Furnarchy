@@ -1,0 +1,19 @@
+All Eggy module messages accept a regular C-string as a parameter/command.
+
+   "pm {names}"
+      Creates a PM session. "{names}" is a list of recipient names,
+      separated by spaces. Returns the number of recipients successfully
+      added to a PM.  If there's only one name, and the recipient
+      already exists in a PM session, that session will be raised.
+      Otherwise, a new session will be created and raised.  
+      If there's multiple names, a new session will always be created
+      and raised.
+
+   "isbud name"
+      Returns true if "name" is a buddy.
+   
+   "stat name"
+      Returns true if "name" is online.
+      
+   "add name group"
+      Adds "name" to "group" on the buddy list.  Returns true if successful.

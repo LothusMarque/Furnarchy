@@ -1,0 +1,16 @@
+/********************************************************************/
+/* atat.gm                                                          */
+/* Allows you to say text beginning with '@' out loud by preceding  */
+/* it with '@@'.                                                    */
+/********************************************************************/
+
+global onCommand = function( args )
+{
+   if (args[ 0 ][ 0 ] == '@')
+   {
+      // Join all the arguments together to form a single string. 
+      // This will also compact whitespace. 
+      netOutLine( "\"" + join( args, " " ) );
+      return true;
+   }
+}; 

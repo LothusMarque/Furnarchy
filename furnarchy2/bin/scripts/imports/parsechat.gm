@@ -1,0 +1,19 @@
+/************************************************************************/
+/* parsechat.gm                                                         */
+/* Import script defining global constants used by the parseChat        */
+/* function.                                                            */
+/************************************************************************/
+
+global CHAT_WHISPER   = 0;
+global CHAT_SHOUT     = 1;
+global CHAT_SPEECH    = 2;
+global CHAT_EMOTE     = 3;
+global CHAT_DESCBODY  = 4;
+global CHAT_EMIT      = 5;
+global CHAT_COOKIE    = 6;
+global CHAT_SUMMON    = 7;
+global CHAT_JOIN      = 8;
+global CHAT_SUMMONED  = 9;
+global CHAT_JOINED    = 10;
+global CHAT_DECLINED  = 11;
+global CHAT_DESCHEAD  = 12;

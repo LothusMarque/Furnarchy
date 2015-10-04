@@ -1,0 +1,51 @@
+1.3.1
+---
+CHANGED  AVCREATE Regex and logic changed slightly. Should read flags correctly again.
+
+1.3
+---
+ADDED    S2C_DSEMIT for DS emits.
+CHANGED  size_t references to ints to compile nicely under C compilers.
+CHANGED  Updated offend.cpp.
+CHANGED  Re-organized doxygen documentation.
+REMOVED  s2c_enc_* chat-based functions that were out of date.
+
+1.2
+-------
+ADDED    S2C_AVCREATE, S2C_AVDESTROY, S2C_AVSHOW, S2C_AVSHOW2, S2C_AVHIDE,
+         S2C_AVUPDATECOLORS, and respective s2c_enc_* funcs.
+ADDED    S2C_MSGBOX
+ADDED    Lots of new, useful stuff for C++ (colors.hpp, util.hpp, fsh.hpp)
+ADDED    S2C_PRINTPLAYERS.
+ADDED    Ursines, wolvens, tygards, werewolves, penguins, bats.
+CHANGED  Lots of structures have been revamped or are entirely extinct.
+         So much for backwards compat :(.
+CHANGED  The old C APIs have been split up across different headers instead
+         of a single monolithic one.
+CHANGED  Updated examples to reflect changes.
+CHANGED  Removed S2C_WHOPLAYERS and S2C_WHOCOUNT.
+CHANGED  S2C_VER and S2C_MOTDEND are now extinct.
+
+December 13, 2006 - 1.1-r2
+-----------------
+
+FIXED av2frame() and frame2av() were WRONG.
+
+December 10, 2006 - 1.1-r1
+-----------------
+
+ADDED   C2S_TURNLEFT, C2S_TURNRIGHT
+
+November 30, 2006 - 1.1-r0
+-----------------
+
+ADDED   Lots more lines parsed.
+FIXED   C2S_SETDESC/C2S_CHDESC crash with empty descs.
+FIXED   S2C_ONLN crash when you tried to free it.
+CHANGED Whisper and cookie lines lost their "[*]" prefix.
+CHANGED Switched the meanings of S2C_SUMMON and S2C_JOIN.
+CHANGED C2S_WHISPER, C2S_JOIN, C2S_SUMMON, C2S_LOOKPLAYER
+        have an extra field to indicate if the name is
+        an exact name (prefixed by a %).
+CHANGED No more *EXACT function/types 
+        (e.g., c2s_enc_whisperexact).

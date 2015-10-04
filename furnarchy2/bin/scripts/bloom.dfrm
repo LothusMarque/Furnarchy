@@ -1,0 +1,25 @@
+[Main]
+Desc=Bloom: Manual online check
+0=E1
+1=B1
+2=labalA
+
+[CE1]
+Type=EDIT
+Location=28,10,160,20
+Special=CENTER
+Command=online %0%
+
+[ClabalA]
+Type=LABEL
+Caption=Bloom
+Location=10,55,10,10
+Special=CENTER
+
+[CB1]
+Type=BUTTON
+Caption=Check Online
+Location=53,20,100,20
+Command=online %0%
+Special=CENTER
+Hint=Press to check online status.

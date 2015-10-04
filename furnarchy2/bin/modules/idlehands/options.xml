@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<options>
+	<autoIdle>300</autoIdle>
+	<autoEnable>true</autoEnable>
+	<blInvert>false</blInvert>
+	<awayTag>[AFF %hh,%mm]</awayTag>
+	<awayMsg>Sorry, %player, I'm currently away!</awayMsg>
+</options>

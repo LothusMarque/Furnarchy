@@ -1,0 +1,62 @@
+2720
+----
+
+0040A3D0: void __cdecl chatbox_push_sysmsg( const char* sz );
+0040A420: void __cdecl chatbox_push_network( const char* sz );
+0045AF80: void __fastcall? pushChatbox( const char* sz : ECX, 
+                                        void* unk1 : EAX, 
+                                        void* unk2 : ESI );
+										
+2610
+----
+0040A2A0: void __cdecl chatbox_push_sysmsg( const char* sz );
+0040A2F0: void __cdecl chatbox_push_network( const char* sz );
+004590A0: void __fastcall? pushChatbox( const char* sz : ECX, 
+                                        void* unk1 : EAX, 
+                                        void* unk2 : ESI );
+
+
+2520
+----
+
+0040A1C0: void __cdecl chatbox_push_sysmsg( const char* sz );
+0040A210: void __cdecl chatbox_push_network( const char* sz );
+
+00458EB0: void __fastcall? pushChatbox( const char* sz : ECX, 
+                                        void* unk1 : EAX, 
+                                        void* unk2 : ESI );
+
+2410
+----
+
+OK, these are normal again.
+0040A2F0: void __cdecl chatbox_push_sysmsg( const char* sz );
+0040A340: void __cdecl chatbox_push_network( const char* sz );
+
+00450A40: void __fastcall? pushChatbox( const char* sz : ECX, 
+                                        void* unk1 : EAX, 
+                                        void* unk2 : ESI );
+
+2320
+----
+
+There seem to be more than one push method now.
+The one used by system messages is:
+
+00409D30: void __cdecl chatbox_push_sysmsg( const char* sz : ECX );
+0041AD10: void __cdecl chatbox_push_network( const char* sz : ECX );
+0041ACB0: void __cdecl chatbox_push_local2( const char* sz : ECX );
+
+And there's more, but these cover most chatbox pushes.
+
+Eventually, all the higher level calls boil down to a
+function that looks refactored by the compiler.
+
+00450FE0 : void __fastcall? pushChatbox( const char* sz : ECX, 
+                                         void* unk1 : EAX, 
+                                         void* unk2 : ESI );
+
+Prior to 2320
+-------------
+
+00405260 : void chatbox_push( const char* sz );

@@ -1,0 +1,22 @@
+guids = getMonsters( );
+if (length( guids ))
+{
+   cmd = ``;
+   for (i=0; i < length( guids ); i+=1)
+   {
+      if (i != 0)
+      {
+         cmd += ", ";
+      }
+      info = getMonsterInfo( guids[ i ] );
+      cmd = strCat( cmd, info.name, 
+                    " (", info.pos.x, ",", info.pos.y, ")" );
+   }
+   
+   cmd += ".";
+   speak( cmd );
+}
+else
+{
+   speak( "No players." );
+}

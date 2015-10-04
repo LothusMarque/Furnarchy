@@ -1,0 +1,62 @@
+import glob
+
+opts = Options( 'custom.py', ARGUMENTS )
+opts.AddOptions( BoolOption( 'STATIC_LIB', 
+                             'Build as a static library.', 0 ),
+                 PathOption( 'PREFIX',
+                             'Installation prefix', '/usr/local' ),
+                 ( 'CFLAGS', 'C/C++ compiler flags.', '' ),
+               )
+
+conf = Configure( Environment( options=opts, LINKFLAGS=[], 
+                               CXXFLAGS=[ '${CFLAGS}' ] ) )
+
+yiff_sources = glob.glob( 'yiffurc/*.cpp' ) + glob.glob( 'yiffurc/common/*.cpp' )
+
+pcre_sources = [ 'pcre_chartables.c', 'pcre_compile.c', 'pcre_config.c',
+                 'pcre_dfa_exec.c', 'pcre_exec.c', 'pcre_fullinfo.c', 
+                 'pcre_get.c', 'pcre_globals.c', 
+                 'pcre_info.c', 'pcre_maketables.c', 'pcre_ord2utf8.c',
+                 'pcre_refcount.c', 'pcre_study.c', 
+                 'pcre_tables.c', 'pcre_try_flipped.c', 
+                 'pcre_ucp_searchfuncs.c', 'pcre_valid_utf8.c', 
+                 'pcre_version.c', 'pcre_xclass.c' ]
+yiff_sources.append( map( lambda x: 'yiffurc/pcre/' + x, pcre_sources ) )
+
+conf.env.Append( CPPDEFINES = [ 'PCRE_STATIC', 'SUPPORT_UTF8', 
+                                'SUPPORT_UCP', 
+                                'POSIX_MALLOC_THRESHOLD=10' ] )
+
+if conf.env[ 'PLATFORM' ] == 'win32':
+   if conf.env.subst( '${CXX}' ) == 'cl':
+      # Get rid of deprecation nags.
+      conf.env.Append( CPPDEFINES=[ '_CRT_SECURE_NO_DEPRECATE' ] )
+else:
+   # Assume gcc, teehee.
+   # Hide everything but the yiffurc interfaces.
+   if conf.env.subst( '${CCVERSION}' ).startswith( '4' ):
+      conf.env.Append( CFLAGS=[ '-fvisibility=hidden' ] )
+
+conf.env.Append( CPPDEFINES = [ 'BUILD_YIFFURC' ] )
+env = conf.Finish( )
+
+if env[ 'STATIC_LIB' ] == 1:
+   env.Append( CPPDEFINES = [ 'YIFFURC_STATIC' ] )
+   bin = env.StaticLibrary( target='bin/yiffurc', source=yiff_sources )
+else:
+   bin = env.SharedLibrary( target='bin/yiffurc', source=yiff_sources )
+
+env.Help( opts.GenerateHelpText( env ) )
+
+# Screw installing on Windows.
+if env[ 'PLATFORM' ] != 'win32':
+   prefix = env.subst( '${PREFIX}' )
+   if not prefix.endswith( '/' ):
+      prefix += '/'
+   prefix += 'lib'
+   inst = env.Install( prefix, bin )
+   Alias( 'install', inst )
+
+Alias( 'yiffurc', bin )
+Default( bin )
+   

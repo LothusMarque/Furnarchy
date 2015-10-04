@@ -1,0 +1,46 @@
+1.2-r5
+------
+CHANGED Default changed to disabled, as a concession to Pounce.
+
+1.2-r4
+------
+ADDED   @afk <reason> command
+ADDED   %idlemsg replacement tag for responses.
+
+1.2-r3
+------
+CHANGED Now reports status of afflock/affunlock commands
+
+1.2-r2
+------
+ADDED   "Report time away" option.
+ADDED 	"%d" for days away in idle tags/whispers.
+
+1.2-r1
+------
+FIXED   Files being written with the wrong newline.
+
+1.2-r0
+------
+ADDED Away tags and whispers are now character-specific!
+
+1.1-r2
+------
+FIXED script commands 'awaymsg' and 'awaytag' weren't being handled proper.
+
+1.1-r1
+------
+FIXED idle times in away whispers were screwy.
+FIXED empty away tags/whispers weren't being recognized.
+
+1.1
+------
+FIXED empty option tags causing crashes.
+CHANGED now ANY keypress counts as activity.
+CHANGED auto-reply countdown is reset when you whisper someone.
+CHANGED uses the new (vista-friendly) folder hierarchy now.
+
+December 12 - 1.0-r2
+--------------------
+
+ADDED some module message support; see interop.txt for details.

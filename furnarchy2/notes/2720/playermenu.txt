@@ -1,0 +1,33 @@
+2720
+----
+
+0041CC10: void* show_playermenu( const char* name : EDI, bool has_profile, bool is_ignored );
+
+2610
+----
+
+0041C220: void* show_playermenu( const char* name : EDI, bool has_profile, bool is_ignored );
+
+2520
+----
+
+0041BFC0: void* show_playermenu( const char* name : EDI, bool has_profile, bool is_ignored );
+
+2510
+----
+
+0041BDD0: void* show_playermenu( const char* name : EDI, bool has_profile, bool is_ignored );
+
+2410
+----
+
+If you search for the string "[%s]", you'll find
+the show_playermenu function.
+
+0041A570: void* show_playermenu( const char* name : EDI, bool has_profile, bool is_ignored );
+
+This may, however, be a misnomer because I'm not sure
+if the menu is actually shown (TrackPopupMenu) by this 
+function or is merely modified.
+
+In any event, this is a way to get the player name.

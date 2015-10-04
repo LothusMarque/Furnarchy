@@ -1,0 +1,151 @@
+1.5-r3
+------
+REMOVED On-player right-click menus, since Furnarchy no longer has updated memlocs and this is just excess cruft.
+
+1.5-r2
+------
+CHANGED No longer defaults to enabled, as a concession to Pounce.
+
+1.5-r1
+------
+ADDED   @who listing command.
+
+1.5-r0
+------
+ADDED   <img> tag support in PM windows. Try it in conjunction with the ImgSupport module!
+
+1.4-r8
+------
+FIXED   Ctrl+I, buddy-adding and other issues due to unwanted dialog window processing.
+FIXED   Obscure crash on exit.
+
+1.4-r7
+------
+CHANGED Whispers, etc., are hidden from the client only (not other modules).
+FIXED   Furcadia window losing keyboard focus after a few minutes.
+FIXED   "Couldn't write buddy list/offline messages" spam.
+FIXED   CPU-intensive buddy checks for buddies on the same map.
+
+1.4-r6
+------
+ADDED   10-minute autosave.
+ADDED   Short-term memory of PM window sizes.
+ADDED   PM window cascading.
+FIXED   Incoming PM windows sometimes not appearing because they're created off-screen.
+
+1.4-r5
+------
+ADDED   Ctrl+I (input history) support in whisper windows.
+
+1.4-r4
+------
+FIXED   Writing corrupted options files.
+FIXED   Buddy lists being loaded (and consequently saved) as empty if list.xml is being written to at the same time.
+
+1.4-r3
+------
+ADDED   '@eggy' and '@eggy repair autolog' commands.
+FIXED   Files being written with the wrong newline. Use '@eggy repair autolog' if your log file has been affected.
+
+1.4-r2
+------
+ADDED   Buddy list "Always On Top" option.
+FIXED   Settings files occasionally being corrupted when running multiple instances.
+FIXED   Echoed emotes not being correctly recognized in multiple-recipient sessions.
+FIXED   Desctag <img> tags showing up in buddy tooltips. (changes will take effect when you next click on the player)
+FIXED   Whisper windows should be less intrusive when a fullscreened app is running.
+
+1.4-r1
+------
+CHANGED Player's name is a different color in PM windows.
+
+1.4-r0
+------
+ADDED   Offline Messages center for manual creation/editing/removal of offline messages.
+FIXED   buddy lists not synchronizing across multiple client instances.
+FIXED   minutes on offline messages being wrong.
+FIXED   furc:// urls being recognized as web urls.
+
+1.3-r4
+------
+FIXED   Add/Remove buddy PM buttons not adding to the right groups.
+FIXED   Lag/Freeze on well-populated maps (like FurN) with large buddy lists.
+
+1.3-r3
+------
+ADDED   Add/Remove Buddy buttons to PM windows.
+FIXED   not reporting delivery errors in multi-target PMs.
+FIXED   now uses exact whispers again to avoid mis-whispers.
+
+1.3-r2
+------
+FIXED   newly added contacts not being shown as on the same map.
+FIXED   offline messages not being delivered to non-buddies.
+
+1.3-r1
+------
+CHANGED the text displayed in PM windows when offline messages are being delivered.
+FIXED   Windows 2000 PM window input crash/corruption bug.
+
+1.3-r0
+------
+ADDED   some basic offline message support.
+ADDED   alerts when a buddy is on the same map.
+ADDED   buddy list icons when a buddy is on the same map.
+CHANGED outbound whispers from PMs now have names enclosed in quotes to distinguish them.
+FIXED   whisper delivery errors not being handled/reported.
+
+1.2-r0
+------
+ADDED outbound non-ascii characters are auto-converted to entity references in PMs.
+ADDED a submenu in the player popup menu.
+ADDED View Log button in PM windows.
+ADDED Browse Log Folder menu item on the buddy list.
+FIXED separate logs option wasn't being remembered.
+
+1.1-r1
+------
+ADDED option to log whispers separately by recipient (a la french toast).
+ADDED names in online/offline notifications are now clickable.
+FIXED summon/join confusion and auto-summons working once again.
+FIXED pipes in names in the buddy list
+FIXED names reverting back to short form when the player goes offline.
+
+September 09, 2007 - 1.1-r0
+---------------------------
+ADDED Smilies!
+ADDED Better support for weird characters.
+CHANGED uses the new (vista-friendly) folder hierarchy now.
+FIXED crash with empty buddy or group option tags.
+
+December 12 - 1.0-r2
+--------------------
+
+ADDED more module messages; see interop.txt for details.
+ADDED "Announce Log-offs" option.
+CHANGED contacts don't all go offline when you disconnect.
+FIXED crash when you closed/modified eggy in another client.
+
+December 10, 2006 - 1.0-r1
+--------------------------
+
+ADDED "Message All" and "Message Online" group options.
+ADDED more XHTML entities.
+ADDED module message support.  See interop.txt for details.
+FIXED "share" popup menu item didn't work if you right-clicked on a
+      name in the recipients pane.
+FIXED PM blinking in taskbar even if already the foreground window.
+FIXED encoding on all xml files should be iso-8859-1.
+FIXED crash if you add an empty-named group.
+FIXED sending whispers even when not logged in.
+FIXED raw latin-1 characters weren't being displayed correctly.
+CHANGED PM window titles are now reversed (recipients first).
+CHANGED launching recipient links automatically opens the recipient pane.
+CHANGED only players on your buddy list get announced in the furc window.
+CHANGED doesn't report a read error if options and buddy list files don't 
+        exist.
+CHANGED the way eggy synchronizes with other running clients.
+CHANGED Input box has a text limit of 3000 now.  This is a good number
+        since somewhere between 3000 and 4000 characters the server 
+        just drops your connection.
+CHANGED Eggy automatically saves on exit.

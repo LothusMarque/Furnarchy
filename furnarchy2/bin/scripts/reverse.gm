@@ -1,0 +1,23 @@
+/**********************************************************/
+/* .yas uoy gnihtyreve sesreveR                           */
+/**********************************************************/
+
+/* Furnarchy calls this for each client-to-server line.
+*  line is the client-to-server line (as a string).
+*  from is 0 if the line is originally from the client (not generated).
+*  If you return a string in this function, Furnarchy will
+*  replace the current line with that string. */
+global onOutbound = function( line, from, num )
+{
+   /* We only want to deal with chat commands, which
+   *  start with a '"' character in the raw protocol. */
+   if (line[ 0 ] == '"')
+   {
+      /* Create a new chat command with a reversed 
+      *  message. */
+      line = "\"" + strRev( strSub( line, 1 ) );
+      /* Return the new command for furnarchy to replace the
+      *  current one with. */
+      return line;
+   }
+};

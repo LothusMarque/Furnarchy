@@ -1,0 +1,2600 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="scriptapi.css" /><title>Furnarchy 2.2 Scripting API</title>
+</head>
+<body>
+
+   
+   
+   <div class="page_contentTitle">Furnarchy 2.2 Scripting API</div><div class="page_content">
+      
+      
+      <div class="page_sectionTitle" id="listing">Built-in Functions Listing</div><div class="page_section">
+         
+         
+         <div class="page_subsectionTitle" id="clipboard_listing"><span class="page_link"><a href="#clipboard">Clipboard Functions</a></span></div><div class="page_subsection">
+            
+            
+<ul class="page_list">
+<li><span class="page_teletype"><span class="page_link"><a href="#getClipboard">getClipboard</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#setClipboard">setClipboard</a></span></span></li>
+</ul><p />
+          
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="conversion_listing"><span class="page_link"><a href="#conversion">Conversion Functions</a></span></div><div class="page_subsection">
+            
+            
+<ul class="page_list">
+<li><span class="page_teletype"><span class="page_link"><a href="#base220ToInt">base220ToInt</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#base95ToInt">base95ToInt</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#furcToInt">furcToInt</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#intToBase220">intToBase220</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#intToBase95">intToBase95</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#intToFurc">intToFurc</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#stringToUint">stringToUint</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#toChar">toChar</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#toFloat">toFloat</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#toInt">toInt</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#toString">toString</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#toTypename">toTypename</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#uintToString">uintToString</a></span></span></li>
+</ul><p />
+
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="database_listing"><span class="page_link"><a href="#database">Database Functions</a></span></div><div class="page_subsection">
+            
+            
+<ul class="page_list">
+<li><span class="page_teletype"><span class="page_link"><a href="#dbClose">dbClose</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#dbCount">dbCount</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#dbCountSections">dbCountSections</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#dbErase">dbErase</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#dbEraseSection">dbEraseSection</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#dbOpen">dbOpen</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#dbPurge">dbPurge</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#dbRead">dbRead</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#dbReadAt">dbReadAt</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#dbReadSectionName">dbReadSectionName</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#dbWrite">dbWrite</a></span></span></li>
+</ul><p />
+          
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="misc_listing"><span class="page_link"><a href="#math">Math Functions</a></span></div><div class="page_subsection">
+            
+            
+<ul class="page_list">
+<li><span class="page_teletype"><span class="page_link"><a href="#abs">abs</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#acos">acos</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#asin">asin</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#atan">atan</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#cos">cos</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#sqrt">sqrt</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#sin">sin</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#rand">rand</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#randSeed">randSeed</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#tan">tan</a></span></span></li>
+</ul>
+<p />
+          
+         </div><p />
+		 
+		 <div class="page_subsectionTitle" id="misc_listing"><span class="page_link"><a href="#misc">Miscellaneous Functions</a></span></div><div class="page_subsection">
+            
+            
+<ul class="page_list">
+<li><span class="page_teletype"><span class="page_link"><a href="#altState">altState</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#collectGarbage">collectGarbage</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#command">command</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#ctrlState">ctrlState</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#errSpeak">errSpeak</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#exit">exit</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#getArgs">getArgs</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#getScriptID">getScriptID</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#ignore">ignore</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#unignore">unignore</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#import">import</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#length">length</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#log">log</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#print">print</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#rgb">rgb</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#rgbUnpack">rgbUnpack</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#shiftState">shiftState</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#speak">speak</a></span></span></li>
+</ul><p />
+          
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="module_listing"><span class="page_link"><a href="#clipboard">Module Functions</a></span></div><div class="page_subsection">
+            
+            
+<ul class="page_list">
+<li><span class="page_teletype"><span class="page_link"><a href="#modFind">modFind</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#modMsg">modMsg</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#modMsgSz">modMsgSz</a></span></span></li>
+</ul><p />
+          
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="network_listing"><span class="page_link"><a href="#network">Network Functions</a></span></div><div class="page_subsection">
+            
+            
+<ul class="page_list">
+<li><span class="page_teletype"><span class="page_link"><a href="#countInbound">countInbound</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#countOutbound">countOutbound</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#netIn">netIn</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#netInLine">netInLine</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#netOut">netOut</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#netOutLine">netOutLine</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#netScan">netScan</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#parseChat">parseChat</a></span></span></li>
+</ul><p />
+          
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="regex_listing"><span class="page_link"><a href="#regex">Regular Expression Functions</a></span></div><div class="page_subsection">
+            
+            
+<ul class="page_list">
+<li><span class="page_teletype"><span class="page_link"><a href="#reCap">reCap</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#reMatch">reMatch</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#reMatch2">reMatch2</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#reSubst">reSubst</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#reSubst2">reSubst2</a></span></span></li>
+</ul><p />
+          
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="string_listing"><span class="page_link"><a href="#string">String Functions</a></span></div><div class="page_subsection">
+            
+            
+<ul class="page_list">
+<li><span class="page_teletype"><span class="page_link"><a href="#asciiToLatin">asciiToLatin</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#strCaseCmp">strCaseCmp</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#strCat">strCat</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#strCmp">strCmp</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#strEsc">strEsc</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#strFirst">strFirst</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#strLast">strLast</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#strLwr">strLwr</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#strRev">strRev</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#strStr">strStr</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#strSub">strSub</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#strTok">strTok</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#strTokArgs">strTokArgs</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#strUpr">strUpr</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#toShortname">toShortname</a></span></span></li>
+</ul><p />
+          
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="table_listing"><span class="page_link"><a href="#table">Table Functions</a></span></div><div class="page_subsection">
+            
+            
+<ul class="page_list">
+<li><span class="page_teletype"><span class="page_link"><a href="#join">join</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#map">map</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#slice">slice</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#split">split</a></span></span></li>
+</ul><p />
+          
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="term_listing"><span class="page_link"><a href="#terminal">Terminal Functions</a></span></div><div class="page_subsection">
+            
+            
+<ul class="page_list">
+<li><span class="page_teletype"><span class="page_link"><a href="#termCreate">termCreate</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#termDestroy">termDestroy</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#termGet">termGet</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#termPrint">termPrint</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#termSet">termSet</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#termWrite">termWrite</a></span></span></li>
+</ul><p />
+          
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="time_listing"><span class="page_link"><a href="#time">Time Functions</a></span></div><div class="page_subsection">
+            
+            
+<ul class="page_list">
+<li><span class="page_teletype"><span class="page_link"><a href="#getTime">getTime</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#toLocalTime">toLocalTime</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#uptime">uptime</a></span></span></li>
+</ul><p />
+          
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="window_listing"><span class="page_link"><a href="#window">Window Functions</a></span></div><div class="page_subsection">
+            
+            
+<ul class="page_list">
+<li><span class="page_teletype"><span class="page_link"><a href="#flashWindow">flashWindow</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#getWindowTitle">getWindowTitle</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#setWindowTitle">setWindowTitle</a></span></span></li>
+</ul><p />
+          
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="world_listing"><span class="page_link"><a href="#world">World Functions</a></span></div><div class="page_subsection">
+            
+            
+<ul class="page_list">
+<li><span class="page_teletype"><span class="page_link"><a href="#badgeCancel">badgeCancel</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#desctag">desctag</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#getColors">getColors</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#getDesc">getDesc</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#getMonsterInfo">getMonsterInfo</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#getMonsters">getMonsters</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#getName">getName</a></span></span></li>
+<li><span class="page_teletype"><span class="page_link"><a href="#getPos">getPos</a></span></span></li>
+</ul><p />
+          
+         </div><p />
+         
+      </div><p />
+
+      
+      <div class="page_sectionTitle" id="functions">Built-in Functions</div><div class="page_section">
+         
+         
+         <div class="page_subsectionTitle" id="clipboard">Clipboard Functions</div><div class="page_subsection">
+                     
+            
+<dl class="page_definition" id="getClipboard">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> getClipboard( )</span></span></dt>
+<dd>
+            
+               
+               
+<p class="page_paragraph">
+Returns the ASCII string currently stored in the clipboard.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="setClipboard">
+<dt><span class="page_definitionTitle"><span class="page_teletype">getClipboard( <span class="page_keyword">string</span> <span class="page_variable">str</span> )</span></span></dt>
+<dd>
+            
+               
+               
+<p class="page_paragraph">
+Stores the string <span class="page_variable">str</span> in the clipboard.</p>
+
+            
+</dd>
+</dl><p />
+                  
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="conversion">Conversion Functions</div><div class="page_subsection">
+                    
+
+            
+<dl class="page_definition" id="base220ToInt">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> base220ToInt( <span class="page_keyword">string</span> base220 )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Converts the number encoded as a base-220 string, <span class="page_variable">base220</span>,
+               into an integer.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="base95ToInt">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> base95ToInt( <span class="page_keyword">string</span> base95 )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Converts the number encoded as a base-95 string, <span class="page_variable">base95</span>,
+               into an integer.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="furcToInt">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> furcToInt( <span class="page_keyword">string</span> base95 )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+This is a synonym for <span class="page_teletype"><span class="page_link"><a href="#base95ToInt">base95ToInt</a></span></span>.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="intToBase220">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> intToBase220( <span class="page_keyword">int</span> n, <span class="page_keyword">int</span> width )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Encodes the integer <span class="page_variable">n</span> as a base-220 string of <span class="page_variable">width</span> digits.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="intToBase95">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> intToBase95( <span class="page_keyword">int</span> n, <span class="page_keyword">int</span> width )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Encodes the integer <span class="page_variable">n</span> as a base-95 string of <span class="page_variable">width</span> digits..</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="intToFurc">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> intToFurc( <span class="page_keyword">int</span> n )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+This is a synonym for <span class="page_teletype"><span class="page_link"><a href="#intToBase95">intToBase95</a></span></span>.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="stringToUint">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> stringToUint( <span class="page_keyword">string</span> str, [<span class="page_keyword">int</span> radix] )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Converts a string-encoded number <span class="page_variable">str</span> in the base specified by <span class="page_variable">radix</span>
+               into an unsigned integer.</p>
+
+               
+<p class="page_paragraph">
+<span class="page_variable">radix</span> can be any number in the range [2,36].</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">radix</span> is omitted, <span class="page_teletype"><span class="page_variable">radix</span>=10</span> is implied.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="toChar">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> toChar( <span class="page_keyword">int</span> x )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Converts the ordinal <span class="page_variable">x</span> to its string-character representation.</p>
+
+               
+<p class="page_paragraph">
+FYI: To do the reverse (get the ordinal of a string-character), just use the
+                  index operator ([]) on the string.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="toFloat">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">float</span> toFloat( <span class="page_keyword">any</span> x )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Converts <span class="page_variable">x</span> (which may be any type) into a float.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="toInt">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> toInt( <span class="page_keyword">any</span> x )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Converts <span class="page_variable">x</span> (which may be any type) into a <i>signed</i> integer.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="toString">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> toString( <span class="page_keyword">any</span> x )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Converts <span class="page_variable">x</span> (which may be any type) into a string.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="toTypename">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> toTypename( <span class="page_keyword">any</span> x )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Returns the typename of <span class="page_variable">x</span>.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="uintToString">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> uintToString( <span class="page_keyword">int</span> n, [<span class="page_keyword">int</span> radix] )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Encodes <span class="page_variable">n</span> as a string in the base specified by <span class="page_variable">radix</span>.</p>
+
+               
+<p class="page_paragraph">
+<span class="page_variable">radix</span> may be any number in the range [2,36].</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">radix</span> is omitted, <span class="page_teletype"><span class="page_variable">radix</span>=10</span> is implied.</p>
+
+            
+</dd>
+</dl><p />
+
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="database">Database Functions</div><div class="page_subsection">
+            
+            
+<p class="page_paragraph">
+Every script has access to one DB file where it can write and read
+            information.
+            To read or write to a DB, you must call <span class="page_teletype"><span class="page_link"><a href="#dbOpen">dbOpen</a></span></span> first.
+            When you're done reading or manipulating the DB data, call 
+            <span class="page_link"><a href="#dbClose">dbClose</a></span> to close the DB and commit all changes
+            to disk.</p>
+
+            
+            
+<dl class="page_definition" id="dbClose">
+<dt><span class="page_definitionTitle"><span class="page_teletype">dbClose( )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Closes the DB file, comitting any changes to disk.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="dbCount">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> dbCount( [<span class="page_keyword">string</span> section] )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Counts the number of fields inside a DB section named <span class="page_variable">section</span>.</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">section</span> is omitted, the global section (<span class="page_teletype">&quot;&quot;</span>) is used.</p>
+
+               
+<p class="page_paragraph">
+This operation is only valid after a call to <span class="page_teletype"><span class="page_link"><a href="#dbOpen">dbOpen</a></span></span>.</p>
+
+            
+</dd>
+</dl><p />
+
+<dl class="page_definition" id="dbCountSections">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> dbCountSections( )</span></span></dt>
+<dd>
+
+<p class="page_paragraph">
+Counts the number of sections inside the database.</p>
+
+<p class="page_paragraph">
+Does not include the global section.</p>
+
+<p class="page_paragraph">
+This operation is only valid after a call to <span class="page_teletype"><span class="page_link"><a href="#dbOpen">dbOpen</a></span></span>.</p>
+          
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="dbErase">
+<dt><span class="page_definitionTitle"><span class="page_teletype">dbErase( <span class="page_keyword">string</span> field, [<span class="page_keyword">string</span> section] )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Erases a field named <span class="page_variable">field</span> in section <span class="page_variable">section</span>.</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">section</span> is omitted, the global section (<span class="page_teletype">&quot;&quot;</span>) is used.</p>
+
+               
+<p class="page_paragraph">
+This operation is only valid after a call to <span class="page_teletype"><span class="page_link"><a href="#dbOpen">dbOpen</a></span></span>.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="dbEraseSection">
+<dt><span class="page_definitionTitle"><span class="page_teletype">dbEraseSection( [<span class="page_keyword">string</span> section] )</span></span></dt>
+<dd>
+
+<p class="page_paragraph">
+Erases the section named <span class="page_variable">section</span> and all fields contained.</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">section</span> is omitted, the global section (<span class="page_teletype">&quot;&quot;</span>) is used.</p>
+
+<p class="page_paragraph">
+This operation is only valid after a call to <span class="page_teletype"><span class="page_link"><a href="#dbOpen">dbOpen</a></span></span>.</p>
+
+            
+</dd>
+</dl><p />
+
+<dl class="page_definition" id="dbOpen">
+<dt><span class="page_definitionTitle"><span class="page_teletype">dbOpen( )</span></span></dt>
+<dd>
+
+<p class="page_paragraph">
+Opens the DB file for reading/writing.</p>
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="dbPurge">
+<dt><span class="page_definitionTitle"><span class="page_teletype">dbPurge( )</span></span></dt>
+<dd>
+
+<p class="page_paragraph">
+Clears all fields and sections in the DB.</p>
+
+<p class="page_paragraph">
+This operation is only valid after a call to <span class="page_teletype"><span class="page_link"><a href="#dbOpen">dbOpen</a></span></span>.</p>
+
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="dbRead">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> dbRead( <span class="page_keyword">string</span> field, [<span class="page_keyword">string</span> section] )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Reads the string contained in <span class="page_variable">field</span> in section <span class="page_variable">section</span>.</p>
+
+               
+<p class="page_paragraph">
+If the field doesn't exist, the returned string will be 0-length.</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">section</span> is omitted, the global section (<span class="page_teletype">&quot;&quot;</span>) is used.</p>
+
+               
+<p class="page_paragraph">
+This operation is only valid after a call to <span class="page_teletype"><span class="page_link"><a href="#dbOpen">dbOpen</a></span></span>.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="dbReadAt">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">table</span> dbReadAt( <span class="page_keyword">int</span> field_index, [<span class="page_keyword">string</span> section] )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Retrieves a field by its index specified by <span class="page_variable">field_index</span> inside
+               section <span class="page_variable">section</span>.</p>
+
+               
+<p class="page_paragraph">
+Note that DB fields are stored in reverse order, so if <span class="page_variable">field_index</span>
+               is 0, dbReadAt will return the last field in section <span class="page_variable">section</span>.</p>
+
+               <div class="page_tableTitle">
+The return value is an associative table with the following keys.</div><table class="page_table" border="1" cellpadding="4" cellspacing="0">
+<tr class="page_tableHeader"><td>Key</td><td>Type</td><td>Description</td></tr>
+<tr class="page_tableEvenRow"><td>key</td><td>string</td><td>The name of the field.</td></tr><tr class="page_tableOddRow"><td>value</td><td>string</td><td>The value of the field.</td></tr></table><p />
+
+               
+<p class="page_paragraph">
+If the field doesn't exist, dbReadAt will return a <span class="page_keyword">null</span>.</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">section</span> is omitted, the global section (<span class="page_teletype">&quot;&quot;</span>) is used.</p>
+
+               
+<p class="page_paragraph">
+This operation is only valid after a call to <span class="page_teletype"><span class="page_link"><a href="#dbOpen">dbOpen</a></span></span>.</p>
+
+            
+</dd>
+</dl><p />
+
+<dl class="page_definition" id="dbReadSectionName">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> dbReadSectionName( <span class="page_keyword">int</span> section )</span></span></dt>
+<dd>
+
+<p class="page_paragraph">
+Reads the name of the section specified by <span class="page_variable">section</span>.</p>
+
+<p class="page_paragraph">
+If the section doesn't exist, the returned string will be 0-length.</p>
+
+<p class="page_paragraph">
+Note that DB sections are stored in reverse order, so if <span class="page_variable">section</span> is 0, dbReadSectionName will return the last section.</p>
+         
+<p class="page_paragraph">
+This operation is only valid after a call to <span class="page_teletype"><span class="page_link"><a href="#dbOpen">dbOpen</a></span></span>.</p>
+
+</dd>
+</dl><p />
+            
+<dl class="page_definition" id="dbWrite">
+<dt><span class="page_definitionTitle"><span class="page_teletype">dbWrite( <span class="page_keyword">string</span> field, <span class="page_keyword">string</span> value, [<span class="page_keyword">string</span> section] )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Writes the string <span class="page_variable">value</span> to the field named <span class="page_variable">field</span> in 
+               the section .</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">section</span> is omitted, the global section (<span class="page_teletype">&quot;&quot;</span>) is used.</p>
+
+               
+<p class="page_paragraph">
+This operation is only valid after a call to <span class="page_teletype"><span class="page_link"><a href="#dbOpen">dbOpen</a></span></span>.</p>
+
+            
+</dd>
+</dl><p />
+
+         </div><p />
+<div class="page_subsectionTitle" id="math">Math Functions</div><div class="page_subsection">
+<dl class="page_definition" id="abs">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> abs( <span class="page_keyword">int</span> number )</span></span></dt>
+<dd>
+<p class="page_paragraph">
+Returns the absolute of <span class="page_variable">number</span>.</p>
+</dd>
+</dl><p />
+
+<dl class="page_definition" id="acos">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">float</span> acos( <span class="page_keyword">int</span> number )</span></span></dt>
+<dd>
+<p class="page_paragraph">
+Returns the arccosine of <span class="page_variable">number</span>.</p>
+</dd>
+</dl><p />
+
+<dl class="page_definition" id="asin">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">float</span> asin( <span class="page_keyword">int</span> number )</span></span></dt>
+<dd>
+<p class="page_paragraph">
+Returns the arcsine of <span class="page_variable">number</span>.</p>
+</dd>
+</dl><p />
+
+<dl class="page_definition" id="atan">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">float</span> atan( <span class="page_keyword">int</span> number )</span></span></dt>
+<dd>
+<p class="page_paragraph">
+Returns the arctangent of <span class="page_variable">number</span>.</p>
+</dd>
+</dl><p />
+
+<dl class="page_definition" id="cos">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">float</span> cos( <span class="page_keyword">int</span> number )</span></span></dt>
+<dd>
+<p class="page_paragraph">
+Returns the cosine of <span class="page_variable">number</span>.</p>
+</dd>
+</dl><p />
+<dl class="page_definition" id="sqrt">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">float</span> sqrt( <span class="page_keyword">int</span> number )</span></span></dt>
+<dd>
+<p class="page_paragraph">
+Returns the square root of <span class="page_variable">number</span>.</p>
+</dd>
+</dl>
+<p />
+
+            
+<dl class="page_definition" id="rand">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> rand( [<span class="page_keyword">int</span> range] )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Returns a pseudorandom integer in the <i>unsigned</i> range [0,<span class="page_variable">range</span>).</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">range</span> is omitted, the range will be (0,0x7FFFFFFF].</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="randSeed">
+<dt><span class="page_definitionTitle"><span class="page_teletype">randSeed( <span class="page_keyword">int</span> seed )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Seeds the random number generator.</p>
+
+               
+<p class="page_paragraph">
+The random number generator is automatically seeded with the system
+               time (in milliseconds) before a script begins.</p>
+
+            
+</dd>
+</dl>
+<p />
+<dl class="page_definition" id="sin">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">float</span> sin( <span class="page_keyword">int</span> number )</span></span></dt>
+<dd>
+<p class="page_paragraph">
+Returns the sine of <span class="page_variable">number</span>.</p>
+</dd>
+</dl>
+<p />
+<dl class="page_definition" id="tan">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">float</span> tan( <span class="page_keyword">int</span> number )</span></span></dt>
+<dd>
+<p class="page_paragraph">
+Returns the tangent of <span class="page_variable">number</span>.</p>
+</dd>
+</dl>
+</div>
+
+<p />
+         
+         <div class="page_subsectionTitle" id="misc">Miscellaneous Functions</div><div class="page_subsection">
+                     
+<dl class="page_definition" id="altState">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">bool</span> altState( )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Returns <span class="page_keyword">true</span> if the ALT key is down, <span class="page_keyword">false</span> otherwise.</p>
+
+            
+</dd>
+</dl><p />            
+<dl class="page_definition" id="collectGarbage">
+<dt><span class="page_definitionTitle"><span class="page_teletype">collectGarbage( [<span class="page_keyword">bool</span> force] )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Frees any unreferenced objects used by the script.</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">force</span> is <span class="page_keyword">false</span>, resources are only freed if the 
+               memory usage exceeds an internal limit.</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">force</span> is omitted, <span class="page_teletype"><span class="page_variable">force</span>=<span class="page_keyword">false</span></span> 
+               is implied.</p>
+
+               
+<p class="page_paragraph">
+Note that furnarchy periodically collects garbage on its own.
+               Only the most resource intensive scripts should ever need to 
+               use this function.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="command">
+<dt><span class="page_definitionTitle"><span class="page_teletype">command( <span class="page_keyword">string</span> cmd, [<span class="page_keyword">bool</span> noecho] )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Sends a '@'-style command through Furnarchy. The '@' prefix is implied.</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">noecho</span> is <span class="page_keyword">true</span>, Furnarchy won't echo the command
+               in the chat buffer, like it normally would if a user typed it
+               his or herself.</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">noecho</span> is omitted, <span class="page_teletype"><span class="page_variable">noecho</span>=false</span> is implied.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="ctrlState">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">bool</span> ctrlState( )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Returns <span class="page_keyword">true</span> if the CONTROL key is down, <span class="page_keyword">false</span> otherwise.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="errSpeak">
+<dt><span class="page_definitionTitle"><span class="page_teletype">errSpeak( <span class="page_keyword">...</span> )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Converts and combines all parameters passed into a string, prints
+               it to the console, then logs it in the error log.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="exit">
+<dt><span class="page_definitionTitle"><span class="page_teletype">exit( [<span class="page_keyword">int</span> exit_code] )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Terminates the script with exit code <span class="page_variable">exit_code</span>.</p>
+
+               
+<p class="page_paragraph">
+<span class="page_variable">exit_code</span> should be non-zero to indicate a failure.</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">exit_code</span> is omitted, 0 will be used.</p>
+
+               
+<p class="page_paragraph">
+If an <span class="page_variable">onKill</span> event-handler has been defined, execution
+               will jump there before the script terminates.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="getArgs">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">table</span> getArgs( )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Retrieves the command line arguments used to launch the script.</p>
+
+               
+<p class="page_paragraph">
+The command line arguments are returned as an indexed table,
+               with the first (0) index being the script's name, and the following
+               indices being passed arguments.</p>
+
+            
+</dd>
+</dl><p />
+
+<dl class="page_definition" id="getScriptID">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> getScriptID( )</span></span></dt>
+<dd>   
+<p class="page_paragraph">
+Retrieves the internal script ID.</p>
+</dd>
+</dl><p />
+            
+<dl class="page_definition" id="ignore">
+<dt><span class="page_definitionTitle"><span class="page_teletype">ignore( <span class="page_keyword">string</span> s )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Ignores <span class="page_variable">s</span>.  If <span class="page_variable">s</span> begins with a '@', it indicates a
+               channel name, rather than a player name.</p>
+
+               
+<p class="page_paragraph">
+This function depends on memlocs, so it will only work with the most recently
+               supported client build.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="unignore">
+<dt><span class="page_definitionTitle"><span class="page_teletype">unignore( <span class="page_keyword">string</span> s )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Unignores <span class="page_variable">s</span>.  If <span class="page_variable">s</span> begins with a '@', it indicates a
+               channel name, rather than a player name.</p>
+
+               
+<p class="page_paragraph">
+This function depends on memlocs, so it will only work with the most recently
+               supported client build.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="import">
+<dt><span class="page_definitionTitle"><span class="page_teletype">import( <span class="page_keyword">string</span> script )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Executes another script within this script, inheriting all global
+               variables the script declares.</p>
+
+               
+<p class="page_paragraph">
+<span class="page_variable">script</span> must be the name of a script in the &quot;scripts/imports&quot;
+               folder, without the &quot;.gm&quot; extension.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="length">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> length( <span class="page_keyword">any</span> x )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Returns the length of variable <span class="page_variable">x</span>.</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">x</span> is a string, the return value is the length of the string.</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">x</span> is a table, the return value is the number of elements
+                  in the table.</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">x</span> is anything else, the return value is 0.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="log">
+<dt><span class="page_definitionTitle"><span class="page_teletype">log( <span class="page_keyword">...</span> )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Converts and combines all parameters into a string and writes them
+               to the script's personal log file, stored in the &quot;scripts\logs&quot; folder.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="print">
+<dt><span class="page_definitionTitle"><span class="page_teletype">print( <span class="page_keyword">...</span> )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Converts and combines all parameters into a string and writes them
+               to the stdout console.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="rgb">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> rgb( <span class="page_keyword">int</span> red, <span class="page_keyword">int</span> green, <span class="page_keyword">int</span> blue )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Create an RGB color value.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="rgbUnpack">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">table</span> rgbUnpack( <span class="page_keyword">int</span> color )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Splits up a color value into its red, green and blue components.</p>
+
+               
+<p class="page_paragraph">
+The returned table has 3 keys, <span class="page_teletype">&quot;r&quot;</span>, <span class="page_teletype">&quot;g&quot;</span>, and <span class="page_teletype">&quot;b&quot;</span>,
+               which hold the red, green, and blue values, respectively.</p>
+
+            
+</dd>
+</dl><p />
+
+<dl class="page_definition" id="shiftState">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">bool</span> shiftState( )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Returns <span class="page_keyword">true</span> if the SHIFT key is down, <span class="page_keyword">false</span> otherwise.</p>
+
+            
+</dd>
+</dl><p />            
+<dl class="page_definition" id="speak">
+<dt><span class="page_definitionTitle"><span class="page_teletype">speak( <span class="page_keyword">...</span> )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Converts and combines all parameters into a string and prints them
+               to the chat buffer.</p>
+
+            
+</dd>
+</dl><p />
+
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="module">Module Functions</div><div class="page_subsection">
+            
+            
+<p class="page_paragraph">
+Module functions allow communication with modules that support it.</p>
+
+            
+            
+<dl class="page_definition" id="modFind">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> modFind( <span class="page_keyword">string</span> uuid )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Looks for a module with a matching UUID string specified by <span class="page_variable">uuid</span>.</p>
+
+               
+<p class="page_paragraph">
+The UUID of a module can be found in its &quot;module.ini&quot; file (if it has one).</p>
+
+               
+<p class="page_paragraph">
+Returns the index of the module, or -1 if the module wasn't found.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="modMsg">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> modMsg( <span class="page_keyword">int</span> mod, <span class="page_keyword">string</span> msg )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Sends a string module message to the module identified by index <span class="page_variable">mod</span>.</p>
+
+               
+<p class="page_paragraph">
+Returns the result of the message as an integer.</p>
+
+               
+<div class="page_warningTitle">Warning!</div>
+<div class="page_warning">
+                  This only works with modules that accept messages as strings.  Trying
+                  to send a message to a module that expects something else could
+                  result in a crash.
+               </div>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="modMsgSz">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> modMsgSz( <span class="page_keyword">int</span> mod, <span class="page_keyword">string</span> msg )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Sends a string module message to the module identified by index <span class="page_variable">mod</span>.</p>
+
+               
+<p class="page_paragraph">
+Returns the result of the message as a string.</p>
+
+               
+<div class="page_warningTitle">Warning!</div>
+<div class="page_warning">
+                  This only works with modules that accept messages as strings 
+                  <i>and</i> return a C-string as a result. 
+                  Trying to send a message to a module that expects something else could
+                  result in a crash.
+               </div>
+
+            
+</dd>
+</dl><p />
+
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="network">Network Functions</div><div class="page_subsection">
+            
+            
+<dl class="page_definition" id="countInbound">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> countInbound( )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Counts how many inbound network lines have been processed.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="countOutbound">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> countOutbound( )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Counts how many outbound network lines have been processed.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="netIn">
+<dt><span class="page_definitionTitle"><span class="page_teletype">netIn( <span class="page_keyword">...</span> )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Combines strings and injects them as inbound data.</p>
+
+               
+<p class="page_paragraph">
+Each parameter must be a <span class="page_keyword">string</span>.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="netInLine">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> netInLine( <span class="page_keyword">...</span> )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Combines strings and injects them as inbound data.</p>
+
+               
+<p class="page_paragraph">
+The combined string is automatically terminated with a linefeed,
+               and counts as a single command.  The return value is a number
+               that uniquely identifies this line in the inbound queue.</p>
+
+               
+<p class="page_paragraph">
+Each parameter must be a <span class="page_keyword">string</span>.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="netOut">
+<dt><span class="page_definitionTitle"><span class="page_teletype">netOut( <span class="page_keyword">...</span> )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Combines strings and sends them as outbound data.</p>
+
+               
+<p class="page_paragraph">
+Each parameter must be a <span class="page_keyword">string</span>.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="netOutLine">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> netOutLine( <span class="page_keyword">...</span> )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Combines strings and sends them them as outbound data.</p>
+
+               
+<p class="page_paragraph">
+The combined string is automatically terminated with a linefeed,
+               and counts as a single command.  The return value is a number
+               that uniquely identifies this line in the outbound queue.</p>
+
+               
+<p class="page_paragraph">
+Each parameter must be a <span class="page_keyword">string</span>.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="netScan">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">table</span> netScan( <span class="page_keyword">string</span> pattern, <span class="page_keyword">string</span> subject )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Matches and extracts common formatted data from simple network lines.</p>
+
+               
+<p class="page_paragraph">
+This is similar to scanf or sscanf in C, where <span class="page_variable">pattern</span> defines the format of the
+               <span class="page_variable">subject</span> string as a combination of literal characters and format specifiers (see below). The result
+               is an indexed table containing each scanned element in order from left-to-right. Depending on the format specifier,
+               each respective table element returned may either be an integer or a string. If the <span class="page_variable">pattern</span>
+               string does not match the <span class="page_variable">subject</span> string, <span class="page_keyword">null</span> is returned.</p>
+
+               <div class="page_codeboxTitle">Example (Extracting name and color data from a portrait string)</div><div class="page_codebox">
+<span class="page_codeGMKeyword">global</span> onInbound = <span class="page_codeGMKeyword">function</span>( line )<br />{<br /> &nbsp;<span class="page_codeGMComment">// Match the characters &quot;]f&quot;, then capture a color-code string, </span><br /> &nbsp;<span class="page_codeGMComment">// 3 more characters (the gender, species and digo bytes),</span><br /> &nbsp;<span class="page_codeGMComment">// and all remaining characters (the name).</span><br /> &nbsp;s = netScan( <span class="page_codeGMString">&quot;]f%K%3c%*c&quot;</span>, line );<br /> &nbsp;<span class="page_codeGMKeyword">if</span> (s)<br /> &nbsp;{<br /> &nbsp; &nbsp; speak( s[ 2 ], <span class="page_codeGMString">&quot;'s color-code is &quot;</span>, s[ 0 ], s[ 1 ] );<br /> &nbsp;}<br />};</div><p />
+
+               
+<p class="page_paragraph">
+Format specifiers generally have the form <span class="page_teletype">%[length]type</span>. The applicability or legality 
+               of the length field depends on the type.</p>
+
+               <div class="page_tableTitle">
+netScan Format Specifiers</div><table class="page_table" border="1" cellpadding="4" cellspacing="0">
+<tr class="page_tableHeader"><td>Specifier</td><td>Description</td></tr>
+<tr class="page_tableEvenRow"><td><span class="page_teletype">%c</span></td><td>
+                        Any one Character. May be augmented with a length such as 
+                        <span class="page_teletype">%3c</span> to read in 3 any characters or <span class="page_teletype">%*c</span> to read in all 
+                        characters that follow. Returns as a string.
+                     </td></tr><tr class="page_tableOddRow"><td><span class="page_teletype">%s</span></td><td>
+                        A furcadia byte-string (A base-220 digit followed by a string). Returns as a string.
+                     </td></tr><tr class="page_tableEvenRow"><td><span class="page_teletype">%k</span></td><td>
+                        An old-style furcadia color-code (10-characters long, not including the 3 trailing GSD bytes). Returns as a string.
+                     </td></tr><tr class="page_tableOddRow"><td><span class="page_teletype">%K</span></td><td>
+                        A new-style furcadia color-code (variable-length, not including the 3 trailing GSD bytes). Returns as a string.
+                     </td></tr><tr class="page_tableEvenRow"><td><span class="page_teletype">%n</span></td><td>
+                        A single-digit base-95 number. May be augmented with a length such as
+                        <span class="page_teletype">%2n</span> to read in a 2-digit base-95 number. Returns as an integer.
+                     </td></tr><tr class="page_tableOddRow"><td><span class="page_teletype">%N</span></td><td>
+                        A single-digit base-220 number. May be augmented with a length such as
+                        <span class="page_teletype">%2N</span> to read in a 2-digit base-220 number. Returns as an integer.
+                     </td></tr><tr class="page_tableEvenRow"><td><span class="page_teletype">%%</span></td><td>
+                        A literal <span class="page_teletype">%</span> character. Isn't captured so it doesn't count towards the overall 
+                        length of the returned table.
+                     </td></tr></table><p />
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="parseChat">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">table</span> parseChat( <span class="page_keyword">string</span> line )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Parses common chat text.</p>
+
+               
+<p class="page_paragraph">
+After successfully parsing <span class="page_variable">line</span>, an associative <span class="page_keyword">table</span> is returned with 
+               various fields defined according to the text's determined type, which can be gleamed from the table's
+               <span class="page_teletype">type</span> field. Refer to the table below for which fields are defined for which types.</p>
+
+               
+<p class="page_paragraph">
+The various constant values the <span class="page_teletype">type</span> field can be set to are defined in
+               the <span class="page_teletype">&quot;parsechat&quot;</span> import script.</p>
+
+               
+<p class="page_paragraph">
+If the <span class="page_variable">line</span> cannot be parsed, or is not a chat line, <span class="page_keyword">null</span> is
+               returned.</p>
+
+               <div class="page_codeboxTitle">Example (Catching other people's speech.)</div><div class="page_codebox">
+<span class="page_codeGMComment">// This import is required for the parseChat() function.</span><br />import( <span class="page_codeGMString">&quot;parsechat&quot;</span> );<br /><br /><span class="page_codeGMKeyword">global</span> onInbound = <span class="page_codeGMKeyword">function</span>( line )<br />{<br /> &nbsp;<span class="page_codeGMComment">// Only bother with chat lines.</span><br /> &nbsp;<span class="page_codeGMKeyword">if</span> (line[ 0 ] == <span class="page_codeGMString">'('</span>)<br /> &nbsp;{<br /> &nbsp; &nbsp; &nbsp;chat = parseChat( line );<br /> &nbsp; &nbsp; &nbsp;<span class="page_codeGMKeyword">if</span> (chat &amp;&amp; chat.type == <span class="page_codeGMUpper">CHAT_SPEECH</span>)<br /> &nbsp; &nbsp; &nbsp;{<br /> &nbsp; &nbsp; &nbsp; &nbsp; speak( chat.from, <span class="page_codeGMString">&quot; just said: &quot;</span>, chat.message );<br /> &nbsp; &nbsp; &nbsp;}<br /> &nbsp;}<br />};</div><p />
+
+               <div class="page_tableTitle">
+parseChat Returned Table Fields</div><table class="page_table" border="1" cellpadding="4" cellspacing="0">
+<tr class="page_tableHeader"><td><span class="page_teletype">type</span> value</td><td>Description</td><td>Other fields</td></tr>
+<tr class="page_tableEvenRow"><td>CHAT_WHISPER</td><td>A whisper.</td><td>
+                        
+<ul class="page_list">
+<li><span class="page_teletype">from</span> - Sender's name.</li>
+<li><span class="page_teletype">from_short</span> - Sender's short-name.</li>
+<li><span class="page_teletype">message</span> - Message.</li>
+</ul><p />
+
+                     </td></tr><tr class="page_tableOddRow"><td>CHAT_SHOUT</td><td>A shout.</td><td>
+                        
+<ul class="page_list">
+<li><span class="page_teletype">from</span> - Sender's name.</li>
+<li><span class="page_teletype">from_short</span> - Sender's short-name.</li>
+<li><span class="page_teletype">message</span> - Message.</li>
+</ul><p />
+
+                     </td></tr><tr class="page_tableEvenRow"><td>CHAT_SPEECH</td><td>Regular player speech.</td><td>
+                        
+<ul class="page_list">
+<li><span class="page_teletype">from</span> - Sender's name.</li>
+<li><span class="page_teletype">from_short</span> - Sender's short-name.</li>
+<li><span class="page_teletype">message</span> - Message.</li>
+</ul><p />
+
+                     </td></tr><tr class="page_tableOddRow"><td>CHAT_EMOTE</td><td>An emote.</td><td>
+                        
+<ul class="page_list">
+<li><span class="page_teletype">from</span> - Sender's name.</li>
+<li><span class="page_teletype">from_short</span> - Sender's short-name.</li>
+<li><span class="page_teletype">message</span> - Action.</li>
+</ul><p />
+
+                     </td></tr><tr class="page_tableEvenRow"><td>CHAT_DESCHEAD</td><td>The &quot;You see...&quot; part of a description.</td><td>
+                        
+<ul class="page_list">
+<li><span class="page_teletype">player</span> - Player's name.</li>
+<li><span class="page_teletype">player_short</span> - Player's short-name.</li>
+</ul><p />
+
+                     </td></tr><tr class="page_tableOddRow"><td>CHAT_DESCBODY</td><td>The body of a description.</td><td>
+                        
+<ul class="page_list">
+<li><span class="page_teletype">player_short</span> - Player's short-name.</li>
+<li><span class="page_teletype">body</span> - Description body.</li>
+</ul><p />
+
+                     </td></tr><tr class="page_tableEvenRow"><td>CHAT_EMIT</td><td>An emit.</td><td>
+                        
+<ul class="page_list">
+<li><span class="page_teletype">message</span> - Message.</li>
+</ul><p />
+
+                     </td></tr><tr class="page_tableOddRow"><td>CHAT_COOKIE</td><td>You received a cookie.</td><td>
+                        
+<ul class="page_list">
+<li><span class="page_teletype">from</span> - Sender's name.</li>
+<li><span class="page_teletype">note</span> - Note (may be empty).</li>
+</ul><p />
+
+                     </td></tr><tr class="page_tableEvenRow"><td>CHAT_SUMMON</td><td>A summon request.</td><td>
+                        
+<ul class="page_list">
+<li><span class="page_teletype">from</span> - Sender's name.</li>
+<li><span class="page_teletype">from_short</span> - Sender's short-name.</li>
+</ul><p />
+
+                     </td></tr><tr class="page_tableOddRow"><td>CHAT_JOIN</td><td>A join request.</td><td>
+                        
+<ul class="page_list">
+<li><span class="page_teletype">from</span> - Sender's name.</li>
+<li><span class="page_teletype">from_short</span> - Sender's short-name.</li>
+</ul><p />
+
+                     </td></tr><tr class="page_tableEvenRow"><td>CHAT_SUMMONED</td><td>You've been summoned.</td><td>
+                        
+<ul class="page_list">
+<li><span class="page_teletype">from</span> - Summoner's name.</li>
+<li><span class="page_teletype">from_short</span> - Summoner's short-name.</li>
+</ul><p />
+
+                     </td></tr><tr class="page_tableOddRow"><td>CHAT_JOINED</td><td>You've been joined.</td><td>
+                        
+<ul class="page_list">
+<li><span class="page_teletype">from</span> - Joiner's name.</li>
+<li><span class="page_teletype">from_short</span> - Joiner's short-name.</li>
+</ul><p />
+
+                     </td></tr><tr class="page_tableEvenRow"><td>CHAT_DECLINED</td><td>Your summon/join request has been declined.</td><td>
+                        
+<ul class="page_list">
+<li><span class="page_teletype">from</span> - Decliner's name.</li>
+<li><span class="page_teletype">from_short</span> - Decliner's short-name.</li>
+</ul><p />
+
+                     </td></tr></table><p />
+
+            
+</dd>
+</dl><p />
+
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="regex">Regular Expression Functions</div><div class="page_subsection">
+            
+            
+<p class="page_paragraph">
+Regex functions provide basic matching and substitution operations
+            used in other languages.  The flavor of regular expressions used
+            are PCRE, which support perl constructs, plus some.</p>
+
+            
+            
+<dl class="page_definition" id="reCap">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> reCap( <span class="page_keyword">int</span> index )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Retrieves a backreferenced (captured) substring from the last
+               match or substitute operation.</p>
+
+               
+<p class="page_paragraph">
+<span class="page_variable">index</span> values 1-9 are the first through ninth capture blocks.</p>
+
+               
+<p class="page_paragraph">
+<span class="page_variable">index</span> value 0 is a copy of the entire matched subject string.</p>
+
+               
+<p class="page_paragraph">
+If the last match or substitute operation failed, reCap will return 
+               a 0-length string.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="reMatch">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">bool</span> reMatch( <span class="page_keyword">string</span> subject, <span class="page_keyword">string</span> op )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+<b>Deprecated.  Don't use it if you know what's good for you.</b></p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="reMatch2">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">bool</span> reMatch2( <span class="page_keyword">string</span> subject, <span class="page_keyword">string</span> regex, [<span class="page_keyword">string</span> flags] )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Matches the Perl-compatible regular expression specified by <span class="page_variable">regex</span> to
+               the subject string <span class="page_variable">subject</span>.</p>
+
+               Any combination of the following letters may be specified in 
+               <span class="page_variable">flags</span> to change the behavior of the match:
+               
+<ul class="page_list">
+<li><b>&quot;i&quot;</b> - case insensitive</li>
+<li><b>&quot;g&quot;</b> - global (find all matches)</li>
+<li><b>&quot;u&quot;</b> - ungreedy (shortest match)</li>
+<li><b>&quot;v&quot;</b> - invert (succeed if no match)</li>
+</ul><p />
+               
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="reSubst">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> reSubst( <span class="page_keyword">string</span> subject, <span class="page_keyword">string</span> op )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+<b>Deprecated.  Don't use it if you know what's good for you.</b></p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="reSubst2">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> reSubst2( <span class="page_keyword">string</span> subject, <span class="page_keyword">string</span> regex, <span class="page_keyword">string</span> replace, [<span class="page_keyword">string</span> flags] )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Matches the Perl-compatible regular expression specified by <span class="page_variable">regex</span> to
+               the subject string <span class="page_variable">subject</span> and replaces the matching substring with
+               <span class="page_variable">replace</span>.</p>
+
+               
+<p class="page_paragraph">
+The replacement string <span class="page_variable">replace</span> may use &quot;backreferences&quot; to refer to
+               captured substrings in <span class="page_variable">regex</span>.  Backreferences are similar to those in
+               sed, where &quot;\1&quot; is a backreference to the first captured substring, and so on.</p>
+
+               
+<p class="page_paragraph">
+The return value is the <span class="page_variable">subject</span> string after all substitutions have
+               been made.</p>
+
+               Any combination of the following letters may be specified in 
+               <span class="page_variable">flags</span> to change the behavior of the match:
+               
+<ul class="page_list">
+<li><b>&quot;i&quot;</b> - case insensitive</li>
+<li><b>&quot;g&quot;</b> - global (find all matches)</li>
+<li><b>&quot;u&quot;</b> - ungreedy (shortest match)</li>
+<li><b>&quot;v&quot;</b> - invert (succeed if no match)</li>
+</ul><p />
+               
+            
+</dd>
+</dl><p />
+
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="string">String Functions</div><div class="page_subsection">
+             
+            
+<dl class="page_definition" id="asciiToLatin">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> asciiToLatin( <span class="page_keyword">string</span> s )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Converts XML entity references in the string <span class="page_variable">s</span> to Latin-1
+               characters, where possible.</p>
+
+            
+</dd>
+</dl><p />
+            
+            
+<dl class="page_definition" id="strCaseCmp">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> strCaseCmp( <span class="page_keyword">string</span> a, <span class="page_keyword">string</span> b )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Performs a case-insensitive comparison of <span class="page_variable">a</span> and <span class="page_variable">b</span>.</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">a</span> is &quot;less&quot; than <span class="page_variable">b</span>, the return value will be &lt; 0.</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">b</span> is &quot;less&quot; than <span class="page_variable">a</span>, the return value will be > 0.</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">a</span> is identical to <span class="page_variable">b</span>, the return value will be 0.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="strCat">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> strCat( <span class="page_keyword">...</span> )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Converts and combines all parameters into a single string.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="strCmp">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> strCmp( <span class="page_keyword">string</span> a, <span class="page_keyword">string</span> b )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Performs a case-sensitive comparison of <span class="page_variable">a</span> and <span class="page_variable">b</span>.</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">a</span> is &quot;less&quot; than <span class="page_variable">b</span>, the return value will be &lt; 0.</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">b</span> is &quot;less&quot; than <span class="page_variable">a</span>, the return value will be > 0.</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">a</span> is identical to <span class="page_variable">b</span>, the return value will be 0.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="strEsc">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> strEsc( <span class="page_keyword">string</span> subject, [<span class="page_keyword">int</span> ch] )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Escapes all instances of the character <span class="page_variable">ch</span> in <span class="page_variable">subject</span>.</p>
+
+               
+<p class="page_paragraph">
+Escaping is done by inserting a '\' character before all un-escaped instances
+               of <span class="page_variable">ch</span>.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="strFirst">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> strFirst( <span class="page_keyword">string</span> subject, <span class="page_keyword">string</span> delims )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Searches for the first index of any character in <span class="page_variable">delims</span> in <span class="page_variable">subject</span>.</p>
+
+               
+<p class="page_paragraph">
+Returns <span class="page_keyword">null</span> if not found.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="strLast">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> strLast( <span class="page_keyword">string</span> subject, <span class="page_keyword">string</span> delims )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Searches for the last index of any character in <span class="page_variable">delims</span> in <span class="page_variable">subject</span>.</p>
+
+               
+<p class="page_paragraph">
+Returns <span class="page_keyword">null</span> if not found.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="strLwr">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> strLwr( <span class="page_keyword">string</span> subject )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Returns a lowercase version of <span class="page_variable">subject</span>.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="strRev">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> strRev( <span class="page_keyword">string</span> subject )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Returns a reversed version of <span class="page_variable">subject</span>.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="strStr">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> strStr( <span class="page_keyword">string</span> subject, <span class="page_keyword">string</span> substr )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Searches for the first index of the substring <span class="page_variable">substr</span> in <span class="page_variable">subject</span>.</p>
+
+               
+<p class="page_paragraph">
+If not found, the return value is <span class="page_keyword">null</span>.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="strSub">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> strSub( <span class="page_keyword">string</span> str, <span class="page_keyword">int</span> off, [<span class="page_keyword">int</span> len] )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Extracts a substring from <span class="page_variable">str</span> <span class="page_variable">len</span> characters long, 
+               starting from index <span class="page_variable">off</span>.</p>
+
+               
+<p class="page_paragraph">
+If <span class="page_variable">len</span> is omitted, the substring extends to the end of the <span class="page_variable">str</span>.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="strTok">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">table</span> strTok( <span class="page_keyword">string</span> subject, <span class="page_keyword">string</span> delims )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Splits <span class="page_variable">subject</span> into an indexed table of strings delimited by any characters
+               found in <span class="page_variable">delims</span>.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="strTokArgs">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">table</span> strTokArgs( <span class="page_keyword">string</span> subject )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Splits <span class="page_variable">subject</span> into and indexed table of strings delimited by
+               whitespace, unless escaped or within quotes, double-quotes, or backticks.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="strUpr">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> strUpr( <span class="page_keyword">string</span> subject )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Returns an uppercase version of <span class="page_variable">subject</span>.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="toShortname">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> toShortname( <span class="page_keyword">string</span> name )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Returns the shortname version of a string.</p>
+
+            
+</dd>
+</dl><p />
+
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="table">Table Functions</div><div class="page_subsection">
+                     
+            
+<dl class="page_definition" id="join">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> join( <span class="page_keyword">table</span> t, <span class="page_keyword">string</span> separator )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Flattens table <span class="page_variable">t</span> to a string, with <span class="page_variable">separator</span> between
+               each element.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="map">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">table</span> map( <span class="page_keyword">table</span> t, <span class="page_keyword">function</span> fn )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Calls function  for each item in table <span class="page_variable">t</span>, storing the 
+               return values in a new table.</p>
+
+               
+<p class="page_paragraph">
+<span class="page_variable">fn</span> should have the signature <span class="page_teletype">function( x )</span> and 
+               may be an anonymous or existing function.</p>
+
+               <div class="page_codeboxTitle">Example</div><div class="page_codebox">
+t = map( { 1, 2, 3 }, <span class="page_codeGMKeyword">function</span>( x ) { <span class="page_codeGMKeyword">return</span> x + 1; } );<br /><span class="page_codeGMComment">// this will print &quot;{ 2, 3, 4 }&quot; into the chat buffer.</span><br />speak( t );</div><p />
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="slice">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">table</span> slice( <span class="page_keyword">table</span> t, {<span class="page_keyword">table</span> range, ...} )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Creates a table whose contents are ranges of elements in table <span class="page_variable">t</span>
+               specified by one or more slice ranges.</p>
+
+               
+<p class="page_paragraph">
+Each <span class="page_variable">range</span> is a two-element indexed table--the offset and the length,
+               in that order. The length of the range may be omitted, or a negative
+               number used, to indicate a range extending to the end of the table.</p>
+
+               
+<p class="page_paragraph">
+If no slice ranges are passed, the returned table will be a copy of <span class="page_variable">t</span>.
+               This can be a simple way of creating copies of tables.</p>
+
+               
+<p class="page_paragraph">
+When slicing, <span class="page_variable">t</span> should only contain indexed elements 
+               (i.e., be a pure array without associative elements), 
+               otherwise you may get some strange results.</p>
+
+               <div class="page_codeboxTitle">Example</div><div class="page_codebox">
+t = slice( { <span class="page_codeGMString">&quot;a&quot;</span>, <span class="page_codeGMString">&quot;b&quot;</span>, <span class="page_codeGMString">&quot;c&quot;</span>, <span class="page_codeGMString">&quot;d&quot;</span> }, { 0, 2 }, { 3, 1 } );<br /><span class="page_codeGMComment">// t now contains { &quot;a&quot;, &quot;b&quot;, &quot;d&quot; }.</span></div><p />
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="split">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">table</span> split( <span class="page_keyword">string</span> str, <span class="page_keyword">string</span> separator )</span></span></dt>
+<dd>
+
+               
+                  
+<p class="page_paragraph">
+Splits up the string <span class="page_variable">s</span> into a table of its substrings.
+                  The substrings within <span class="page_variable">s</span> are separated by the string <span class="page_variable">separator</span>.</p>
+
+                  
+<p class="page_paragraph">
+This is similar to the <span class="page_teletype"><span class="page_link"><a href="#strTok">strTok</a></span></span> function, 
+                  but while strTok's substrings are separated by any character in a string of
+                  delimeters, split's substrings are separated by an <i>entire</i> string.</p>
+
+            
+</dd>
+</dl><p />
+
+         </div><p />
+
+      
+         <div class="page_subsectionTitle" id="terminal">Terminal Functions</div><div class="page_subsection">
+            
+            
+<p class="page_paragraph">
+Terminals provide another way for scripts to interact with the user by
+            giving them their very own, customizable input/output window.
+            Scripts can create and manage as many terminals as they want (within reason).</p>
+
+            
+<p class="page_paragraph">
+To fully use terminals, a script must import the import script <span class="page_teletype">&quot;term&quot;</span></p>
+
+            
+            
+<dl class="page_definition" id="termCreate">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> termCreate( [<span class="page_keyword">table</span> atts] )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Create a new terminal and return its ID.</p>
+
+               
+<p class="page_paragraph">
+The table <span class="page_variable">atts</span> may be passed to initialize the terminal with
+               certain attributes.  See <span class="page_teletype"><span class="page_link"><a href="#termSet">termSet</a></span></span> for 
+               a full list of attributes.</p>
+
+               
+<p class="page_paragraph">
+Returns the ID of the terminal.  By default, a unique ID is assigned
+               to each terminal when it's created, but this behavior may be overidden
+               by defining the &quot;id&quot; key in the <span class="page_variable">atts</span> table.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="termDestroy">
+<dt><span class="page_definitionTitle"><span class="page_teletype">termDestroy( <span class="page_keyword">int</span> id )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Destroys a terminal by ID specified by <span class="page_variable">id</span>.</p>
+
+               
+<p class="page_paragraph">
+If more than one terminal shares the ID, all will be destroyed.</p>
+
+               
+<p class="page_paragraph">
+This will trigger the &quot;onDestroy&quot; event-handler specified in a
+               terminal's attributes.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="termGet">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">table</span> termGet( <span class="page_keyword">int</span> id )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Retrieves all attributes of a terminal specified by <span class="page_variable">id</span>.
+               If more than one terminal shares the ID, only the first's attributes
+               will be returned.</p>
+
+               
+<p class="page_paragraph">
+If the terminal doesn't exist, a <span class="page_keyword">null</span> will be returned.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="termPrint">
+<dt><span class="page_definitionTitle"><span class="page_teletype">termPrint( <span class="page_keyword">int</span> id, <span class="page_keyword">string</span> line, [<span class="page_keyword">int</span> style, [<span class="page_keyword">int</span> color]] )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Prints a line of text to the output of a terminal identified by <span class="page_variable">id</span>.
+               Supported XML tags, character entity references, and furcadia smiley codes 
+               will be evaluated and applied.</p>
+
+               
+<p class="page_paragraph">
+If more than one terminal shares the same ID, <span class="page_variable">line</span> will be 
+               printed on all of them.</p>
+
+               
+<p class="page_paragraph">
+If either <span class="page_variable">style</span> or <span class="page_variable">color</span> are passed, they will override
+               the style and color of all text in <span class="page_variable">line</span>.</p>
+
+               
+<p class="page_paragraph">
+To override color without overriding style, pass a <span class="page_keyword">null</span> in place of
+               <span class="page_variable">style</span>.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="termSet">
+<dt><span class="page_definitionTitle"><span class="page_teletype">termSet( <span class="page_keyword">int</span> id, <span class="page_keyword">table</span> atts )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Sets the attributes of a terminal identified by <span class="page_variable">id</span> to those
+               in the associative table <span class="page_variable">atts</span>.</p>
+
+               
+<p class="page_paragraph">
+If more than one terminal shares the ID, all will have their attributes set.</p>
+
+                  
+               <div class="page_tableTitle">
+Attributes that may be retrieved or set.</div><table class="page_table" border="1" cellpadding="4" cellspacing="0">
+<tr class="page_tableHeader"><td>Key</td><td>Type</td><td>Description</td></tr>
+<tr class="page_tableEvenRow"><td><span class="page_teletype">id</span></td><td><span class="page_keyword">int</span></td><td>Terminal identifier.</td></tr><tr class="page_tableOddRow"><td><span class="page_teletype">title</span></td><td><span class="page_keyword">string</span></td><td>Terminal window title.</td></tr><tr class="page_tableEvenRow"><td><span class="page_teletype">onDestroy</span></td><td><span class="page_keyword">function</span></td><td>
+                        Function of signature 
+                        <span class="page_teletype">function( int id )</span> called when the terminal 
+                        is being destroyed.
+                     </td></tr><tr class="page_tableOddRow"><td><span class="page_teletype">onInput</span></td><td><span class="page_keyword">function</span></td><td>
+                        Function of signature 
+                        <span class="page_teletype">function( int id, string input )</span> called
+                        when the player enters something in the input buffer.
+                     </td></tr><tr class="page_tableEvenRow"><td><span class="page_teletype">font</span></td><td>associative <span class="page_keyword">table</span></td><td>
+                        An associative table with the keys 
+                        <span class="page_teletype">name</span> and/or <span class="page_teletype">height</span>.  
+                        The <span class="page_teletype">name</span> value is the string name of the 
+                        font and the <span class="page_teletype">height</span> value is the 
+                        integer height of the font.
+                     </td></tr><tr class="page_tableOddRow"><td><span class="page_teletype">bgColors</span></td><td>associative <span class="page_keyword">table</span></td><td>
+                        An associative table with the keys <span class="page_teletype">input</span> and/or 
+                        <span class="page_teletype">output</span>.  Each should be set to a color value returned
+                        by the <span class="page_teletype"><span class="page_link"><a href="#rgb">rgb</a></span></span> function, 
+                        defining their background colors.
+                     </td></tr><tr class="page_tableEvenRow"><td><span class="page_teletype">types</span></td><td>associative <span class="page_keyword">table</span></td><td>
+                        
+<p class="page_paragraph">
+Specifies the style and color of intrinsic text types.</p>
+
+                        
+<p class="page_paragraph">
+Possible keys are:</p>
+
+                        
+<ul class="page_list">
+<li><span class="page_teletype">input</span></li>
+<li><span class="page_teletype">output</span></li>
+<li><span class="page_teletype">link</span></li>
+<li><span class="page_teletype">success</span></li>
+<li><span class="page_teletype">warning</span></li>
+<li><span class="page_teletype">error</span></li>
+<li><span class="page_teletype">channel</span></li>
+<li><span class="page_teletype">whisper</span></li>
+<li><span class="page_teletype">emote</span></li>
+<li><span class="page_teletype">emit</span></li>
+<li><span class="page_teletype">myspeech</span></li>
+<li><span class="page_teletype">bcast</span></li>
+<li><span class="page_teletype">roll</span></li>
+<li><span class="page_teletype">shout</span></li>
+<li><span class="page_teletype">trade</span></li>
+<li><span class="page_teletype">dragonspeak</span></li>
+<li><span class="page_teletype">notify</span></li>
+<li><span class="page_teletype">query</span></li>
+<li><span class="page_teletype">highlight</span></li>
+<li><span class="page_teletype">log</span></li>
+<li><span class="page_teletype">history</span></li>
+<li><span class="page_teletype">furclink</span></li>
+<li><span class="page_teletype">cmdlink</span></li>
+<li><span class="page_teletype">name</span></li>
+<li><span class="page_teletype">f2cmdlink</span></li>
+</ul><p />
+
+                        
+<p class="page_paragraph">
+Each key should have yet another associative table as its
+                        value, with keys <span class="page_teletype">style</span> and/or <span class="page_teletype">color</span>.
+                        The <span class="page_teletype">style</span> value is a combination of <span class="page_teletype">TERMSTYLE_x</span>
+                        flags defined in the import script &quot;term&quot;, and the 
+                        <span class="page_teletype">color</span> value is a color returned by the 
+                        <span class="page_teletype"><span class="page_link"><a href="#rgb">rgb</a></span></span>
+                        function.</p>
+
+                     </td></tr></table><p />
+
+               <div class="page_codeboxTitle">An example of setting some terminal attributes.</div><div class="page_codebox">
+<span class="page_codeGMComment">/* Create the terminal. */</span><br />term_id = termCreate( );<br /><br /><span class="page_codeGMComment">/* Set some attributes. */</span><br />termSet( term_id, { title=<span class="page_codeGMString">&quot;Raw terminal (&quot;</span> + getName( ) + <span class="page_codeGMString">&quot;)&quot;</span>,<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;onDestroy=onTermDestroy,<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;onInput=onTermInput,<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;font={ name=<span class="page_codeGMString">&quot;Courier New&quot;</span> },<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;types={ input={ color=rgb( 96, 0, 0 ), style=<span class="page_codeGMUpper">TERMSTYLE_BOLD</span> } }<br /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;} );</div><p />
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="termWrite">
+<dt><span class="page_definitionTitle"><span class="page_teletype">termWrite( <span class="page_keyword">int</span> id, <span class="page_keyword">string</span> line, [<span class="page_keyword">int</span> style, [<span class="page_keyword">int</span> color]] )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Writes a line of text to the output of a terminal identified by <span class="page_variable">id</span>.</p>
+
+               
+<p class="page_paragraph">
+If more than one terminal shares the same ID, <span class="page_variable">line</span> will be 
+               printed on all of them.</p>
+
+               
+<p class="page_paragraph">
+If either <span class="page_variable">style</span> or <span class="page_variable">color</span> are passed, they will override
+               the style and color of all text in <span class="page_variable">line</span>.</p>
+
+               
+<p class="page_paragraph">
+To override color without overriding style, pass a <span class="page_keyword">null</span> in place of
+               <span class="page_variable">style</span>.</p>
+
+            
+</dd>
+</dl><p />
+
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="time">Time Functions</div><div class="page_subsection">
+                     
+            
+<dl class="page_definition" id="getTime">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> getTime( )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Returns the current UTC time as the number of seconds since
+               January 1, 1970.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="toLocalTime">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> toLocalTime( <span class="page_keyword">int</span> utc )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Converts UTC time into the local timezone.</p>
+<div class="page_tableTitle">
+The return value is an associative table with the following keys.</div><table class="page_table" border="1" cellpadding="4" cellspacing="0">
+<tr class="page_tableHeader"><td>Key</td><td>Type</td><td>Description</td></tr>
+<tr class="page_tableEvenRow">
+  <td>mon</td>
+  <td>int</td>
+<td>The current month.</td>
+</tr><tr class="page_tableOddRow">
+  <td>yday</td>
+  <td>int</td>
+<td>The day of the year.</td>
+</tr>
+<tr class="page_tableOddRow">
+  <td>mday</td>
+  <td>int</td>
+  <td>The day of the month.</td>
+</tr>
+<tr class="page_tableOddRow">
+  <td>sec</td>
+  <td>int</td>
+  <td>The current second.</td>
+</tr>
+<tr class="page_tableOddRow">
+  <td>hour</td>
+  <td>int</td>
+  <td>The current hour. (24hr)</td>
+</tr>
+<tr class="page_tableOddRow">
+  <td>min</td>
+  <td>int</td>
+  <td>The current minute.</td>
+</tr>
+<tr class="page_tableOddRow">
+  <td>wday</td>
+  <td>int</td>
+  <td>The day of the week.</td>
+</tr>
+<tr class="page_tableOddRow">
+  <td>year</td>
+  <td>int</td>
+  <td>The current year.</td>
+</tr>
+<tr class="page_tableOddRow">
+  <td>isdst</td>
+  <td>int</td>
+  <td>Whether we're in DST (Daylight Savings Time) or not.</td>
+</tr>
+
+</table>
+<p />
+</dd>
+</dl>
+<dl class="page_definition" id="uptime">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">int</span> uptime( )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Returns how many seconds the client has been running.</p>
+
+            
+</dd>
+</dl><p />
+
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="window">Window Functions</div><div class="page_subsection">
+                     
+            
+<dl class="page_definition" id="flashWindow">
+<dt><span class="page_definitionTitle"><span class="page_teletype">flashWindow( )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+If the window is not currently the active, foreground window,
+               this causes the window to flash.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="getWindowTitle">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> getWindowTitle( )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Retrieves the window's title.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="setWindowTitle">
+<dt><span class="page_definitionTitle"><span class="page_teletype">setWindowTitle( <span class="page_keyword">string</span> title )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Set the window title.</p>
+
+               
+<p class="page_paragraph">
+Be nice and restore it to the old value in your <span class="page_teletype">onKill()</span>
+               handler if you change it.</p>
+
+            
+</dd>
+</dl><p />
+
+         </div><p />
+
+         
+         <div class="page_subsectionTitle" id="world">World Functions</div><div class="page_subsection">
+                     
+            
+<dl class="page_definition" id="badgeCancel">
+<dt><span class="page_definitionTitle"><span class="page_teletype">badgeCancel( )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Cancels any badges/specitags that will be displayed before the next 
+               line of text in the chat buffer.</p>
+
+               
+<p class="page_paragraph">
+Call this to prevent a badge showing up after you've cancelled 
+               chats/whispers/shouts.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="desctag">
+<dt><span class="page_definitionTitle"><span class="page_teletype">desctag( <span class="page_keyword">string</span> tag )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Sets a tag in the player's desc to <span class="page_variable">tag</span>.  
+               Pass an empty string to clear it.</p>
+
+               
+<p class="page_paragraph">
+Furnarchy will send the updated desc to the server immediately.</p>
+
+               
+<p class="page_paragraph">
+Desctags are strings Furnarchy appends to the end of the
+               player's description, but aren't logically considered
+               part of the description. Each script is has a single
+               desctag slot.  This function sets this script's desctag
+               slot's value, but doesn't interfere with others.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="getColors">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> getColors( )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Returns the player's complete color code.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="getDesc">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> getDesc( )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Returns the player's description.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="getMonsterInfo">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">table</span> getMonsterInfo( <span class="page_keyword">int</span> guid )</span> or <span class="page_teletype"><span class="page_keyword">table</span> getMonsterInfo( <span class="page_keyword">string</span> name )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Retrieve information on an avatar via name or guid.</p>
+
+               
+<p class="page_paragraph">
+If successful, an associative table will be returned containing information on the avatar.
+               If the avatar cannot be found, <span class="page_keyword">null</span> is returned.</p>
+
+               <div class="page_tableTitle">
+getMonsterInfo Returned Table Fields</div><table class="page_table" border="1" cellpadding="4" cellspacing="0">
+<tr class="page_tableHeader"><td>Name</td><td>Description</td></tr>
+<tr class="page_tableEvenRow"><td><span class="page_teletype">guid</span></td><td>The GUID of the monster.</td></tr><tr class="page_tableOddRow"><td><span class="page_teletype">name</span></td><td>The name of the monster.</td></tr><tr class="page_tableEvenRow"><td><span class="page_teletype">pos</span></td><td>An associative table with the <span class="page_teletype">x</span> and <span class="page_teletype">y</span> elements set to the position of the monster.</td></tr><tr class="page_tableOddRow"><td><span class="page_teletype">frame</span></td><td>The avatar frame number.</td></tr><tr class="page_tableEvenRow"><td><span class="page_teletype">visible</span></td><td>Non-zero if the avatar is visible by the player.</td></tr><tr class="page_tableOddRow"><td><span class="page_teletype">has_profile</span></td><td>Non-zero if the avatar has a profile page.</td></tr><tr class="page_tableEvenRow"><td><span class="page_teletype">color</span></td><td>The color-code string of the avatar.</td></tr></table><p />
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="getMonsters">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">table</span> getMonsters( )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Retrieves all the monsters that currently exist.</p>
+
+               
+<p class="page_paragraph">
+The return value is an indexed table containing the GUIDs of all existing monsters.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="getName">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">string</span> getName( )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Returns the player's name.</p>
+
+            
+</dd>
+</dl><p />
+
+            
+<dl class="page_definition" id="getPos">
+<dt><span class="page_definitionTitle"><span class="page_teletype"><span class="page_keyword">table</span> getPos( )</span></span></dt>
+<dd>
+
+               
+               
+<p class="page_paragraph">
+Returns the current camera position.</p>
+
+               
+<p class="page_paragraph">
+The camera position is returned as an associative array, with
+               the keys <span class="page_teletype">&quot;x&quot;</span> and <span class="page_teletype">&quot;y&quot;</span> set to the x and y 
+               positions of the camera, respectively.</p>
+
+            
+</dd>
+</dl><p />
+
+         </div><p />
+
+         
+      </div><p />
+
+
+   </div>
+
+
+</body>
+</html>

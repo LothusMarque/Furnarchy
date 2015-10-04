@@ -1,0 +1,10 @@
+MAP RCDATA "colordb.ini"
+GENSELECT RCDATA "Selector.ini"
+TAGHELP RCDATA "taghelp.txt"
+DIGODATA RCDATA "DigoData.ini"
+LOGO ART "narchy2.png"
+LOGO2 ART "SoT-Curses.png"
+//UC ART "underconstruction.png"
+//MSG ART "cursesquote.png"
+
+

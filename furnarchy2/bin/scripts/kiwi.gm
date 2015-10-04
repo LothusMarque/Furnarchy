@@ -1,0 +1,294 @@
+/************************************************************************/
+/* kiwi.gm                                                              */
+/* Turns people into kiwis and remembers it!                            */
+/* Say @kiwi to start kiwifying people, or @unkiwi to restore them      */
+/* to normal.                                                           */
+/************************************************************************/
+
+import( "avatar" );
+import( "keys" );
+
+/* People to automatically kiwi.*/
+global g_kiwis = {};
+/* 1 if converting people into kiwis, -1 if restoring people,
+*  0 if nothing is going on. */
+global g_kiwify = 0;
+
+///////////////////////////////////////////////////////////////////////////
+
+global onRun = function( args )
+{
+   readKiwis( );
+   
+   // Instantly turn existing kiwified people into kiwis.
+   for (i=0; i < length( g_kiwis ); i+=1)
+   {
+      updateAvatar( g_kiwis[ i ].name );
+   }
+   
+   speak( length( g_kiwis ), " people are kiwis." );
+   speak( "Say @kiwi to kiwify people or @unkiwi to restore them." );
+};
+
+global onCommand = function( args )
+{
+   if (args[ 0 ] == "kiwi")
+   {
+      // Convert anyone looked at into a kiwi.
+      global g_kiwify = 1;
+      speak( "Anyone you now look at will be kiwified!" );
+      speak( "Press escape to stop." );
+      return true;
+   }
+   else if (args[ 0 ] == "unkiwi")
+   {
+      // Restore anyone looked at.
+      global g_kiwify = -1;
+      speak( "Anyone you now look at will be restored (after they move)!" );
+      speak( "Press escape to stop." );
+      return true;
+   }
+};
+
+global onChar = function( ch, repeat )
+{
+   if (ch == KEY_ESC && g_kiwify != 0)
+   {
+      global g_kiwify = 0;
+      speak( "Done." );
+      return true;
+   }
+};
+
+global onInbound = function( line, from, num )
+{
+   // Modify avatar creation commands to create kiwis.
+   fields = netScan( "<%4N%2N%2N%2N%s%K%N", line );
+   if (fields)
+   {
+      // Extract the name.
+      name = fields[ 4 ];
+      if (isKiwiName( name )) // Kiwi?
+      {
+         setKiwiGuid( name, fields[ 0 ] );
+         info = av_frameInfo( fields[ 3 ] );
+         info.class = AVCLASS_KIWI;
+         // Return a modified version of the command.
+         return strCat( "<", intToBase220( fields[ 0 ], 4 ), intToBase220( fields[ 1 ], 2 ),
+                        intToBase220( fields[ 2 ], 2 ), intToBase220( av_makeFrame( info ), 2 ),
+                        intToBase220( length( name ), 1 ), name, fields[ 5 ], fields[ 6 ] );
+      }
+      return;
+   }
+   // Modify avatar movement commands to move kiwis.
+   fields = netScan( "/%4N%2N%2N%2N", line );
+   if (fields)
+   {
+      if (isKiwiGuid( fields[ 0 ] )) // Check the guid.
+      {
+         info = av_frameInfo( fields[ 3 ] );
+         info.class = AVCLASS_KIWI;
+         // Return a modified version of the command.
+         return strCat( "/", intToBase220( fields[ 0 ], 4 ),
+                        intToBase220( fields[ 1 ], 2 ),
+                        intToBase220( fields[ 2 ], 2 ),
+                        intToBase220( av_makeFrame( info ), 2 ) );
+                        
+      }
+      return;
+   }
+   // Modify avatar position updates to update as kiwis.
+   fields = netScan( "A%4N%2N%2N%2N", line );
+   if (fields)
+   {
+      if (isKiwiGuid( fields[ 0 ] )) // Check the guid.
+      {
+         info = av_frameInfo( fields[ 3 ] );
+         info.class = AVCLASS_KIWI;
+         // Return a modified version of the command.
+         return strCat( "A", intToBase220( fields[ 0 ], 4 ),
+                        intToBase220( fields[ 1 ], 2 ),
+                        intToBase220( fields[ 2 ], 2 ),
+                        intToBase220( av_makeFrame( info ), 2 ) );
+      }
+      return;
+   }
+   // Modify avatar color updates to update as kiwis.
+   fields = netScan( "B%4N%2N%K", line );
+   if (fields)
+   {
+      if (isKiwiGuid( fields[ 0 ] )) // Check the guid.
+      {
+         info = av_frameInfo( fields[ 1 ] );
+         info.class = AVCLASS_KIWI;
+         // Return a modified version of the command.
+         return strCat( "B", intToBase220( fields[ 0 ], 4 ),
+                        intToBase220( av_makeFrame( info ), 2 ),
+                        fields[ 2 ] );
+      }
+      return;
+   }
+   // If we're (un)kiwifying, grab the name in the portrait commands.
+   if (g_kiwify != 0)
+   {
+      fields = netScan( "]f%K%3c%*c", line );
+      if (fields)
+      {
+         global g_kiwis;
+         
+         name = fields[ 2 ];
+         
+         // If kiwifying, add.
+         if (g_kiwify == 1)
+         {
+            addKiwi( name );
+            speak( name, " has been kiwied!" );
+         }
+         // If unkiwifying, remove.
+         else 
+         {
+            removeKiwi( name );
+            speak( name, " has been unkiwied!" );
+         }
+      }
+   }
+};
+
+///////////////////////////////////////////////////////////////////////////
+
+global isKiwiName = function( name )
+{
+   global g_kiwis;
+   
+   foreach (i in g_kiwis)
+   {
+      if (!strCaseCmp( i.name, name )) {
+         return true;
+      }
+   }
+   
+   return false;
+};
+
+global isKiwiGuid = function( guid )
+{
+   global g_kiwis;
+   
+   foreach (i in g_kiwis)
+   {
+      if (i.guid == guid) {
+         return true;
+      }
+   }
+   
+   return false;
+};
+
+global addKiwi = function( name )
+{
+   global g_kiwis;
+   
+   // Avoid duplicates.
+   if (!isKiwiName( name )) 
+   {
+      // Append to end of list.
+      g_kiwis[ length( g_kiwis ) ] = { name=name, guid=0 };
+      writeKiwis( );
+   }
+   
+   // Update the avatar make the change immediate.
+   updateAvatar( name );
+};
+
+global setKiwiGuid = function( name, guid )
+{
+   global g_kiwis;
+   
+   foreach (i in g_kiwis)
+   {
+      if (!strCaseCmp( i.name, name ))
+      {
+         i.guid = guid;
+         return true;
+      }
+   }
+   
+   return false;
+};
+
+global removeKiwi = function( name )
+{
+   global g_kiwis;
+   
+   n = length( g_kiwis );
+   for (i = 0; i < n; i+=1)
+   {
+      if (!strCaseCmp( g_kiwis[ i ].name, name )) // Found it.
+      {
+         // Cut it out.
+         g_kiwis = slice( g_kiwis, {0,i}, {i+1} );
+         writeKiwis( );
+         return;
+      }
+   }
+};
+
+global writeKiwis = function( )
+{
+   global g_kiwis;
+   
+   // Write the kiwi colors to the DB.
+   dbOpen( );
+   
+   // Write the names and guids as a string in the format of "name1:guid1 name2:guid2 ..."
+   nameguids = map( g_kiwis, 
+                    function( x ) { return x.name + ":" + x.guid; } 
+                  );
+   
+   // Just write the join() of all the strings with a space inbetween each.
+   dbWrite( "kiwis", join( nameguids, " " ) );
+   
+   dbClose( );
+};
+
+global readKiwis = function( )
+{
+   global g_kiwis;
+   
+   // Load up the kiwi colors from the DB.
+   dbOpen( );
+   
+   // Here's some fancy footwork.
+   // Names and guids are stored as "name1:guid1 name2:guid2 ..."
+   // First split the string up into a space-separated array of name:guid pairs.
+   nameguids = split( dbRead( "kiwis" ), " " );
+   
+   // Split up each name:guid pair into a table.
+   g_kiwis = map( nameguids, 
+                  function( x ) 
+                  { 
+                     if (reMatch2( x, "^(.+):([0-9]+)$" ))
+                     {
+                        return { name=reCap( 1 ), guid=stringToUint( reCap( 2 ) ) };
+                     }
+                     // The DB file was written wrong!
+                     return null;
+                  } 
+                );
+   dbClose( );
+};
+
+global updateAvatar = function( name )
+{
+   monster = getMonsterInfo( name );
+   if (monster)
+   {
+      setKiwiGuid( name, monster.guid );
+      
+      fi = av_frameInfo( monster.frame );
+      fi.class = AVCLASS_KIWI;
+
+      netInLine( "B", intToBase220( monster.guid, 4 ),
+                 intToBase220( av_makeFrame( fi ), 2 ), monster.color );
+   }   
+};

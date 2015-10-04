@@ -1,0 +1,260 @@
+2610
+----
+
+00410170: void __cdecl inputbox_ch( char c );
+
+(get_sz CALL)
+CPU Disasm
+Address   Hex dump          Command                                  Comments
+0041019F  |. /E9 23050000   JMP 004106C7
+004101A4  |> |BB 30C35B00   MOV EBX,OFFSET Furcadia.005BC330         ; ASCII "makecookie vlan"
+004101A9  |. |E8 32FC0400   CALL 0045FDE0
+
+
+0045FDE0: void __fastcall inputbox_get_sz( char* buf : EBX );
+
+CPU Disasm
+Address   Hex dump          Command                                  Comments
+0045FDE0  /$  56            PUSH ESI
+0045FDE1  |.  57            PUSH EDI
+0045FDE2  |.  8B3D B0B85B00 MOV EDI,DWORD PTR DS:[5BB8B0]
+0045FDE8  |.  8BB7 8C000000 MOV ESI,DWORD PTR DS:[EDI+8C]
+0045FDEE  |.  8BCE          MOV ECX,ESI
+0045FDF0  |.  E8 FB57FFFF   CALL 004555F0
+0045FDF5  |.  85C0          TEST EAX,EAX
+0045FDF7  |.  75 0A         JNE SHORT 0045FE03
+0045FDF9  |.  8803          MOV BYTE PTR DS:[EBX],AL
+0045FDFB  |.  E8 00CBFFFF   CALL 0045C900
+0045FE00  |.  5F            POP EDI
+0045FE01  |.  5E            POP ESI
+0045FE02  |.  C3            RETN
+0045FE03  |>  83C8 FF       OR EAX,FFFFFFFF
+0045FE06  |.  8987 B0000000 MOV DWORD PTR DS:[EDI+0B0],EAX
+0045FE0C  |.  8987 AC000000 MOV DWORD PTR DS:[EDI+0AC],EAX
+0045FE12  |.  8987 B4000000 MOV DWORD PTR DS:[EDI+0B4],EAX
+0045FE18  |.  8BC6          MOV EAX,ESI
+0045FE1A  |.  E8 B160FFFF   CALL 00455ED0
+0045FE1F  |.  8B97 8C000000 MOV EDX,DWORD PTR DS:[EDI+8C]
+0045FE25  |.  68 D0070000   PUSH 7D0                                 ; /Arg2 = 7D0
+0045FE2A  |.  53            PUSH EBX                                 ; |Arg1 => ARG.EBX
+0045FE2B  |.  E8 2044FFFF   CALL 00454250                            ; \Furcadia.00454250
+0045FE30  |.  E8 CBCAFFFF   CALL 0045C900
+0045FE35  |.  5F            POP EDI
+0045FE36  |.  5E            POP ESI
+0045FE37  \.  C3            RETN
+
+
+(inputbox_process CALL - RIGHT after get_sz CALL)
+CPU Disasm
+Address   Hex dump          Command                                  Comments
+004101AE  |.  8BCB          MOV ECX,EBX
+004101B0  |.  E8 EBF6FFFF   CALL 0040F8A0                            ; [Furcadia.0040F8A0
+
+0040F8A0: bool __fastcall inputbox_process( char* buf : ECX );
+
+CPU Disasm
+Address   Hex dump          Command                                  Comments
+0040F8A0   $  B8 20300000   MOV EAX,3020                             ; Furcadia.0040F8A0(guessed void)
+0040F8A5   .  E8 F6491000   CALL 005142A0                            ; Allocates EAX bytes on stack
+0040F8AA   .  A1 20755400   MOV EAX,DWORD PTR DS:[547520]
+0040F8AF   .  33C4          XOR EAX,ESP
+0040F8B1   .  898424 183000 MOV DWORD PTR SS:[ESP+3018],EAX
+0040F8B8   .  53            PUSH EBX
+0040F8B9   .  56            PUSH ESI
+0040F8BA   .  8BF1          MOV ESI,ECX
+0040F8BC   .  8BC6          MOV EAX,ESI
+0040F8BE   .  57            PUSH EDI
+0040F8BF   .  8D50 01       LEA EDX,[EAX+1]
+0040F8C2   >  8A08          MOV CL,BYTE PTR DS:[EAX]
+0040F8C4   .  83C0 01       ADD EAX,1
+(Partial)
+
+
+00475700: void __fastcall inputbox_push_chat_history( char* buf : EBX ); 
+
+CPU Disasm
+Address   Hex dump          Command                                  Comments
+00475700  /$  53            PUSH EBX                                 ; /Arg2 => ARG.EBX
+00475701  |.  68 18777E00   PUSH OFFSET Furcadia.007E7718            ; |Arg1 = ASCII ":blinks."
+00475706  |.  E8 23EA0800   CALL 0050412E                            ; \Furcadia.0050412E
+0047570B  |.  83C4 08       ADD ESP,8
+0047570E  |.  85C0          TEST EAX,EAX
+00475710  |.  74 52         JE SHORT 00475764
+00475712  |.  56            PUSH ESI
+00475713  |.  57            PUSH EDI
+00475714  |.  BF 978D5200   MOV EDI,OFFSET Furcadia.00528D97
+00475719  |.  8BF3          MOV ESI,EBX
+0047571B  |.  B9 01000000   MOV ECX,1
+00475720  |.  33C0          XOR EAX,EAX
+00475722  |.  F3:A6         REPE CMPS BYTE PTR DS:[ESI],BYTE PTR ES:
+00475724  |.  74 3C         JE SHORT 00475762
+00475726  |.  BE B8037F00   MOV ESI,OFFSET Furcadia.007F03B8
+0047572B  |.  EB 03         JMP SHORT 00475730
+0047572D  |   8D49 00       LEA ECX,[ECX]
+00475730  |>  8BC6          /MOV EAX,ESI
+00475732  |.  BA D0070000   |MOV EDX,7D0
+00475737  |>  8A08          |/MOV CL,BYTE PTR DS:[EAX]
+00475739  |.  880C02        ||MOV BYTE PTR DS:[EAX+EDX],CL
+0047573C  |.  83C0 01       ||ADD EAX,1
+0047573F  |.  84C9          ||TEST CL,CL
+00475741  |.^ 75 F4         |\JNE SHORT 00475737
+00475743  |.  2BF2          |SUB ESI,EDX
+00475745  |.  81FE 18777E00 |CMP ESI,OFFSET Furcadia.007E7718        ; ASCII ":blinks."
+0047574B  |.^ 7D E3         \JGE SHORT 00475730
+0047574D  |.  BA 18777E00   MOV EDX,OFFSET Furcadia.007E7718         ; ASCII ":blinks."
+00475752  |.  8BC3          MOV EAX,EBX
+00475754  |.  2BD3          SUB EDX,EBX
+00475756  |>  8A08          /MOV CL,BYTE PTR DS:[EAX]
+00475758  |.  880C02        |MOV BYTE PTR DS:[EAX+EDX],CL
+0047575B  |.  83C0 01       |ADD EAX,1
+0047575E  |.  84C9          |TEST CL,CL
+00475760  |.^ 75 F4         \JNE SHORT 00475756
+00475762  |>  5F            POP EDI
+00475763  |.  5E            POP ESI
+00475764  \>  C3            RETN
+
+
+
+2520
+----
+
+0040FF10: void __cdecl inputbox_ch( char c );
+
+0045FBF0: void __fastcall inputbox_get_sz( char* buf : EBX );
+0040F640: bool __fastcall inputbox_process( char* buf : ECX );
+00475490: void __fastcall inputbox_push_chat_history( char* buf : EBX ); 
+
+2510
+----
+
+0040FE70: void __cdecl inputbox_ch( char c );
+
+0045CF20: void __fastcall inputbox_get_sz( char* buf : EBX );
+0040F5A0: bool __fastcall inputbox_process( char* buf : ECX );
+004744A0: void __fastcall inputbox_push_chat_history( char* buf : EBX ); 
+
+2410
+----
+
+0040F4A0: void __cdecl inputbox_ch( char c );
+
+The function to extract a mbs from the inputbox is now a fastcall. EBX is
+preserved when it returns.
+
+0040F4D4  |> BB 30245300    MOV EBX,Furcadia.00532430                ; buffer
+0040F4D9  |. E8 827E0400    CALL Furcadia.00457360
+0040F4DE  |. 8BCB           MOV ECX,EBX                              ; EBX is preserved.
+
+00457360: void __fastcall inputbox_get_sz( char* buf : EBX );
+
+What follows is the call to process the mbs, which now must preserve EBX:
+
+0040F4DE  |. 8BCB           MOV ECX,EBX                              
+0040F4E0  |. E8 FBF6FFFF    CALL Furcadia.0040EBE0
+0040F4E5  |. 85C0           TEST EAX,EAX
+0040F4E7  |. 0F85 0A050000  JNZ Furcadia.0040F9F7
+0040F4ED  |. 8BC3           MOV EAX,EBX            ; EBX is preserved.
+
+0040EBE0: bool __fastcall inputbox_process( char* buf : ECX );
+
+And the push chat history call:
+
+0040F597  |. BB 30245300    MOV EBX,Furcadia.00532430                ; mbs buf
+0040F59C  |. E8 5FB00500    CALL Furcadia.0046A600
+
+0046A600: void __fastcall inputbox_push_chat_history( char* buf : EBX ); 
+
+2320
+----
+
+0040ED20: void __cdecl inputbox_ch( char c );
+
+The string class method used to extract a multibyte string from the inputbox
+now appears static.
+
+0040ED54  |> 68 60355100    PUSH Furcadia.00513560
+0040ED59  |. E8 228E0400    CALL Furcadia.00457B80
+
+00457B80: void __stdcall inputbox_get_sz( char* buf );
+
+Then of course comes the process contents call, but now that one's a
+fastcall or method.
+
+0040ED5E  |. B9 60355100    MOV ECX,Furcadia.00513560
+0040ED63  |. E8 A8F9FFFF    CALL Furcadia.0040E710
+0040ED68  |. 85C0           TEST EAX,EAX
+0040ED6A  |. 0F85 B9040000  JNZ Furcadia.0040F229
+
+0040E710: bool __fastcall inputbox_process( char* buf );
+
+Bizarrely, the push chat history function is now a fastcall, but using EBX.
+
+0040EE1D  |. BB 60355100    MOV EBX,Furcadia.00513560
+0040EE22     E8 09BE0500    CALL Furcadia.0046AC30
+
+0046AC30: void __fastcall inputbox_push_chat_history( char* buf : EBX );
+
+
+Prior to 2320
+-------------
+
+004C84B8 - a char* intermediate buffer used to hold ascii contents of 
+           the input box string.
+
+There's a static pointer to the input box ClientString at 0x004DA070.
+
+00416640 : inputbox_update( bool unk )
+   Called after the input box's contents get modified.
+   This applies to caret and selection moves, too.
+   Fixes up the string to be human-readable, re-renders, collapses latin-1 names,
+   repositions the caret, etc.
+
+0040A390 : void inputbox_ch( char c );
+   Controls the inputbox via ascii codes.  
+   Characters insert at the caret position, backspace (0x08) backspaces,
+   carriage return (0x0D) sends the contents, tab (0x9) does nothing, etc.
+   Escape doesn't go through this, though.
+   
+   When processing a '\r',, a call is made to ClientString::toSz( ) (see clientstring.txt)
+   to convert the contents to ascii (as well as inflating latin-1 names) before processing.
+   
+   0040A5E9  |. 68 D0070000    PUSH 7D0                                 ; /Arg2 = 000007D0
+   0040A5EE  |. 68 B8844C00    PUSH Furcadia.004C84B8                   ; |Arg1 = 004C84B8
+   0040A5F3  |. 8B0D 70A04D00  MOV ECX,DWORD PTR DS:[4DA070]            ; |
+   0040A5F9  |. E8 72A90500    CALL Furcadia.00464F70                   ; \Furcadia.00464F70
+   
+   Right after that, another call is made to process the contents.
+   
+   0040A5FE   . 68 B8844C00    PUSH Furcadia.004C84B8 
+   0040A603   . E8 28F7FFFF    CALL Furcadia.00409D30
+   0040A608   . 83C4 04        ADD ESP,4
+   0040A60B   . 85C0           TEST EAX,EAX
+   0040A60D   . 74 05          JE SHORT Furcadia.0040A614
+   
+   00409D30 : bool inputbox_process( const char* sz );   
+   
+      Return true to indicate it's been handled and should be eaten.
+      Inside THAT function is a call to a push_history function.
+      
+      00409DF0   . 8B55 08        MOV EDX,DWORD PTR SS:[EBP+8]
+      00409DF3   . 52             PUSH EDX                                 ; /Arg1
+      00409DF4   . E8 07140600    CALL Furcadia.0046B200
+      
+      0046B200 : void inputbox_push_history( const char* sz );
+   
+005A71CC : static int inputbox_caret_pos
+   Unfortunately, there's no one function that changes
+   this value, so hooking it will be tricky.
+   
+004A83FC, 004A8300 : static int inputbox_select_start, inputbox_select_end;
+   No selection if either of them are -1 or start == end,
+   otherwise it's guaranteed that inputbox_select_start <= inputbox_select_end.
+   You can find these by following inputbox_ch( ), which calls:
+   
+00467CD0 : void inputbox_clearselect( );
+
+00468970 : void inputbox_clear( )
+   Self-explanatory.
+   
+All these can be gotten to eventually by tracking changes to the
+inputbox ClientString.

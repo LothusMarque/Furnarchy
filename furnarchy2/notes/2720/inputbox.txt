@@ -1,0 +1,164 @@
+2720
+----
+
+004105C0: void __cdecl inputbox_ch( char c );
+
+00461AD0: void __fastcall inputbox_get_sz( char* buf : EBX ); // called from 004105F9
+0040FBC0: bool __fastcall inputbox_process( char* buf : ECX ); // called from 00410600
+
+!!! fastcall register changed from EBX to EDI !!!
+00478110: void __fastcall inputbox_push_chat_history( char* buf : EDI );
+
+
+2610
+----
+
+00410170: void __cdecl inputbox_ch( char c );
+
+0045FDE0: void __fastcall inputbox_get_sz( char* buf : EBX );
+0040F8A0: bool __fastcall inputbox_process( char* buf : ECX );
+00475700: void __fastcall inputbox_push_chat_history( char* buf : EBX ); 
+
+2520
+----
+
+0040FF10: void __cdecl inputbox_ch( char c );
+
+0045FBF0: void __fastcall inputbox_get_sz( char* buf : EBX );
+0040F640: bool __fastcall inputbox_process( char* buf : ECX );
+00475490: void __fastcall inputbox_push_chat_history( char* buf : EBX ); 
+
+2510
+----
+
+0040FE70: void __cdecl inputbox_ch( char c );
+
+0045CF20: void __fastcall inputbox_get_sz( char* buf : EBX );
+0040F5A0: bool __fastcall inputbox_process( char* buf : ECX );
+004744A0: void __fastcall inputbox_push_chat_history( char* buf : EBX ); 
+
+2410
+----
+
+0040F4A0: void __cdecl inputbox_ch( char c );
+
+The function to extract a mbs from the inputbox is now a fastcall. EBX is
+preserved when it returns.
+
+0040F4D4  |> BB 30245300    MOV EBX,Furcadia.00532430                ; buffer
+0040F4D9  |. E8 827E0400    CALL Furcadia.00457360
+0040F4DE  |. 8BCB           MOV ECX,EBX                              ; EBX is preserved.
+
+00457360: void __fastcall inputbox_get_sz( char* buf : EBX );
+
+What follows is the call to process the mbs, which now must preserve EBX:
+
+0040F4DE  |. 8BCB           MOV ECX,EBX                              
+0040F4E0  |. E8 FBF6FFFF    CALL Furcadia.0040EBE0
+0040F4E5  |. 85C0           TEST EAX,EAX
+0040F4E7  |. 0F85 0A050000  JNZ Furcadia.0040F9F7
+0040F4ED  |. 8BC3           MOV EAX,EBX            ; EBX is preserved.
+
+0040EBE0: bool __fastcall inputbox_process( char* buf : ECX );
+
+And the push chat history call:
+
+0040F597  |. BB 30245300    MOV EBX,Furcadia.00532430                ; mbs buf
+0040F59C  |. E8 5FB00500    CALL Furcadia.0046A600
+
+0046A600: void __fastcall inputbox_push_chat_history( char* buf : EBX ); 
+
+2320
+----
+
+0040ED20: void __cdecl inputbox_ch( char c );
+
+The string class method used to extract a multibyte string from the inputbox
+now appears static.
+
+0040ED54  |> 68 60355100    PUSH Furcadia.00513560
+0040ED59  |. E8 228E0400    CALL Furcadia.00457B80
+
+00457B80: void __stdcall inputbox_get_sz( char* buf );
+
+Then of course comes the process contents call, but now that one's a
+fastcall or method.
+
+0040ED5E  |. B9 60355100    MOV ECX,Furcadia.00513560
+0040ED63  |. E8 A8F9FFFF    CALL Furcadia.0040E710
+0040ED68  |. 85C0           TEST EAX,EAX
+0040ED6A  |. 0F85 B9040000  JNZ Furcadia.0040F229
+
+0040E710: bool __fastcall inputbox_process( char* buf );
+
+Bizarrely, the push chat history function is now a fastcall, but using EBX.
+
+0040EE1D  |. BB 60355100    MOV EBX,Furcadia.00513560
+0040EE22     E8 09BE0500    CALL Furcadia.0046AC30
+
+0046AC30: void __fastcall inputbox_push_chat_history( char* buf : EBX );
+
+
+Prior to 2320
+-------------
+
+004C84B8 - a char* intermediate buffer used to hold ascii contents of 
+           the input box string.
+
+There's a static pointer to the input box ClientString at 0x004DA070.
+
+00416640 : inputbox_update( bool unk )
+   Called after the input box's contents get modified.
+   This applies to caret and selection moves, too.
+   Fixes up the string to be human-readable, re-renders, collapses latin-1 names,
+   repositions the caret, etc.
+
+0040A390 : void inputbox_ch( char c );
+   Controls the inputbox via ascii codes.  
+   Characters insert at the caret position, backspace (0x08) backspaces,
+   carriage return (0x0D) sends the contents, tab (0x9) does nothing, etc.
+   Escape doesn't go through this, though.
+   
+   When processing a '\r',, a call is made to ClientString::toSz( ) (see clientstring.txt)
+   to convert the contents to ascii (as well as inflating latin-1 names) before processing.
+   
+   0040A5E9  |. 68 D0070000    PUSH 7D0                                 ; /Arg2 = 000007D0
+   0040A5EE  |. 68 B8844C00    PUSH Furcadia.004C84B8                   ; |Arg1 = 004C84B8
+   0040A5F3  |. 8B0D 70A04D00  MOV ECX,DWORD PTR DS:[4DA070]            ; |
+   0040A5F9  |. E8 72A90500    CALL Furcadia.00464F70                   ; \Furcadia.00464F70
+   
+   Right after that, another call is made to process the contents.
+   
+   0040A5FE   . 68 B8844C00    PUSH Furcadia.004C84B8 
+   0040A603   . E8 28F7FFFF    CALL Furcadia.00409D30
+   0040A608   . 83C4 04        ADD ESP,4
+   0040A60B   . 85C0           TEST EAX,EAX
+   0040A60D   . 74 05          JE SHORT Furcadia.0040A614
+   
+   00409D30 : bool inputbox_process( const char* sz );   
+   
+      Return true to indicate it's been handled and should be eaten.
+      Inside THAT function is a call to a push_history function.
+      
+      00409DF0   . 8B55 08        MOV EDX,DWORD PTR SS:[EBP+8]
+      00409DF3   . 52             PUSH EDX                                 ; /Arg1
+      00409DF4   . E8 07140600    CALL Furcadia.0046B200
+      
+      0046B200 : void inputbox_push_history( const char* sz );
+   
+005A71CC : static int inputbox_caret_pos
+   Unfortunately, there's no one function that changes
+   this value, so hooking it will be tricky.
+   
+004A83FC, 004A8300 : static int inputbox_select_start, inputbox_select_end;
+   No selection if either of them are -1 or start == end,
+   otherwise it's guaranteed that inputbox_select_start <= inputbox_select_end.
+   You can find these by following inputbox_ch( ), which calls:
+   
+00467CD0 : void inputbox_clearselect( );
+
+00468970 : void inputbox_clear( )
+   Self-explanatory.
+   
+All these can be gotten to eventually by tracking changes to the
+inputbox ClientString.

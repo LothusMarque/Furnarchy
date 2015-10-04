@@ -1,0 +1,8 @@
+@render floors|walls|objects|avatars on|off
+      Enables or disables the rendering of the floor, wall,
+      object, or avatar layer.
+	  
+@rawchat on|off
+      Enables or disables the sending of raw characters to 
+      the server.  This needs to be on to write HTML tags
+      in chat.

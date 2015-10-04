@@ -1,0 +1,2 @@
+[#SM] Now Playing "<i>%song</i>"
+:plays <i>%song</i> #SM

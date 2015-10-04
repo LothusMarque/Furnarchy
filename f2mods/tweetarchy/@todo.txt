@@ -1,0 +1,12 @@
+Listing thoughts:
+Parse XML into separate list
+
+==Feature Requests==
+-Interprocess communication, instead of running a full copy for each client, one shared window, but messages shared between all.
+-Active only if selected, window popup on rightclick.
+
+
+==DONE==
+*Feature request for Tweetarchy that should be easy to do: @reply's turned into links (when showing in furc's buffer) so that you can click the name and it pop open to their screen.
+
+

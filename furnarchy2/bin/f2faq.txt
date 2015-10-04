@@ -1,0 +1,760 @@
+Furnarchy 2 FAQ
+(http://proxy.entwinedstudios.com/forums)
+----
+
+CONTENTS
+
+1  What is Furnarchy 2?
+2  How do I get started?
+3  Is it just me or did Furnarchy 3 come before 2?
+4  What's different from Furnarchy 3?
+5  Will my F3 modules work with F2?
+6  Will my F3 skins work with F2?
+7  Can I use it with other proxies?
+8  Does it work under WINE?
+9  What's this talk about "hardcoding" F2 into the client?
+10 What the heck is "tab completion"?
+11 What commands are available?
+   11.2  Filter commands.
+   11.3  Script commands.
+   11.4  Module commands.
+   11.5  Skin commands.
+   11.6  Net commands.
+   11.7  The kitchen sink.
+   11.8  @source
+   11.9  Changing the '@' command prefix.
+12 How do modules work?
+   12.1  About modules.
+   12.2  Getting modules.
+   12.3  Installing modules.
+   12.4  Interacting with modules.
+   12.5  Controlling module loading.
+   12.6  Creating modules.
+13 How do scripts work?
+   13.1 About scripts.
+   13.2 Getting scripts.
+   13.3 Installing scripts.
+   13.4 Managing scripts.
+   13.5 Creating scripts.
+14 How do filters work?
+15 How do skins work?
+   15.1 About skins.
+   15.2 Getting skins.
+   15.3 Installing skins.
+   15.2 Managing skins.
+   15.2 Creating skins.
+16 Where do I go to complain?!
+
+----
+
+1  What is Furnarchy 2?
+
+Furnarchy 2 is a free, modular "proxy," for Furcadia (www.furcadia.com).
+
+Traditionally, a proxy is a program that sits between the Furcadia client
+and the server.  By monitoring or altering the network traffic, the proxy
+can provide functionality that doesn't exist in the client.
+
+Furnarchy 2 is the third in a series of "embedded" proxies.  Rather than
+having the client tunnel network traffic through it, Furnarchy embeds
+itself (similar to how a virus would) into an instance of the client.
+By "infecting," the client this way, Furnarchy has direct access to various
+client code and memory, resulting in new features that appear seamless and
+native to the client.
+
+Furnarchy 2 is modular, which means functionality can be customized by
+simply adding or removing "modules" (fancy word for plugins) to the proxy.
+Modules can do a wide assortment of things, like create a character
+selection screen or a buddy list.
+
+In addition to modules, Furnarchy 2 has scripts and filters, which can
+be used to extend its functionality, as well.
+
+Furnarchy 2 is written in C++ and is open source.
+Supported platforms are Windows 2000, XP, Vista, and WINE.
+Both its binaries and source code are distributed under the terms of the 
+MIT license (www.opensource.org/licenses/mit-license.php).
+Furnarchy 2 is maintained by James "Damadar" Cordrey (webmaster@entwinedstudios.com) at
+Entwined Studios (www.entwinedstudios.com) and Lothus Marque at
+Mercenary Enclave Productions (www.mercenary-enclave.com).
+
+----
+
+2  How do I get started?
+
+Just head over to the download page 
+(http://proxy.entwinedstudios.com),
+download, and install it!
+
+----
+
+3  Is it just me or did Furnarchy 3 come before 2?
+
+Two words: 'Time Paradox'.
+
+----
+
+4  What's different from Furnarchy 3?
+
+Better integration, better module support, scripts, filters, scriptable
+skins, and it's way prettier.
+
+----
+
+5  Will my F3 modules work with F2?
+
+No.  Sorry.  F2 breaks away from the F3/F1 module interface in favor
+of something cleaner and simpler for developers.  Conversely, F2 modules
+won't work with F3/F1.
+
+It is, however, theoretically possible to write an F2 adapter for F3/F1
+modules.  F2 is flexible enough, but I wouldn't hold my breath for it
+to happen any time soon, unless you do it.
+
+----
+
+6  Will my F3 skins work with F2?
+
+Also no.  F2 ditched the old system of separate "skin shaders," each of
+which locked you into their particular layout style, in favor of 
+a single, scriptable skin shader that gives you tons of freedom to
+make skins look and behave just how you want them to.
+
+----
+
+7  Can I use it with other proxies?
+
+So long as those proxies aren't also embedded proxies, yes.  I've
+personally tried it with Mreow Proxy and it worked great.  DogProxy
+and others should work swell, as well.
+
+If you're going to do this, it makes life a lot easier if you 'hardcode'
+F2 into the client (see below).
+
+Also, check out the site's FAQ on this subject
+(http://proxy.entwinedstudios.com/faq.html#dual)
+
+----
+
+8  Does it work under WINE?
+
+Yup, yup, yup.  Fully, this time, too (unlike in F3 where you couldn't
+see the skin and thus couldn't access your modules).
+
+However, in order to get it working, you need to 'hardcode' F2
+into the client (see below).
+
+Also, check out the site's FAQ on this subject
+(http://proxy.entwinedstudios.com/faq.html#linux)
+
+----
+
+9  What's this talk about "hardcoding" F2 into the client?
+
+Sometimes it's just inconvenient (or flat out impossible) to embed
+Furnarchy 2 into the client via 'launch.exe'.  So what you can do is
+'hardcode' F2 into the Furcadia client.
+
+Normally (what launch.exe does) is 'softcode' F2 into the client, 
+meaning it patches the client while it's running, not its actual 
+executable image on the disk.  Hardcoding, on the other hand, 
+patches the executable image on the disk, which results in a Furcadia 
+executable that loads F2, not the other way around.
+
+To create a hardcoded Furcadia executable, simply run 'embed.exe' in
+the Furnarchy 2 directory.  A new executable should be created called
+'Furcadiaf2.exe'.  Move this new file into your Furcadia folder and
+run it from there.  If it runs alright, feel free to replace the
+original 'Furcadia.exe' with the new one.
+
+Note: If 'embed.exe' fails, open up the launch.ini file in notepad and
+make sure the 'ClientExe=...' path is valid.
+
+----
+
+10  What the heck is "tab completion"?
+
+Who knows? :,-(
+
+----
+
+11  What commands are available?
+
+Furnarchy 2 is loaded with commands which let you access all its 
+subsystems.  They all begin with a '@' prefix (but you can change this
+in the Furnarchy Configuration). 
+If an argument you're passing contains a space character, 
+you can surround the entire argument with single quotes, 
+double quotes, or backticks so Furnarchy 2 doesn't split it up.
+
+Here's a breakdown of them by group.
+   
+   11.1 Filter commands.
+   
+   @ifadd [--chat|--trap] <regex operation>
+   @ofadd [--chat|--trap] <regex operation>
+      Adds a filter to the current filter profile.
+      
+      '--chat' Only applies this filter to outbound speech,
+      whispers, shouts, emotes (in the case of @ofadd) or
+      inbound chat buffer text (in the case of @ifadd).
+      
+      '--trap' Stops applying the rest of the filters if the
+      regex operation is successful.
+      
+      '<regex operation>' is either a substition or match operation
+      in the sed/perl form (e.g., s/from/to/gi, m/from/to/i ).
+      See the section on Filters and regex operations for more info
+      on them.
+      
+   @ifrm <index> {<index>}
+   @ofrm <index> {<index>}
+      Removes a filter from the current filter profile.
+      
+      '<index>' is the index number of the filter to remove.
+      You can specify multiple index numbers separated by a space.
+      
+   @ifmv <from>-<to> {<from>-<to>}
+   @ofmv <from>-<to> {<from>-<to>}
+      Moves a filter.
+      
+      '<from>' and '<to>' are an index number pair.
+      You can specify multiple pairs separated by a space.
+   
+   @ifls
+   @ofls
+      Lists all the filters in the current profile.
+      
+   @ifon
+   @ofon
+      Enables all the filters in the current profile.
+      
+   @ifoff
+   @ofoff
+      Disables all the filters in the current profile.
+      
+   @ifclr
+   @ofclr
+      Removes all the filters in the current profile.
+      
+   @ifuse [--quiet] <profile>
+   @ofuse [--quiet] <profile>
+      Load a filter profile from the 'filters' directory.
+      
+      '--quiet' hides the "added filter..." messages you'll
+      get as each filter in the profile is loaded.
+      
+      '<profile>' is the name of a profile file in the
+      'filters' directory.  The '.txt' extension is implied.
+   
+   ----
+   
+   11.2  Script commands.
+   
+   @scrun [--unique|--replace] <script> {argument}
+      Runs a script file.  Scripts will continue to run until
+      they're killed or exit themselves.
+      
+      '--unique' runs the script only if the script isn't
+      already running with the same arguments.
+      
+      '--replace' kills any identical scripts (with the same arguments)
+      and replaces it with a new instance.
+      
+      '<script>' is a script file in the 'scripts' directory, 
+      without the '.gm' extension.
+      
+      'argument' is any arguments you would like to 
+      pass to the script.
+      
+   @sckill <script>
+      Kills a running script.
+      
+      '<script>' is a script file in the 'scripts' directory, 
+      without the '.gm' extension.  If more than one instance
+      of the script is running, all will be killed.
+      
+   @scls
+      Lists all running scripts.
+      
+   @scnuke
+      Kills all running scripts.
+      
+   @scedit [--force] <script>
+      Launches a script file in a text editor.  You have to
+      associate '.gm' files with an editor for this to work.
+      
+      '--force' will create the script file even if it doesn't
+      exist.
+      
+      '<script>' is a script file in the 'scripts' directory, 
+      without the '.gm' extension.
+      
+   ----
+   
+   11.3  Module commands.
+   
+   @modls
+      List all loaded modules.  Displays all sorts of useful
+      information about them, as well.
+      
+   @modon <module>
+      Enable a module.
+      
+      '<module>' is the regular, directory name of the module 
+      (not the fancy name).
+   
+   @modoff <module>
+      Disable a module.
+      
+      '<module>' is the regular, directory name of the module 
+      (not the fancy name).
+      
+   @modtouch <module>
+      Sends a touch event to a module.
+      
+      '<module>' is the regular, directory name of the module 
+      (not the fancy name).
+   
+   ----
+   
+   11.4  Skin commands.
+   
+   @skuse <skin>|none
+      Loads up a skin.
+
+      '<skin>' is the name of a skin subdirectory in the 'skins'
+      directory.
+      
+      'none' can be specified in place of a skin name to just
+      unload the current skin.
+   
+   ----
+   
+   11.5  Net commands.
+   
+   OK These don't start with a '@', but a backtick or two.
+   
+   `<...>   
+      Send a raw string to the server.
+      
+      Curly braces can have special meaning.
+      '{n}' will be replaced by a linefeed character.
+      '{13}' will be replaced by the number 13 as a
+             one-digit base-95 furc number.
+      '{{13}}' will be replaced by the number 13 as a
+               two-digit base-95 furc number.
+      '{{{13}}}' will be replaced by the number 13 as a
+                 three-digit base-95 furc number.
+      '[13]' will be replaced by the number 13 as a
+             one-digit base-220 furc number.
+      '[[13]]' will be replaced by the number 13 as a
+               two-digit base-220 furc number.
+      '[[[13]]]' will be replaced by the number 13 as a
+                 three-digit base-220 furc number.
+
+   ``<...>
+      Send a raw string to the client.
+      
+      Curly braces can have special meaning.
+      '{n}' will be replaced by a linefeed character.
+      '{13}' will be replaced by the number 13 as a
+             one-digit base-95 furc number.
+      '{{13}}' will be replaced by the number 13 as a
+               two-digit base-95 furc number.
+      '{{{13}}}' will be replaced by the number 13 as a
+                 three-digit base-95 furc number.
+      '[13]' will be replaced by the number 13 as a
+             one-digit base-220 furc number.
+      '[[13]]' will be replaced by the number 13 as a
+               two-digit base-220 furc number.
+      '[[[13]]]' will be replaced by the number 13 as a
+                 three-digit base-220 furc number.
+   
+   ----
+   
+   11.6  The kitchen sink.
+   
+   
+   @traymode on|off
+      Enables or disables minimizing of the furcadia window
+      to the systray.
+      
+   @console on|off
+      Toggles the output console on or off.
+      Good for debugging.
+      
+   @echo ...
+      Echoes all arguments as a system message (prefixed with a [f]).
+   
+   @news
+      Fetches and displays furnarchy news.
+      
+   @speedlimit on|off
+      Toggles furnarchy's built-in (outbound) chat buffering to
+      avoid "Your throat is too tired," messages. Default is on.
+      
+   @version
+      Returns the version of Furnarchy running.
+   
+   ----   
+   
+   11.7  @source
+   
+   @source <file>
+      The @source command is used to run a batch of commands
+      from a file in the 'source' directory.  The '.txt'
+      extension is implied.  Beats typing them out one by one.
+      
+      PRO TIP: When you fire up Furnarchy, the file 'init.txt' 
+      in the 'source' directory will get automatically sourced.
+      And when you log in, the file 'login.txt' will get
+      automatically sourced.  You can put commands in either of
+      these files to prepare the environment however you want it.
+      
+      Note: The commands in the source file don't have the '@'
+      prefix.  It's implied.
+      
+   11.8 Changing the '@' command prefix.
+   
+      If you don't like the '@' prefix used to run f2 commands, you
+      can change it in the options.xml file by editing the line:
+      
+      <commandPrefix>foo</commandPrefix>
+      
+      With the above line, the command '@scls' would be called with
+      'fooscls'.
+      
+----
+
+12  How do modules work?
+
+   12.1  About modules.
+   
+   Modules are the bread and butter of Furnarchy.
+   They extend Furnarchy and provide most of the functionality
+   you come to expect from a proxy.  You're free to mix and
+   match them to make Furnarchy how you want it to be.
+   
+   ----
+   
+   12.2  Getting modules.
+   
+   For a bevy of modules visit the Furnarchy forums 
+   at http://proxy.entwinedstudios.com/forums
+   
+   ----
+   
+   12.3  Installing modules.
+   
+   You only need to know this if you're installing modules
+   manually (if the module doesn't come bundled in an installer).
+   
+   Modules get stored in the 'modules' directory.
+   Each module gets its own sub-directory within the 'modules'
+   directory.  This sub-directory bears the name of the
+   module and contains all the files that belong to the module.
+   
+   Here's a sample folder hierarchy with two modules named
+   'moduleA' and 'moduleB':
+   
+   /
+   ..../modules
+   ......../moduleA
+   ............moduleA's files
+   ......../moduleB
+   ............moduleB's files
+   
+   Most modules will come as a zip file with the sub-directory
+   already created inside the zip file.  It's generally just
+   a simple case of extracting the zip file inside the 'modules'
+   directory (make sure 'preserve folder paths' is turned on).
+   
+   Once installed, you need to restart Furcadia to see and
+   use the module.
+
+   ----
+   
+   12.4  Interacting with modules.
+   
+   You can interact with a module with either the @mod* commands
+   (see the commands list for details) or through the skin.
+   
+   How a skin does things is its own business, but in the default
+   skin, you simply click on a module's icon to enable/disable it
+   and right-click on it to send it a 'touch' event.  Touch events
+   usually result in more information to be displayed or will
+   reveal more module interfaces.
+   
+   Some modules may not even require interaction and are contented
+   to run in the background.  It depends on the module.
+   
+   ----
+   
+   12.5  Controlling module loading.
+   
+   Left to its own devices, Furnarchy will load up any modules in the
+   'modules' directory, usually according to their creation dates.
+   
+   If you need to prevent certain modules from loading up, you can do
+   so by launching the Furnarchy Configuration tool, going into 
+   the Modules tab, and unchecking the modules you don't want
+   Furnarchy to load.
+   
+   On that tab, you can also drag the module names around to control
+   the loading order. Furnarchy will load the modules from top-to-bottom.
+   
+   ----
+   
+   12.6  Creating modules.
+   
+   At the time of this writing, modules can be written in C++, Delphi,
+   and any .NET language (C#/VB.NET/etc.).
+   
+   For native (C++) modules, you'll need to link against or
+   include the furn2.lib and furn.h files that come with 
+   every furnarchy2 install (they're located in the program folder root).
+   
+   .NET modules should add the 'cli.dll' assembly as a reference,
+   typically located at '${PROGRAMS}\Furnarchy\adapters\cli.dll'.
+   
+   For more details,poke around the forums 
+   (http://proxy.entwinedstudios.com/forums), or look 
+   at the sources for some existing modules.
+   
+----
+
+13 How do scripts work?
+
+   13.1  About Scripts
+   
+   There were plenty of times in Furnarchy 3's development
+   where a module seemed like absolute overkill for a 
+   tiny or simple task, but you didn't have any other choice.
+   
+   Now you do have a choice, with scripts.
+   
+   Scripts aren't as powerful as modules, and were never intended
+   to be.  While modules pretty much had completely
+   unlimited domain, scripts are focused more on handling 
+   and communicating network data.  They have restricted
+   file access (one log and one DB file each), 
+   cannot create any graphical elements, and can only
+   run while you're logged in (they're put into a
+   suspended state when otherwise).
+   
+   That said, scripts still have a lot going for them.
+   
+      - They're lightweight.
+      - You can load and unload them at will.
+      - You can run several instances of the same script.
+      - They're very easy to whip up.
+      - They're adorable.
+   
+   It doesn't take any visionary thinking to realize you can make 
+   pretty advanced bots with them, either. ;)
+   
+   ----
+   
+   13.2  Getting scripts.
+   
+   For a bevy of scripts visit the Furnarchy forums 
+   at http://proxy.entwinedstudios.com/forums
+
+   ----
+   
+   13.3  Installing scripts.
+   
+   In multi-user mode (default), place scripts in the 
+   'My Documents/Furnarchy2/scripts' folder.
+   
+   In single-user mode, place scripts in 'Program Files/Furnarchy2/scripts'.
+   
+   Simply save the script with a '.gm' file extension
+   and you can start using it immediately (no need to restart the
+   client).
+   
+   There's a more thorough explanation on the website's FAQ
+   (http://proxy.entwinedstudios.com/faq.html#inst)
+   
+   ----
+   
+   13.4  Managing scripts.
+   
+   You interact with scripts via the @sc* commands.
+   See the @sc* commands in the command list for detailed
+   information on each one.
+   
+   The basics are '@scrun <script>' and '@sckill <script>'.
+   Very straight-forward.
+   
+   ----
+   
+   13.5 Creating scripts.
+   
+   Scripts use a scripting language called GameMonkey script
+   (www.somedude.net/gamemonkey/).  It's a dynamically typed, C-like
+   language.  
+   
+   A script primer, 'scriptprimer.txt' file, is included with all
+   releases of f2.
+   
+   Also, make sure to look at the sample scripts that come bundled
+   with Furnarchy 2 already. Come to the forums
+   (http://proxy.entwinedstudios.com/forums) if you have any questions.
+   
+----
+
+14  How do filters work?
+
+Filters are a series of substitution operations to perform
+on network traffic.  They have many uses ranging from
+really suped up ignores to amusing speech modification.
+
+The @if* commands apply to inbound (server->client) 
+lines and the @of* commands apply to
+outbound (client->server) lines.
+
+Filter operations are in the perl/sed format:
+   s/<what>/<with>/<flags>
+
+'<what>' is a regular expression used to match a portion
+of the source string.  For more information on regular
+expressions (even a nice tutorial), visit 
+   www.regular-expressions.info
+
+'<with>' is what to replace the matching 
+substring with.  This is just regular text, but
+can contain the escape sequences '\1' - '\9' which 
+reference substrings captured (aka backreferenced) 
+by the regular expression.  Back referencing is also
+discussed at the regex tutorial site.  However, Furnarchy
+has an additional backreference, '\0', which is a 
+copy of the entire string.
+
+'<flags>' is a series of single characters that alter how
+a match/substition is performed.  Supported flags are:
+
+   'i' - case-Insensitive (self-explanatory)
+   'g' - Global (substitute all parts of the string that
+                 matches the regex)
+   'u' - Ungreedy (the regex makes the smallest match possible)
+   'v' - inVert (if the regex fails, the entire string is matched)
+   
+Bringing it all together with an example, if you wanted to 
+change all your 's's into 'th's to pretend you had lisp, you
+would add an outbound filter like:
+
+@ofadd --chat 's/s/th/gi'
+
+And if you wanted to make it seem like everyone else had lisp:
+
+@ifadd --chat 's/s/th/gi'
+
+Filters are also profile-based.  Remember that any 
+modifications you make to your filters list will affect
+that the current filter profile permanently.
+You can switch between profiles with the @ifuse or
+@ofuse commands.
+
+For more commands and details on their usage, check the @if*
+or @of* commands in the command list.
+
+For more examples of substition operations, look at perl
+or sed substitution examples on the net, or stare at
+existing Furnarchy 2 filter files until you go blind.
+
+----
+
+15  How do skins work?
+
+   16.1  About skins.
+   
+   Skins provide graphical access to your modules. The in-game
+   menu listing your loaded modules, where people typically go
+   to enable/disable a module or touch them, is all handled 
+   by the skin.
+   
+   Starting in Furnarchy 2, skins are totally scriptable, which
+   means one skin can really vary from the next, with a completely
+   different and unfamiliar scheme for interacting with modules.
+   
+   Speaking for the 'default' Furnarchy 2 skin, though, you simply
+   click a module's icon to enable/disable it and right-click to
+   touch it.  You can also move the skin around by holding down
+   shift and dragging the skin menu icon.
+   
+   ----
+   
+   15.2 Getting skins.
+   
+   As with everything else, visit the forums 
+   (http://proxy.entwinedstudios.com/forums) for skins, etc.
+   
+   ----
+   
+   15.3 Installing skins.
+   
+   Skins reside in the 'skins' directory.
+   
+   In multi-user mode (default), the preferred skins directory is in
+   'Documents/Furnarchy2/skins'.
+   In single-user mode, the only skins directory is in
+   'Program Files/Furnarchy2/skins'.
+   
+   Each skin gets its own sub-directory within the 'skins' directory.  
+   This sub-directory bears the name of the skin and contains all its 
+   files.
+   
+   Here's a sample folder hierarchy with two skins named
+   'skinA' and 'skinB':
+   
+   /
+   ..../skins
+   ......../skinA
+   ............skinA's files
+   ......../skinB
+   ............skinB's files
+   
+   ----
+   
+   15.4 Managing skins.
+   
+   There's only one command for skins: @skuse <skin>|none
+   This command loads up a skin by its sub-directory name,
+   or just unloads the current skin if you specify 'none'
+   for the name.
+   
+   ----
+   
+   15.5 Creating skins.
+   
+   Skins are have two primary components: skin.xml and skin.gm
+   
+   skin.xml specifies the initial layout, z-order, and elements of
+   a skin in XML format.  XML is a lot like HTML, but stricter.
+   You can find quick and easy tutorials on XML via google.
+   
+   skin.gm is the script file.  Just like regular Furnarchy 2 
+   scripts, these use the GameMonkey scripting language, albeit
+   with a different set of API functions geared towards skins.
+   
+   You can have a gander at the language reference here:
+   http://proxy.entwinedstudios.com/GameMonkeyScriptReference.pdf
+   
+   Event handlers are referenced in the skin.xml file and defined in
+   the skin.gm file.  If you've ever worked with DHTML, this will
+   all seem very familiar to you.
+
+   Feel free to crack open the xml and script files of existing skins
+   to get an idea of how to do things.  Of course, there's always
+   the forums (http://proxy.entwinedstudios.com/forums) where a skinning guide should
+   be posted eventually.
+   
+16 Where do I go to complain?!
+
+   The forums!  It's what we do all day, and misery loves company!
+               http://proxy.entwinedstudios.com/forums
+               http://proxy.entwinedstudios.com/forums
+               http://proxy.entwinedstudios.com/forums
+               

@@ -1,0 +1,93 @@
+/**********************************************************/
+/* Makes you run around in a counter-clockwise square!    */
+/* You can pass it the size of the square as an argument. */
+/**********************************************************/
+
+/* Create an empty table we'll fill up with a series of move
+*  commands in on_run( ). */
+global move_order = { };
+/* The current index in the move_order table we're at. */
+global curr_move = 0;
+/* Countdown to the next move (in milliseconds).
+*  This'll move ~ 3 times a second. */
+global move_countdown = 300;
+
+global cycle = 1;
+/* Furnarchy calls this when the script is first run.
+*  args is a table of string arguments passed to the script 
+*  during the "@scrun" command. */
+global onRun = function( args )
+{
+   /* Takes one argument: a number */
+   /* This number is how large to make the square. */
+   step_size = args[ 1 ];
+   
+   /* If there was no argument (step_size == null)
+   *  or the number passed was zero or negative, fix it. */
+   if (step_size == null || step_size <= 0)
+   {
+      step_size = 1; // Fixed.
+   }
+   
+   /* Declare move_order to be from the global scope. */
+   global move_order;
+   
+   /* Generate the move commands in the table. */
+   
+   for (i = 0; i < step_size; i+=1)
+   {
+      move_order[ length( move_order ) ] = "m 7";
+   }
+   
+   for (i = 0; i < step_size; i+=1)
+   {
+      move_order[ length( move_order ) ] = "m 1";
+   }
+   
+   for (i = 0; i < step_size; i+=1)
+   {
+      move_order[ length( move_order ) ] = "m 3";
+   }
+      
+   for (i = 0; i < step_size; i+=1)
+   {
+      move_order[ length( move_order ) ] = "m 9";
+   } 
+   
+};
+
+/* Furnarchy calls this every dt milliseconds. */
+global onTick = function( dt )
+{
+   /* Declare all these variables to be from the global scope. */
+   global move_order;
+   global curr_move;
+   global move_countdown;
+   global cycle;
+   
+   /* Decrement the countdown by dt milliseconds. */
+   move_countdown -= dt;
+   
+   /* If the countdown is through, send a move command. */
+   if (move_countdown <= 0)
+   {
+      /* If the current move index is past the end of the
+      *  moves table, start back at 0. */
+      if (curr_move >= length( move_order ))
+      {
+	     cycle += 1;
+         curr_move = 0;
+      }
+      if (cycle == 3) { exit(); }
+	  
+      /* Send the move command. */
+      netOutLine( move_order[ curr_move ] );         
+      
+      /* Increment the current move index for next time. */
+      curr_move += 1;
+      
+      /* Reset the countdown. */
+      move_countdown = 300;
+   }
+};
+

@@ -1,0 +1,57 @@
+/************************************************************************/
+/* fixurl.gm                                                            */
+/* A script that converts character sequences in URLs that Furcadia     */
+/* either censors or handles incorrectly to their hex equivalent so     */
+/* they can still be clicked.                                           */
+/************************************************************************/
+
+global onOutbound = function( line, from, num )
+{
+   // Says, shouts, emotes.
+   if (line[ 0 ] == '"' || line[ 0 ] == '-' || line[ 0 ] == ':')
+   {
+      left = strSub( line, 0, 1 );
+      right = strSub( line, 1 );
+      
+      while (length( right ))
+      {
+         if (reMatch( right, `~^(.*(http://|ftp://|https://|www.))~iu` ) 
+             && length( reCap( 1 ) ))
+         {
+            left  += reCap( 1 );
+            right =  strSub( right, length( reCap( 1 ) ) );
+            
+            reMatch( right, `~^\S*~` );
+            url   = reCap( 0 );
+            right = strSub( right, length( url ) );
+            
+            // (?i) switches on caseless for a subexpression.
+            url = reSubst( url, `~,~%2C~g` );
+            url = reSubst( url, `~\(~%28~g` );
+            url = reSubst( url, `~\)~%29~g` );
+            url = reSubst( url, `~\*~%2A~g` );
+            url = reSubst( url, `~f((?i)uck|ag)~%66\1~g` );
+            url = reSubst( url, `~F((?i)uck|ag])~%46\1~g` );
+            url = reSubst( url, `~s((?i)hit|lut)~%73\1~g` );
+            url = reSubst( url, `~S((?i)hit|lut)~%53\1~g` );
+            url = reSubst( url, `~a((?i)ss|rse)~%61\1~g` );
+            url = reSubst( url, `~A((?i)ss|rse)~%41\1~g` );
+            url = reSubst( url, `~c((?i)um|unt)~%63\1~g` );
+            url = reSubst( url, `~C((?i)um|unt)~%43\1~g` );
+            url = reSubst( url, `~w((?i)hore)~%77\1~g` );
+            url = reSubst( url, `~W((?i)hore)~%57\1~g` );
+            url = reSubst( url, `~t((?i)it)~%74\1~g` );
+            url = reSubst( url, `~T((?i)it)~%54\1~g` );
+            
+            left += url;
+         }
+         else
+         {
+            left += right;
+            break;
+         }
+      }
+      
+      return left;
+   }
+};

@@ -1,0 +1,16 @@
+- Hide offline contacts.
+- Timestamps.
+- Clicking on links in PMs don't work in XP.
+- Notes!
+- Ctrl+i is glitchy on Win2K because of SetWindowTextW.
+
+---
+- Optionally use Furc offline message system.
+- Optionally use Pounce server for online/offline checking
+- Look button
+- Built-in sound notifications
+- Sound notification when someone on your list talks in main window.
+
+
+---
+- @who command: Lists online people in chat buffer.  (from "Joan") - Provisionally done, needs large-list splitting.

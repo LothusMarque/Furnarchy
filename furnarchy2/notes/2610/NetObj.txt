@@ -1,0 +1,67 @@
+2610
+----
+
+00811D0C: NetObj* g_net_main;
+
+CPU Disasm
+Address   Hex dump          Command                                  Comments
+00811D0B    00B8 DD6F0300   ADD BYTE PTR DS:[EAX+36FDD],BH
+00811D11    0000            ADD BYTE PTR DS:[EAX],AL
+00811D13    0001            ADD BYTE PTR DS:[ECX],AL
+
+
+
+Socket is still at offset +0x20BAC.
+
+2520
+----
+
+008109FC: NetObj* g_net_main;
+
+Socket is still at offset +0x20BAC.
+
+2510
+----
+
+008AE480: NetObj* g_net_main;
+
+Socket is still at offset +0x20BAC.
+
+2410
+----
+
+0072346C: NetObj* g_net_main;
+
+Socket is still at offset +0x20BAC.
+
+2320
+----
+
+The socket handle is now at +0x20BAC inside the class.
+
+006B90BC: NetObj* g_net_main;
+
+Prior to 2320
+-------------
+
+Yes, Furc uses classes.  
+There's a big one that handles network stuff I dub "NetObj".
+
+NetObj
+{
+   ...
+   +0x20BA8 SOCKET m_socket;
+};
+
+There's a pointer to the main connection's NetObj instance
+in static memory:
+
+0x004D9E30 NetObj* g_net_main;
+   
+------------
+
+If you look at the socket() or connect() calls, you can see they're
+inside of a class method.
+They read/write to the socket handle member:
+
++0x20BA8 SOCKET m_socket;

@@ -1,0 +1,6 @@
+All Winampeeny2 module messages accept a regular C-string as a parameter/command.
+
+   "song"
+      Returns the current song as a C-string.  Treat this pointer as const.
+      The lifetime of the pointer is indefinite.  Don't hold a reference to it
+      for very long.

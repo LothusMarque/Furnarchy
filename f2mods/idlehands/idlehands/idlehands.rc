@@ -1,0 +1,141 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOG1 DIALOGEX 0, 0, 326, 162
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Idle Hands"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,216,141,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,269,141,50,14
+    LTEXT           "Idle Hands v1.00.0",IDC_VERSION,7,147,62,8
+    LISTBOX         IDC_SCREENS,7,7,74,128,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Away Tag",IDC_TAG_1,90,7,229,128,NOT WS_VISIBLE
+    LTEXT           "This will be added to the end of your description when you idle.\nThe following will be replaced:\n%d - Days away.\n%h / %H - Hours / Total Hours away.\n%m / %M - Minutes / Total Minutes away.\n%s / %S - Seconds / Total Seconds away.\n%idlemsg - Idle Reason.",IDC_TAG_0,99,24,209,60,NOT WS_VISIBLE
+    EDITTEXT        IDC_TAG_TAG,99,90,209,40,ES_MULTILINE | NOT WS_VISIBLE | WS_VSCROLL
+    GROUPBOX        "Away Whisper",IDC_WHISPER_0,90,7,229,128,NOT WS_VISIBLE
+    LTEXT           "The auto-reply when someone whispers you while away.\nThe following will be replaced:\n%d - Days away.\n%h / %H - Hours / Total Hours away.\n%m / %M - Minutes / Total Minutes away.\n%s / %S - Seconds / Total Seconds away.\n%player - Player whispering you.",IDC_WHISPER_1,99,24,209,60,NOT WS_VISIBLE
+    LTEXT           "%idlemsg - Idle Reason.",IDC_WHISPER_2,99,80,209,10,NOT WS_VISIBLE
+	EDITTEXT        IDC_WHISPER_WHISPER,99,90,209,40,ES_MULTILINE | NOT WS_VISIBLE | WS_VSCROLL
+    GROUPBOX        "Auto-Idle",IDC_IDLING_1,90,7,229,66,NOT WS_VISIBLE
+    EDITTEXT        IDC_IDLING_AUTOIDLE,98,48,58,14,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE
+    CONTROL         "Report time away.",IDC_IDLING_REPORT,"Button",BS_AUTOCHECKBOX | BS_TOP | NOT WS_VISIBLE | WS_TABSTOP,204,51,75,11
+    LTEXT           "Enter away mode after this many seconds of inactivity.\nSet to zero to never automatically enter away mode.",IDC_IDLING_0,98,24,178,16,NOT WS_VISIBLE
+    GROUPBOX        "Manual Idle",IDC_IDLING_2,90,80,229,55,NOT WS_VISIBLE
+    LTEXT           "You can enter or exit away mode at any time with the ""@aff"" command. You can also optionally set the time you've been away with the same command:\n@aff [ [ [ [ days ] hours ] minutes ] seconds]",IDC_IDLING_3,98,92,209,38,NOT WS_VISIBLE
+    GROUPBOX        "Module Behavior",IDC_MODULE_0,90,7,229,128,NOT WS_VISIBLE
+    CONTROL         "Enable module on startup.",IDC_MODULE_AUTOENABLE,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,99,25,121,11
+    GROUPBOX        "About",IDC_ABOUT_0,90,7,229,128,NOT WS_VISIBLE
+    EDITTEXT        IDC_ABOUT_TEXT,99,20,211,105,ES_CENTER | ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | NOT WS_VISIBLE | WS_VSCROLL
+    GROUPBOX        "Blacklist",IDC_BLACKLIST_0,90,7,229,128,NOT WS_VISIBLE
+    CONTROL         "",IDC_BLACKLIST_BLACKLIST,"SysListView32",LVS_REPORT | LVS_SORTASCENDING | LVS_SHAREIMAGELISTS | LVS_EDITLABELS | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER | NOT WS_VISIBLE | WS_BORDER | WS_TABSTOP,220,19,90,107
+    LTEXT           "Players on your blacklist will always receive your away whisper even if you're not actually away.\n\nInverting the blacklist means players NOT on your blacklist will receive your away whisper.",IDC_BLACKLIST_1,100,19,109,83,NOT WS_VISIBLE
+    CONTROL         "Invert Blacklist",IDC_BLACKLIST_INVERT,"Button",BS_AUTOCHECKBOX | BS_TOP | NOT WS_VISIBLE | WS_TABSTOP,100,115,63,11
+    GROUPBOX        "Custom Commands",IDC_COMMANDS_2,90,7,229,128,NOT WS_VISIBLE
+    EDITTEXT        IDC_COMMANDS_ENTER,101,37,208,30,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN | NOT WS_VISIBLE | WS_VSCROLL
+    EDITTEXT        IDC_COMMANDS_EXIT,101,94,208,30,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN | NOT WS_VISIBLE | WS_VSCROLL
+    LTEXT           "Run these commands when entering away mode:",IDC_COMMANDS_0,101,22,171,8,NOT WS_VISIBLE
+    LTEXT           "Run these commands when leaving away mode:",IDC_COMMANDS_1,101,79,167,8,NOT WS_VISIBLE
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DIALOG1, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 319
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 155
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_BLACKLIST MENU 
+BEGIN
+    POPUP "BLACKLIST"
+    BEGIN
+        MENUITEM "Add",                         ID_BLACKLIST_ADD
+        MENUITEM "Remove",                      ID_BLACKLIST_REMOVE
+        MENUITEM "Clear",                       ID_BLACKLIST_CLEAR
+    END
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "yiffurc", "yiffurc\yiffurc.vcxproj", "{69DAB6E4-A82F-4AD5-B8B1-D67DFE452B18}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug Static|Win32 = Debug Static|Win32
+		Debug|Win32 = Debug|Win32
+		Release Static|Win32 = Release Static|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{69DAB6E4-A82F-4AD5-B8B1-D67DFE452B18}.Debug Static|Win32.ActiveCfg = Debug Static|Win32
+		{69DAB6E4-A82F-4AD5-B8B1-D67DFE452B18}.Debug Static|Win32.Build.0 = Debug Static|Win32
+		{69DAB6E4-A82F-4AD5-B8B1-D67DFE452B18}.Debug|Win32.ActiveCfg = Debug|Win32
+		{69DAB6E4-A82F-4AD5-B8B1-D67DFE452B18}.Debug|Win32.Build.0 = Debug|Win32
+		{69DAB6E4-A82F-4AD5-B8B1-D67DFE452B18}.Release Static|Win32.ActiveCfg = Release Static|Win32
+		{69DAB6E4-A82F-4AD5-B8B1-D67DFE452B18}.Release Static|Win32.Build.0 = Release Static|Win32
+		{69DAB6E4-A82F-4AD5-B8B1-D67DFE452B18}.Release|Win32.ActiveCfg = Release|Win32
+		{69DAB6E4-A82F-4AD5-B8B1-D67DFE452B18}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

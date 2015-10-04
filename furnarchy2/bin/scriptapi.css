@@ -1,0 +1,22 @@
+.page_content         { font-family: sans-serif; font-size: small; color: rgb( 0, 0, 0 ); background-color: rgb( 255, 255, 255 ); width: 80% }
+.page_contentTitle    { font-size: xx-large; font-weight: bold; line-height: 300% }
+.page_section         { margin-left: 16px }
+.page_sectionTitle    { font-weight: bold; font-style: italic; font-size: x-large; line-height: 200%; text-decoration: underline }
+.page_subsection      { margin-left: 16px }
+.page_subsectionTitle { font-weight: bold; font-size: larger; line-height: 200%; width: 600px; padding: 8px 8px 8px 8px; border: 1px solid rgb(0,0,0) }
+.page_definition      { }
+.page_definitionTitle { font-weight: bold; background-color: rgb( 210, 210, 210 ) }
+.page_keyword         { font-family: 'Courier New', monospace; color: rgb( 0, 0, 255 ) }
+.page_teletype        { font-family: 'Courier New', monospace; color: rgb( 32, 32, 32 ) }
+.page_variable        { font-family: 'Courier New', monospace; color: rgb( 128, 32, 32 ); font-weight: bold }
+.page_table           { margin-left: 16px }
+.page_tableTitle      { margin-left: 16px; font-weight: bold; font-style: italic }
+.page_tableHeader     { background-color: rgb( 220, 128, 128 ) }
+.page_codeboxTitle    { margin-left: 16px; font-weight: bold; font-style: italic }
+.page_codebox         { margin-left: 16px; font-family: 'Courier New', monospace; color: black; padding: 5px 5px 5px 5px; background-color: rgb( 255, 255, 255 ); border: 1px solid black; overflow: auto }
+.page_codeGMComment   { color: rgb( 0, 128, 0 ) }
+.page_codeGMUpper     { color: rgb( 128, 32, 32 ) }
+.page_codeGMKeyword   { color: rgb( 0, 0, 226 ) }
+.page_codeGMString    { color: rgb( 200, 50, 60 ) }
+.page_warning         { margin-left: 16px; background-color: rgb( 255, 255, 100 ); border: 1px solid rgb( 0, 0, 0 ); padding: 4px 4px 4px 4px }
+.page_warningTitle    { margin-left: 16px; font-weight: bold; font-style: italic; font-size: larger }

@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8C773AB7-1643-4384-AF43-94884CA9B992}</ProjectGuid>
+    <RootNamespace>furnarchycore</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v110_xp</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../bin\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../bin\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/MP8 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../libs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>TIXML_USE_STL;_SCL_SECURE_NO_WARNINGS;ISOLATION_AWARE_ENABLED;WIN32;_DEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>shell32.lib;libcurl.lib;ws2_32.lib;pcre/pcre.lib;yiffurc/yiffurc.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)furn2.dll</OutputFile>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/MP8 %(AdditionalOptions)</AdditionalOptions>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>../libs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>TIXML_USE_STL;_SCL_SECURE_NO_WARNINGS;ISOLATION_AWARE_ENABLED;_CRT_SECURE_NO_DEPRECATE;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>shell32.lib;libcurl.lib;ws2_32.lib;pcre/pcre.lib;yiffurc/yiffurc.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)furn2.dll</OutputFile>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="common\CacheMap.h" />
+    <ClInclude Include="common\ChatLexer.h" />
+    <ClInclude Include="common\IniFile.h" />
+    <ClInclude Include="common\latin_1.h" />
+    <ClInclude Include="common\NetBuffer.h" />
+    <ClInclude Include="common\PoorTextBox.h" />
+    <ClInclude Include="common\RegexOp.h" />
+    <ClInclude Include="common\StringQueue.h" />
+    <ClInclude Include="common\x86pp.h" />
+    <ClInclude Include="common\xml_charset.h" />
+    <ClInclude Include="apihooks.h" />
+    <ClInclude Include="client.h">
+      <SubType>Designer</SubType>
+    </ClInclude>
+    <ClInclude Include="core.h" />
+    <ClInclude Include="ifilters.h">
+      <SubType>Designer</SubType>
+    </ClInclude>
+    <ClInclude Include="memlocs.h" />
+    <ClInclude Include="modules.h" />
+    <ClInclude Include="net.h" />
+    <ClInclude Include="news.h" />
+    <ClInclude Include="ofilters.h">
+      <SubType>Designer</SubType>
+    </ClInclude>
+    <ClInclude Include="options.h" />
+    <ClInclude Include="scripts.h">
+      <SubType>Designer</SubType>
+    </ClInclude>
+    <ClInclude Include="skin.h" />
+    <ClInclude Include="window.h" />
+    <ClInclude Include="world.h" />
+    <ClInclude Include="gm\gmArraySimple.h" />
+    <ClInclude Include="gm\gmByteCode.h" />
+    <ClInclude Include="gm\gmByteCodeGen.h" />
+    <ClInclude Include="gm\gmCall.h" />
+    <ClInclude Include="gm\gmCodeGen.h" />
+    <ClInclude Include="gm\gmCodeGenHooks.h" />
+    <ClInclude Include="gm\gmCodeTree.h" />
+    <ClInclude Include="gm\gmConfig.h" />
+    <ClInclude Include="gm\gmConfig_p.h" />
+    <ClInclude Include="gm\gmCrc.h" />
+    <ClInclude Include="gm\gmDebug.h" />
+    <ClInclude Include="gm\gmFunctionObject.h" />
+    <ClInclude Include="gm\gmHash.h" />
+    <ClInclude Include="gm\gmIncGC.h" />
+    <ClInclude Include="gm\gmIterator.h" />
+    <ClInclude Include="gm\gmLibHooks.h" />
+    <ClInclude Include="gm\gmListDouble.h" />
+    <ClInclude Include="gm\gmLog.h" />
+    <ClInclude Include="gm\gmMachine.h" />
+    <ClInclude Include="gm\gmMachineLib.h" />
+    <ClInclude Include="gm\gmMem.h" />
+    <ClInclude Include="gm\gmMemChain.h" />
+    <ClInclude Include="gm\gmMemFixed.h" />
+    <ClInclude Include="gm\gmMemFixedSet.h" />
+    <ClInclude Include="gm\gmOperators.h" />
+    <ClInclude Include="gm\gmParser.cpp.h" />
+    <ClInclude Include="gm\gmScanner.h" />
+    <ClInclude Include="gm\gmStream.h" />
+    <ClInclude Include="gm\gmStreamBuffer.h" />
+    <ClInclude Include="gm\gmStringObject.h" />
+    <ClInclude Include="gm\gmTableObject.h" />
+    <ClInclude Include="gm\gmThread.h" />
+    <ClInclude Include="gm\gmUserObject.h" />
+    <ClInclude Include="gm\gmUtil.h" />
+    <ClInclude Include="gm\gmVariable.h" />
+    <ClInclude Include="tinyxml\tinystr.h" />
+    <ClInclude Include="tinyxml\tinyxml.h" />
+    <ClInclude Include="common.h" />
+    <ClInclude Include="furn2.h" />
+    <ClInclude Include="net_scan.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="ScriptInst.h" />
+    <ClInclude Include="ScriptTerm.h" />
+    <ClInclude Include="shortname.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="common\ChatLexer.cpp" />
+    <ClCompile Include="common\IniFile.cpp" />
+    <ClCompile Include="common\latin_1.cpp" />
+    <ClCompile Include="common\PoorTextBox.cpp" />
+    <ClCompile Include="common\RegexOp.cpp" />
+    <ClCompile Include="common\x86pp.cpp" />
+    <ClCompile Include="common\xml_charset.cpp" />
+    <ClCompile Include="apihooks.cpp" />
+    <ClCompile Include="client.cpp" />
+    <ClCompile Include="core.cpp" />
+    <ClCompile Include="ifilters.cpp" />
+    <ClCompile Include="memlocs.cpp" />
+    <ClCompile Include="modules.cpp" />
+    <ClCompile Include="net.cpp" />
+    <ClCompile Include="news.cpp" />
+    <ClCompile Include="ofilters.cpp" />
+    <ClCompile Include="options.cpp" />
+    <ClCompile Include="scripts.cpp" />
+    <ClCompile Include="skin.cpp" />
+    <ClCompile Include="window.cpp" />
+    <ClCompile Include="world.cpp" />
+    <ClCompile Include="gm\gmArraySimple.cpp" />
+    <ClCompile Include="gm\gmByteCode.cpp" />
+    <ClCompile Include="gm\gmByteCodeGen.cpp" />
+    <ClCompile Include="gm\gmCall.cpp" />
+    <ClCompile Include="gm\gmCodeGen.cpp" />
+    <ClCompile Include="gm\gmCodeGenHooks.cpp" />
+    <ClCompile Include="gm\gmCodeTree.cpp" />
+    <ClCompile Include="gm\gmCrc.cpp" />
+    <ClCompile Include="gm\gmDebug.cpp" />
+    <ClCompile Include="gm\gmFunctionObject.cpp" />
+    <ClCompile Include="gm\gmHash.cpp" />
+    <ClCompile Include="gm\gmIncGC.cpp" />
+    <ClCompile Include="gm\gmLibHooks.cpp" />
+    <ClCompile Include="gm\gmListDouble.cpp" />
+    <ClCompile Include="gm\gmLog.cpp" />
+    <ClCompile Include="gm\gmMachine.cpp" />
+    <ClCompile Include="gm\gmMachineLib.cpp" />
+    <ClCompile Include="gm\gmMem.cpp" />
+    <ClCompile Include="gm\gmMemChain.cpp" />
+    <ClCompile Include="gm\gmMemFixed.cpp" />
+    <ClCompile Include="gm\gmMemFixedSet.cpp" />
+    <ClCompile Include="gm\gmOperators.cpp" />
+    <ClCompile Include="gm\gmParser.cpp" />
+    <ClCompile Include="gm\gmScanner.cpp" />
+    <ClCompile Include="gm\gmStream.cpp" />
+    <ClCompile Include="gm\gmStreamBuffer.cpp" />
+    <ClCompile Include="gm\gmStringObject.cpp" />
+    <ClCompile Include="gm\gmTableObject.cpp" />
+    <ClCompile Include="gm\gmThread.cpp" />
+    <ClCompile Include="gm\gmUserObject.cpp" />
+    <ClCompile Include="gm\gmUtil.cpp" />
+    <ClCompile Include="gm\gmVariable.cpp" />
+    <ClCompile Include="tinyxml\tinystr.cpp" />
+    <ClCompile Include="tinyxml\tinyxml.cpp" />
+    <ClCompile Include="tinyxml\tinyxmlerror.cpp" />
+    <ClCompile Include="tinyxml\tinyxmlparser.cpp" />
+    <ClCompile Include="common.cpp" />
+    <ClCompile Include="entry.cpp" />
+    <ClCompile Include="furn2.cpp" />
+    <ClCompile Include="net_scan.cpp" />
+    <ClCompile Include="ScriptInst.cpp" />
+    <ClCompile Include="ScriptTerm.cpp" />
+    <ClCompile Include="shortname.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\ChangeLog.txt" />
+    <None Include="changelog.txt" />
+    <None Include="term.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="furnarchycore.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

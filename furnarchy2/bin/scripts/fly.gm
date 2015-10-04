@@ -1,0 +1,139 @@
+/************************************************************************/
+/* fly.gm                                                               */
+/* A script that lets you move the Furcadia camera around with the      */
+/* arrow keys when you say '@fly'.  Press escape to stop flying.        */
+/************************************************************************/
+
+// Need the keyboard constants defined in the import file in 
+// ./imports/keys.gm
+import( "keys" );
+
+//////////////////////////////////////////////////////////////////////////
+
+global g_flying = false;
+global g_orig_pos;
+global g_orig_title;
+
+global g_max_x = 600;
+global g_max_y = 600;
+
+//////////////////////////////////////////////////////////////////////////
+
+global onRun = function( args )
+{
+   toggleFlyMode( true );
+};
+
+global onKill = function( ) 
+{
+   toggleFlyMode( false );
+};   
+      
+global onChar = function( ch, repeat )
+{
+   // Only process keys if we're in flying mode.
+   if (!g_flying) {
+      return false;
+   }
+   
+   if (ch == KEY_ESC) 
+   {
+      toggleFlyMode( false );
+      // Quit.
+      exit( 0 );
+      return true;   // Return true to indicate we handled it.
+   }
+   if (ch == KEY_LEFT)
+   {
+      pos = getPos( );
+      pos.x -= pos.y & 1;
+      pos.y -= 1;
+      moveCamera( pos );
+      return true;
+   }
+   if (ch == KEY_RIGHT)
+   {
+      pos = getPos( );
+      pos.x += ~pos.y & 1;
+      pos.y += 1;
+      moveCamera( pos );
+      return true;
+   }
+   if (ch == KEY_UP)
+   {
+      pos = getPos( );
+      pos.x += ~pos.y & 1;
+      pos.y -= 1;
+      moveCamera( pos );
+      return true;
+   }
+   if (ch == KEY_DOWN)
+   {
+      pos = getPos( );
+      pos.x -= pos.y & 1;
+      pos.y += 1;
+      moveCamera( pos );
+      return true;
+   }
+};
+
+global toggleFlyMode = function( onoff )
+{
+   if (onoff && !g_flying)
+   {
+      // Start fly mode.
+      global g_flying = true;
+      // Remember the original position.
+      global g_orig_pos = getPos( );
+      // Remember the original window title.
+      global g_orig_title = getWindowTitle( );
+      // Just to get the window title set.
+      moveCamera( getPos( ) );
+      
+      speak( "Flying mode enabled! Press the arrow keys to move around "
+             "or escape to exit flying mode." );
+   }
+   else if (!onoff && g_flying)
+   {
+      // Stop flying.
+      global g_flying = false;
+      // Restore old position.
+      moveCamera( g_orig_pos );
+      // Restore the old window title.
+      setWindowTitle( g_orig_title );
+      
+      speak( "Flying mode disabled." );
+   }   
+};
+
+global showVisiblePlayers = function( pos )
+{
+   ids = getMonsters( );
+   foreach (id in ids)
+   {
+      mi = getMonsterInfo( id );
+      if ((pos.x - mi.pos.x) * (pos.x - mi.pos.x) < 64 &&
+          (pos.y - mi.pos.y) * (pos.y - mi.pos.y) < 49)
+      {
+         netInLine( "A" + intToBase220( mi.guid, 3 ) + "&" + 
+                    intToBase220( mi.pos.x, 2 ) + intToBase220( mi.pos.y, 2 ) +
+                    intToBase220( mi.frame, 2 ) );
+      }
+   }	
+};
+
+global moveCamera = function( pos ) 
+{
+   if (pos.x >= 0 && pos.x <= g_max_x && pos.y >= 0 && pos.y <= g_max_y)
+   {
+      /* Inject a camera move command. */
+      
+      netInLine( "~" );
+      showVisiblePlayers( pos );
+      netIn( "@" + intToFurc( pos.x, 2 ) + intToFurc( pos.y, 2 ) + "\n" );
+      netInLine( "=" );
+      
+      /* Display the current coordinates in the title bar. */
+      setWindowTitle( g_orig_title + " [" + pos.x + "," + pos.y + "]" );
+   }
+};

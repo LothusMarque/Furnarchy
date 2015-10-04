@@ -1,0 +1,10 @@
+- (GM) Add Arcsin and more math functions
+
+- (Config) Enable/Disable All buttons for modules
+- (GM) Detect KEY_CONTROL in onChar and ctrlState() works
+- (GM) python style 'del' for table elements.
+- (Core) Add @help URL launch to helpsite
+
+- (GM) Add reNext() function. Returns true/false, updates reCap() values
+- (GM) Add reString() function - returns replacement string parsed for reCap() value tags. Like reSubst except starts with the replacement string for rebuilding.
+

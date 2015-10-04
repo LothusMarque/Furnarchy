@@ -1,0 +1,256 @@
+2720
+----
+
+004531E0: bool __cdecl render_world( bool unk1, bool unk2, bool, unk 3 );
+
+00914EC4: int suppress_output;
+
+00453425  |> 8BC6           |/MOV EAX,ESI
+00453427  |. E8 947FFCFF    ||CALL Furcadia.0041B3C0 ; floors
+
+0045362B  |. 897C24 20      ||MOV DWORD PTR SS:[ESP+20],EDI
+0045362F  |> 8BC3           ||MOV EAX,EBX
+00453631  |. 8BCE           ||MOV ECX,ESI
+00453633  |. E8 E872FCFF    ||CALL Furcadia.0041A920 ; walls
+00453638  |. 8BC3           ||MOV EAX,EBX
+0045363A  |. 8BCE           ||MOV ECX,ESI
+0045363C  |. E8 5F78FCFF    ||CALL Furcadia.0041AEA0 ; objects
+00453641  |. 894424 38      ||MOV DWORD PTR SS:[ESP+38],EAX
+00453645  |. 396C24 18      ||CMP DWORD PTR SS:[ESP+18],EBP
+00453649  |. 75 21          ||JNZ SHORT Furcadia.0045366C
+0045364B  |. 395C24 14      ||CMP DWORD PTR SS:[ESP+14],EBX
+0045364F  |. 75 1B          ||JNZ SHORT Furcadia.0045366C
+00453651  |. 85FF           ||TEST EDI,EDI
+00453653  |. 74 17          ||JE SHORT Furcadia.0045366C
+00453655  |. F647 0C 01     ||TEST BYTE PTR DS:[EDI+C],1
+00453659  |. 74 11          ||JE SHORT Furcadia.0045366C
+0045365B  |. 8B4424 1C      ||MOV EAX,DWORD PTR SS:[ESP+1C]
+0045365F  |. 8BDF           ||MOV EBX,EDI
+00453661  |. 8BCD           ||MOV ECX,EBP
+00453663  |. E8 087AFCFF    ||CALL Furcadia.0041B070
+00453668  |. 8B5C24 1C      ||MOV EBX,DWORD PTR SS:[ESP+1C]
+0045366C  |> 396C24 28      ||CMP DWORD PTR SS:[ESP+28],EBP
+00453670  |. 75 26          ||JNZ SHORT Furcadia.00453698
+00453672  |. 395C24 24      ||CMP DWORD PTR SS:[ESP+24],EBX
+00453676  |. 75 20          ||JNZ SHORT Furcadia.00453698
+00453678  |. 8B5424 2C      ||MOV EDX,DWORD PTR SS:[ESP+2C]
+0045367C  |. 52             ||PUSH EDX
+0045367D  |. 53             ||PUSH EBX
+0045367E  |. 8BC6           ||MOV EAX,ESI
+00453680  |. E8 8B7AFCFF    ||CALL Furcadia.0041B110 ; avatars
+
+2610
+----
+
+004511A0: bool __cdecl render_world( bool unk1, bool unk2, bool, unk 3 );
+
+00811BA0: int suppress_output;
+
+004513E7  |> 8BC6           |/MOV EAX,ESI
+004513E9  |. E8 E295FCFF    ||CALL Furcadia.0041A9D0 ; floors
+
+004515FB  |. 897C24 20      ||MOV DWORD PTR SS:[ESP+20],EDI
+004515FF  |> 8BC3           ||MOV EAX,EBX
+00451601  |. 8BCE           ||MOV ECX,ESI
+00451603  |. E8 2889FCFF    ||CALL Furcadia.00419F30                 ;  walls
+00451608  |. 8BC3           ||MOV EAX,EBX
+0045160A  |. 8BCE           ||MOV ECX,ESI
+0045160C  |. E8 9F8EFCFF    ||CALL Furcadia.0041A4B0                 ;  objects
+00451611  |. 396C24 18      ||CMP DWORD PTR SS:[ESP+18],EBP
+00451615  |. 894424 38      ||MOV DWORD PTR SS:[ESP+38],EAX
+00451619  |. 75 21          ||JNZ SHORT Furcadia.0045163C
+0045161B  |. 395C24 14      ||CMP DWORD PTR SS:[ESP+14],EBX
+0045161F  |. 75 1B          ||JNZ SHORT Furcadia.0045163C
+00451621  |. 85FF           ||TEST EDI,EDI
+00451623  |. 74 17          ||JE SHORT Furcadia.0045163C
+00451625  |. F647 0C 01     ||TEST BYTE PTR DS:[EDI+C],1
+00451629  |. 74 11          ||JE SHORT Furcadia.0045163C
+0045162B  |. 8B4424 1C      ||MOV EAX,DWORD PTR SS:[ESP+1C]
+0045162F  |. 8BDF           ||MOV EBX,EDI
+00451631  |. 8BCD           ||MOV ECX,EBP
+00451633  |. E8 4890FCFF    ||CALL Furcadia.0041A680
+00451638  |. 8B5C24 1C      ||MOV EBX,DWORD PTR SS:[ESP+1C]
+0045163C  |> 396C24 28      ||CMP DWORD PTR SS:[ESP+28],EBP
+00451640  |. 75 26          ||JNZ SHORT Furcadia.00451668
+00451642  |. 395C24 24      ||CMP DWORD PTR SS:[ESP+24],EBX
+00451646  |. 75 20          ||JNZ SHORT Furcadia.00451668
+00451648  |. 8B5424 2C      ||MOV EDX,DWORD PTR SS:[ESP+2C]
+0045164C  |. 52             ||PUSH EDX
+0045164D  |. 53             ||PUSH EBX
+0045164E  |. 8BC6           ||MOV EAX,ESI                            
+00451650  |. E8 CB90FCFF    ||CALL Furcadia.0041A720           ;  avatars
+
+2520
+----
+
+00450FB0: bool __cdecl render_world( bool unk1, bool unk2, bool, unk 3 );
+
+00810890: int suppress_output;
+
+004511F7  |> 8BC6           |/MOV EAX,ESI
+004511F9     E8 7295FCFF    ||CALL Furcadia.0041A770  ; floors
+
+0045145C  |. 52             ||PUSH EDX
+0045145D  |. 53             ||PUSH EBX
+0045145E  |. 8BC6           ||MOV EAX,ESI
+00451460     E8 5B90FCFF    ||CALL Furcadia.0041A4C0
+00451465  |. 83C4 08        ||ADD ESP,8
+
+0045140B  |. 897C24 20      ||MOV DWORD PTR SS:[ESP+20],EDI
+0045140F  |> 8BC3           ||MOV EAX,EBX
+00451411  |. 8BCE           ||MOV ECX,ESI
+00451413     E8 B888FCFF    ||CALL Furcadia.00419CD0                  ;  walls
+00451418  |. 8BC3           ||MOV EAX,EBX
+0045141A  |. 8BCE           ||MOV ECX,ESI
+0045141C     E8 2F8EFCFF    ||CALL Furcadia.0041A250                  ;  objects
+00451421  |. 396C24 18      ||CMP DWORD PTR SS:[ESP+18],EBP
+00451425  |. 894424 38      ||MOV DWORD PTR SS:[ESP+38],EAX
+00451429  |. 75 21          ||JNZ SHORT Furcadia.0045144C
+0045142B  |. 395C24 14      ||CMP DWORD PTR SS:[ESP+14],EBX
+0045142F  |. 75 1B          ||JNZ SHORT Furcadia.0045144C
+00451431  |. 85FF           ||TEST EDI,EDI
+00451433  |. 74 17          ||JE SHORT Furcadia.0045144C
+00451435  |. F647 0C 01     ||TEST BYTE PTR DS:[EDI+C],1
+00451439  |. 74 11          ||JE SHORT Furcadia.0045144C
+0045143B  |. 8B4424 1C      ||MOV EAX,DWORD PTR SS:[ESP+1C]
+0045143F  |. 8BDF           ||MOV EBX,EDI
+00451441  |. 8BCD           ||MOV ECX,EBP
+00451443     E8 D88FFCFF    ||CALL Furcadia.0041A420
+00451448  |. 8B5C24 1C      ||MOV EBX,DWORD PTR SS:[ESP+1C]
+0045144C  |> 396C24 28      ||CMP DWORD PTR SS:[ESP+28],EBP
+00451450  |. 75 26          ||JNZ SHORT Furcadia.00451478
+00451452  |. 395C24 24      ||CMP DWORD PTR SS:[ESP+24],EBX
+00451456  |. 75 20          ||JNZ SHORT Furcadia.00451478
+00451458  |. 8B5424 2C      ||MOV EDX,DWORD PTR SS:[ESP+2C]
+0045145C  |. 52             ||PUSH EDX
+0045145D  |. 53             ||PUSH EBX
+0045145E  |. 8BC6           ||MOV EAX,ESI
+00451460     E8 5B90FCFF    ||CALL Furcadia.0041A4C0                  ;  avatars
+
+
+2410
+----
+
+00448E50: void __cdecl render_world( bool unk1, bool unk2 );
+
+00449007  |> 8BCB           |/MOV ECX,EBX
+00449009  |. 8BC6           ||MOV EAX,ESI
+0044900B     E8 A000FDFF    ||CALL Furcadia.004190B0                 ;  floors
+
+
+004491AF  |> 8BCB           ||MOV ECX,EBX
+004491B1  |. 8BC6           ||MOV EAX,ESI
+004491B3     E8 98F6FCFF    ||CALL Furcadia.00418850                 ;  walls
+004491B8  |. 8BCB           ||MOV ECX,EBX
+004491BA  |. 8BC6           ||MOV EAX,ESI
+004491BC  |. E8 DFFBFCFF    ||CALL Furcadia.00418DA0                 ;  objects
+004491C1  |. 8B4424 1C      ||MOV EAX,DWORD PTR SS:[ESP+1C]
+004491C5  |. 394424 14      ||CMP DWORD PTR SS:[ESP+14],EAX
+004491C9  |. 75 12          ||JNZ SHORT Furcadia.004491DD
+004491CB  |. 395C24 10      ||CMP DWORD PTR SS:[ESP+10],EBX
+004491CF  |. 75 0C          ||JNZ SHORT Furcadia.004491DD
+004491D1  |. 57             ||PUSH EDI
+004491D2  |. 53             ||PUSH EBX
+004491D3  |. 8BC6           ||MOV EAX,ESI
+004491D5     E8 F6FCFCFF    ||CALL Furcadia.00418ED0                 ;  avatars
+
+0053145C: int suppress_output;
+
+2320
+----
+
+Follow the string "FLOORS.FSH" and you'll hit the FSH load routine.
+BPing references to the static pointer to the loaded FSH object, you can hit
+the render floors routine.  The caller of that function is the main world
+rendering routine:
+
+00449440: void __cdecl render_world( bool unk1, bool unk2 );
+
+Inside render_world, there are two big outer loops.  
+The first one renders the floors, making a call to a render individual floor function:
+
+     E8 15EEFCFF    CALL Furcadia.00418450                           ;  Floors
+
+where 
+
+00418450: void __fastcall render_floor( int x : EAX, int y : ECX );
+
+The other loop does Walls, Objects, and Avatars, in that order.
+
+004496F4  |. E8 17E5FCFF    ||CALL Furcadia.00417C10                         ;  Walls
+004496F9  |. 8BCB           ||MOV ECX,EBX
+004496FB  |. 8BC6           ||MOV EAX,ESI
+004496FD  |. E8 4EEAFCFF    ||CALL Furcadia.00418150                         ;  Objects
+00449702  |. 53             ||PUSH EBX
+00449703  |. 8BC6           ||MOV EAX,ESI
+00449705  |. E8 66EBFCFF    ||CALL Furcadia.00418270                         ;  Avatars
+
+where
+
+00417C10: void __fastcall render_wall( int x : EAX, int y: ECX );
+00418150: void __fastcall render_object( int x : EAX, int y: ECX );
+00418270: void __fastcall render_avatar( int x : EAX, int y: ECX );
+
+Don't know if the suppress/unsuppress variable are still relevant, but
+51258C looks like it.
+
+
+Prior to 2320
+-------------
+
+[004A9414] - const byte* bitmapbits
+
+/** Renders the world view to the frame buffer
+* Loops for each rendering layer can be found here. */
+00451DF0 - void __cdecl render_world( bool b_unk );
+
+   /* The render call for a floor. */
+   00451FEB  |. 6A 00          ||PUSH 0                                 ; /Arg3 = 00000000
+   00451FED  |. 8B45 FC        ||MOV EAX,[LOCAL.1]                      ; |
+   00451FF0  |. 50             ||PUSH EAX                               ; |Arg2
+   00451FF1  |. 8B4D F8        ||MOV ECX,[LOCAL.2]                      ; |
+   00451FF4  |. 51             ||PUSH ECX                               ; |Arg1
+   00451FF5     E8 3628FCFF    ||CALL Furcadia.00414830                 ; \Furcadia.00414830
+
+   /* For walls. */
+   004520B9  |. 50             ||PUSH EAX                               ; /Arg2
+   004520BA  |. 8B4D F8        ||MOV ECX,[LOCAL.2]                      ; |
+   004520BD  |. 51             ||PUSH ECX                               ; |Arg1
+   004520BE     E8 7D18FCFF    ||CALL Furcadia.00413940                 ; \Furcadia.00413940
+
+   /* For objects. */
+   004520C9  |. 52             ||PUSH EDX                               ; /Arg2
+   004520CA  |. 8B45 F8        ||MOV EAX,[LOCAL.2]                      ; |
+   004520CD  |. 50             ||PUSH EAX                               ; |Arg1
+   004520CE     E8 7D1EFCFF    ||CALL Furcadia.00413F50                 ; \Furcadia.00413F50
+
+   /* For avatars. */
+   004520D9  |. 51             ||PUSH ECX                               ; /Arg2
+   004520DA  |. 8B55 F8        ||MOV EDX,[LOCAL.2]                      ; |
+   004520DD  |. 52             ||PUSH EDX                               ; |Arg1
+   004520DE     E8 1D23FCFF    ||CALL Furcadia.00414400                 ; \Furcadia.00414400
+
+Just calling render_world() doesn't update things.  But you can do what
+the protocol does and use a suppress/unsuppress using the variable:
+
+004B7CAC : static int suppress_rendering; // 1 or 0
+
+   Toggle this on, call render_world, toggle it off, call render_world, and the
+   screen updates.  The inspirational disasm:
+
+   00406B35  |. 68 081E4900    PUSH Furcadia.00491E08                   ; /Arg1 = 00491E08 ASCII "1.11 SupressOutput"
+   00406B3A  |. E8 F14C0500    CALL Furcadia.0045B830                   ; \Furcadia.0045B830
+   00406B3F  |. 83C4 04        ADD ESP,4
+   00406B42  |> C705 AC7C4B00 >MOV DWORD PTR DS:[4B7CAC],1  <--- TOGGLE ON
+   00406B4C  |. 6A 01          PUSH 1                                   ; /Arg1 = 00000001
+   00406B4E  |. E8 9DB20400    CALL Furcadia.00451DF0                   ; \Furcadia.00451DF0
+   ...
+   00406B66  |. 68 1C1E4900    PUSH Furcadia.00491E1C                   ; /Arg1 = 00491E1C ASCII "1.12 UnsupressOutput"
+   00406B6B  |. E8 C04C0500    CALL Furcadia.0045B830                   ; \Furcadia.0045B830
+   00406B70  |. 83C4 04        ADD ESP,4
+   00406B73  |> C705 AC7C4B00 >MOV DWORD PTR DS:[4B7CAC],0  <--- TOGGLE OFF
+   00406B7D  |. 6A 01          PUSH 1                                   ; /Arg1 = 00000001
+   00406B7F  |. E8 6CB20400    CALL Furcadia.00451DF0                   ; \Furcadia.00451DF0
+
+
+

@@ -1,0 +1,2 @@
+traymode on
+skuse fat

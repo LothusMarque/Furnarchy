@@ -1,0 +1,29 @@
+2.2-r4
+------
+ADDED Bugges, Kirins, Noble Canines, Noble Felines, Reindeer, Cattens, Owlens, Lovebirds
+
+2.2-r3
+------
+FIXED Not being able to do quick relogging since the server update.
+
+2.2-r2
+------
+FIXED crash problem when the client is closed.
+
+2.2-r1
+------
+FIXED Internal client colors being set wrong.
+
+2.2-r0
+------
+ADDED Foxens, Floxens, Unicorns, Furlings, Chinchillas, and Toasters.
+
+2.1-r1
+------
+FIXED Not being able to set a new default character.
+FIXED Better compatibility with client's SavePasswords option disabled.
+
+2.1-r0
+------
+ADDED Bears, Tygards, Leonens, Bats, and Penguins!
+FIXED Character not updating after saving in FurEd after logging in with Curses.

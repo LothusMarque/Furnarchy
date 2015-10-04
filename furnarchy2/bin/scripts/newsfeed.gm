@@ -1,0 +1,33 @@
+/*
+Newsfeed
+Written by Lothus Marque
+
+Automatically checks the Furnarchy news every 6 hours.
+*/
+
+global hours = 6;
+
+global span = hours * 60 * 60;
+
+global lastTick = null;
+global nextTick = null;
+
+global newTick = function ( dt ) {
+global nextTick;
+global lastTick;
+lastTick = getTime();
+nextTick = lastTick+span;
+};
+
+global onTick = function( dt ) {
+if (getTime() >= nextTick) {
+	newTick();
+	speak("[Newsfeed] Requesting scheduled news update.");
+	command("news", true);
+	}  
+};
+
+global onRun = function( args ) {
+newTick();
+};
+   

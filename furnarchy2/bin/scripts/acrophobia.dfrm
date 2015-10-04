@@ -1,0 +1,91 @@
+[Main]
+Desc=Play the Acrophobia word game
+0=title
+1=private
+2=public
+3=start
+4=stop
+5=themel
+6=themeed
+7=bless
+8=unbless
+9=namel
+10=nameed
+11=listb
+
+[Ctitle]
+Type=LABEL
+Caption=Acrophobia
+Location=5,55,10,10
+Special=CENTER
+
+[Cprivate]
+Type=BUTTON
+Caption=Private Mode
+Location=23,20,100,20
+Command=acro private
+Special=CENTER
+
+[Cpublic]
+Type=BUTTON
+Caption=Public Mode
+Location=43,20,100,20
+Command=acro public
+Special=CENTER
+
+[Cstart]
+Type=BUTTON
+Caption=Start Game
+Location=103,20,100,20
+Command=acro start %6%
+Special=CENTER
+
+[Cstop]
+Type=BUTTON
+Caption=Stop Game
+Location=123,20,100,20
+Command=acro stop
+Special=CENTER
+
+[Cthemel]
+Type=LABEL
+Caption=Theme
+Location=68,55,10,10
+Special=CENTER
+
+[Cthemeed]
+Type=EDIT
+Location=81,55,150,10
+Special=CENTER
+
+[Cbless]
+Type=BUTTON
+Caption=Bless Player
+Location=185,20,100,20
+Command=acro bless %10%
+Special=CENTER
+
+[Cunbless]
+Type=BUTTON
+Caption=Unbless Player
+Location=205,20,100,20
+Command=acro unbless %10%
+Special=CENTER
+
+[Cnamel]
+Type=LABEL
+Caption=Bless/Unbless Name
+Location=149,55,150,10
+Special=CENTER
+
+[Cnameed]
+Type=EDIT
+Location=163,55,150,10
+Special=CENTER
+
+[CListb]
+Type=BUTTON
+Location=225,20,110,20
+Caption=List Blessed Players
+Command=acro blessed
+Special=CENTER

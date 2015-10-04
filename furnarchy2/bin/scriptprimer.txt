@@ -1,0 +1,712 @@
+A Scripting Primer for Furnarchy 2
+----------------------------------
+
+CONTENTS
+
+1  Introduction.
+2  Meet GM Script.
+   2.1  Statements.
+   2.2  Comments.
+   2.3  Variables.
+   2.4  Primitive data types.
+      2.4.1  Integers.
+      2.4.2  Booleans.
+      2.4.3  Floats.
+      2.4.4  Strings.
+      2.4.5  Tables.
+      2.4.6  User types.
+   2.5  Operators.
+      2.5.1  Type upgrading.
+   2.6  Control structures.
+      2.6.1  if/else if/else
+      2.6.2  while, for
+      2.6.3  foreach
+   2.7  Functions.
+   2.8  Variable scope.
+   2.9  'this'
+3  Event-based scripts.
+   3.1  onRun
+   3.2  onKill
+   3.3  onInbound
+   3.4  onOutBound
+   3.5  onTick
+   3.6  onCommand
+   3.7  onChar
+4  Other info, tips, caveats, etc.
+5  Links.
+
+----
+
+1  Introduction
+
+Scripts in Furnarchy 2 are a quick and easy way to perform a 
+variety of tasks that would otherwise prove cumbersome if done
+by a module.  
+
+Furnarchy 2 uses the GameMonkey scripting engine 
+(www.somedude.net/gamemonkey) for scripts and this document will 
+introduce you to the fundamentals and some quirks of the scripting 
+language you're likely to run into when creating Furnarchy 2 scripts, 
+as well as show you how to create a well-formed Furnarchy 2 script.
+
+This document assumes you've had previous exposure to some kind of
+programming or scripting language. It's not a programming tutorial,
+nor will it teach you basics such as logic or program flow.
+
+(If, however, you want to make GameMonkey Script your first 
+scripting language, it's not a bad place to start; it's quite
+simple, forgiving, and you can do a lot without really knowing
+a lot, if you get my drift.)
+
+Also, I won't be going into every detail of the language, just what you're
+most likely to bump up against or need when writing Furnarchy 2 scripts.
+
+For more complete coverage, check out the official language reference
+at: htt[://proxy.entwinedstudios.com/GameMonkeyScriptReference.pdf
+In fact, at some point, you should definitely read that (it's very skimmable)
+so you're aware of all the tools available to you.
+
+You can ignore the API documentation in that guide, though, because 
+Furnarchy 2 strips away all of them in favor of its own
+(see http://proxy.entwinedstudios.com/scriptapi.txt for a full listing
+of the Furnarchy 2 scripting API functions).
+
+----
+
+2  Meet GM Script.
+
+[code]
+speak( "Hello, world!" );
+[/code]
+
+Just from that snippet, you can see GameMonkey is a C-like language.
+(I actually just use a C++ syntax highlighter for my editor when writing
+GM scripts).
+
+If you've had exposure to, say, javascript, you may feel right at home,
+but you're also already overqualified because GM script is even simpler 
+than javascript.
+
+   ----
+   
+   2.1  Statements.
+   
+   Statements all end in a semicolon, no exceptions.
+   
+   ----
+   
+   2.2  Comments.
+   
+   '//' will comment out the rest of a line.
+   '/*' and '*/' will comment out anything between them.
+   
+   ----
+   
+   2.3  Variables.
+   
+   Variable names are case-sensitive, alphanumeric + underscores, and
+   cannot begin with a digit.
+   
+   Variables are dynamically typed throughout the lifetime of a script.
+   They can be reassigned any value of any type.  A variable's type therefore
+   depends on its contents.  By default, a variable is set to the 'null'
+   keyword and has 'null' type.
+   
+   [code]
+   a; // Type is 'null', value is 'null'.
+   b = 12; // Type is integer, value is 12.
+   c = "zomg"; // Type is string, value is "zomg".
+   d = b;  // Type is integer, value is 12.
+   [/code]   
+   
+   2.4  Primitive data types.
+   
+      ----
+      
+      2.4.1  Integers.
+      
+      Integer values can be defined literally in different bases:
+      [code]
+      32; // The number 32.
+      0x20; // Also the number 32.
+      0b100000; // Also the number 32.
+      ' ';  // Also the number 32.
+      [/code]
+      
+      In the last example, single quotes are used to specify a character.
+      The space character's integer value is 32 (see www.asciitable.com).
+      Single quotes always produce an integer.  There is no 'char' type,
+      as in C.
+      
+      ----
+      
+      2.4.2  Booleans.
+      
+      Booleans technically aren't a separate data type; they're just integers.
+      There are, however, two keywords 'true' and 'false' which are aliased
+      to the numbers 1 and 0.
+      
+      Just like in C, expressions that evaluate to 0 will be considered
+      false, and anything else will be considered true.
+      
+      [code]
+      while (true) { } // Loops infinitely.
+      while (false) { } // Loops never.
+      while (1) { } // Loops infinitely.
+      while (-342045) { } //Loops infinitely.
+      while (0) { } // Loops never.
+      while (null) { } // Also loops never!
+      [/code]
+      
+      ----
+      
+      2.4.3  Floats.
+      
+      You probably won't see floating point numbers a lot in Furnarchy 2 
+      scripts, but they're there.
+      
+      They can be defined literally in decimal form.
+      [code]
+      3.14159; // Pi!
+      [/code]
+      
+      ----
+      
+      2.4.4  Strings.
+
+      GM Script can define literal strings two ways: with either double
+      quotes or backticks.  The difference between the two is
+      double quotes can have special escape characters (starting with a
+      backslash) and backticks can't.
+      
+      [code]
+      print( "This is split into\ntwo lines in the console" );
+      print( `This looks\nexactly like it does in the code` );
+      [/code]
+      
+      Backticks become particularly useful with the regular expression
+      functions, where things like double quotes and backslashes are
+      common parts of the pattern.  In double quotes, backslashes and
+      double quotes HAVE to be escaped.
+      
+      Consider how you would define a literal string: \\""
+      [code]
+      "\\\\\"\"";
+      /*vs.*/
+      `\\""`;
+      [/code]
+      
+      It's pretty obvious the second is easier to follow.
+      
+      PRO TIP: Furnarchy 2 extends strings to allow retrieval of individual
+      characters through the index operator (e.g., my_string[ 3 ]).  You can't
+      set characters this way, though--only retrieve them.
+      
+      ----
+      
+      2.4.5  Tables.
+      
+      Tables are a multi-purpose data type.  They can be used as regular 
+      indexed arrays, associative arrays, or can mimic the 
+      appearance of C/C++ structs.  Unlike C arrays, they can contain
+      heterogenous data types.
+      
+      You can define a table numerous ways.
+      [code]
+      a = table( ); // Creates an empty table.
+      b = { }; // Creates an empty table.
+      /* The following creates an indexed array with
+      *  c[ 0 ] = 1, c[ 1 ] = 2, c[ 2 ] = "three". */
+      c = { 1, 2, "three" };
+      /* The following creates an associative array. */
+      d = { color="red", shape="circle", radius=1.0 };
+      [/code]
+      
+      Indexed array values are accessed by index number.
+      [code]
+      c = { 1, 2, "three" };
+      print( c[ 2 ], c[ 0 ] ); // Prints "three1" to the console.
+      [/code]
+      
+      Associative arrays are more interesting, though, as you can access
+      their values in two ways.
+      [code]
+      d = { color="red", shape="circle", radius=1.0 };
+      print( d["color"] ); // Prints "red" to the console.
+      print( d.shape );    // Prints "circle" to the console.
+      [/code]
+      
+      If you've used C/C++ structs before, the second notation 
+      will tickle you.
+      
+      NOTE: Tables are reference types, which means a function that is passed
+            a table as a parameter will not make a copy of it like with 
+            integers and floats.  So any modifications made to the table
+            will show up outside the function.
+      
+      ----
+      
+      2.4.6  User types.
+      
+      User types are abstract or complex data types created by 
+      Furnarchy 2.  They don't come into play in regular scripts, but
+      are a vital part of skin scripts.
+      
+      How one interacts with them varies from user type to user type, so
+      it's not worth describing any specific implementation here.
+      
+      NOTE: User types, like tables, are also reference types.
+   
+   ----
+   
+   2.5  Operators.
+   
+   GM Script supports virtually all the C operators.  Here's some
+   common ones:
+   
+   [code]
+   a = b; // Assign the value of b to a.
+   
+   a + b; // Add (or concatenate) two values.
+   a - b; // Subtract two values.
+   a * b; // Multiply two values.
+   a / b; // Divide a by b.
+   a % b; // Get the remainder of a / b.
+   
+   a += b; // Assign a + b to a.
+   a -= b; // Assign a - b to a.
+   a /= b; // Assign a / b to a.
+   a *= b; // Assign a * b to a.
+   
+   /* These result in a true or false value. */
+   !a;      // Boolean inverse of a.
+   a == b;  // Boolean equality.
+   a != b;  // Boolean inequality.
+   a <  b;  // Boolean less than.
+   a >  b;  // Boolean greater than.
+   a <= b;  // Boolean less than or equal to.
+   a >= b;  // Boolean greater than or equal to.
+   a || b;  // Boolean OR.
+   a or b;  // Boolean OR.
+   a && b;  // Boolean AND.
+   a and b; // Boolean AND.
+   
+   /* The following are integer-only. */
+   ~a;     // Bitwise NOT.
+   a | b;  // Bitwise OR.
+   a & b;  // Bitwise AND.
+   a ^ b;  // Bitwise XOR.
+   a << b; // Shift a left by b bits.
+   a >> b; // shift a right by b bits.
+   [/code]
+   
+   Notice there's no increment (x++) or decrement (x--) operators!
+   
+   More can be seen in the reference at:
+   http://proxy.entwinedstudios.com/GameMonkeyScriptReference.pdf
+   
+      ----
+      
+      2.5.1  Type upgrading.
+      
+      Sometimes when you perform operations on heterogenous types, one of the types
+      gets upgraded to the "greater" of the two types in the expression.
+      The order of greatness (in ascending order) is generally: 
+            integer -> float -> string
+      
+      Some examples:
+      [code]
+      1 + 1.5; // Results in a float (value: 2.5)
+      1 + "hello"; // Results in a string (value: "1hello")
+      [/code]
+   
+   ----
+   
+   2.6  Control structures.
+   
+      All the usual suspects are here.
+      
+      ----
+      
+      2.6.1  if / else if / else
+      
+      Same old, same old.  Just remember the braces are mandatory.
+      
+      [code]
+      /* Prints "zomg!!" if a evaluates to nonzero,
+      otherwise, prints "raptor jesus!" if b evaluates to nonzero,
+      otherwise otherwise, prints "4chon ,'/". */
+      if (a) {
+         print( "zomg!!" );
+      }
+      else if (b) {
+         print( "raptor jesus!" );
+      }
+      else {
+         print( "4chon ,'/" );
+      }
+      [/code]
+      
+      ----
+      
+      2.6.2  while, for
+      
+      Same old, same old.  Just remember the braces are mandatory.
+      
+      [code]
+      /* Prints "DEVELOPERS" while a evaluates to nonzero. */
+      while (a) {
+         print( "DEVELOPERS" );
+      }
+      
+      /* Prints "DESU" 10 times. */
+      for (i=0; i < 10; i+=1) {
+         print( "DESU" );
+      }
+      [/code]
+      
+      ----
+      
+      2.6.3  foreach
+      
+      foreach iterates over the contents of a table.
+      
+      [code]
+      /* Prints all elements in table t. */
+      foreach (v in t) {
+         print( v, ", " );
+      }
+      
+      /* Prints all key=value pairs in the associative array t. */
+      foreach (k and v in t) {
+         print( k, "=", v, ", " );
+      }
+      [/code]
+      
+   ----
+   
+   2.7  Functions.
+   
+   Functions are typically defined with the following format:
+   [code]
+   var = function( <args> ) { <statements> };
+   [/code]
+   
+   This defines a function and stores it in the variable 'var'.
+   
+   The <args> part of the function definition are comma separated identifiers
+   which you can reference in the body of the function.  Their types
+   depend on what the caller passed.
+   
+   <statements> are any number of scripting statements.
+   
+   You can return whatever you'd like in the body, or return nothing at all.
+   
+   Note the terminating semicolon.  Function definitions are statements.
+   
+   To invoke the function, you simply call the variable it was assigned to.
+   
+   Example:
+   [code]
+   addStuff = function( a, b ) { return a + b; };
+   print( addStuff( 1, 1 ) ); // Prints "2".
+   print( addStuff( "zomg", "god" ) ); // Prints "zomggod".
+   [/code]
+   
+   
+   PRO TIP: You may have noticed that the actual function definition doesn't
+            require a name.  Because of this, all functions are essentially
+            anonymous until they're assigned to a variable.   
+            Functions are secretly another data type which you can pass into
+            other functions as a parameter.  They are reference types like
+            tables and user types.  One place where anonymous functions are
+            useful is in the map() API function.
+   
+   ----
+   
+   2.8  Variable scope.
+   
+   Scope is a very important topic, because Furnarchy 2 scripts are
+   primarily event-based.  As such, you'll probably be using global
+   variables to remember things between events.
+   
+   In GM script, the default scope for a variable is local to the
+   function it's being used in.
+   
+   [code]
+   global g_var = "yes";
+   
+   setGlobal = function( x ) {
+      g_var = x;
+   };
+   
+   setGlobal( "no" );
+   print( g_var );
+   [/code]
+   
+   In the above code, you may expect the output to be "no", but it turns
+   out to be "yes"! Argh!
+   
+   Like I said, the default scope of a variable name is local to a function.
+   In setGlobal(), g_var is seen as an undeclared variable being used
+   for the first time, so it sets a local variable (also named g_var) to
+   x and terminates.
+   
+   Here's how you would redefine setGlobal to set the REAL g_var.
+   [code]   
+   setGlobal = function( x )
+   {
+      global g_var;
+      g_var = x;
+   };
+   [/code]
+   
+   Or, more succinctly:
+   [code]
+   setGlobal = function( x ) {
+      global g_var = x;
+   };
+   [/code]
+   
+   Now it prints out "no".
+   
+   If you are just reading a global variable, you may not need to specify
+   the global scope, because if the script engine cannot find the variable 
+   name in the function scope, it will look in the global scope.  However, 
+   if you are writing to a global variable, you need to declare it at the 
+   function level as global at least once, otherwise the engine will think 
+   you're defining a new function scoped variable for the first time.
+   
+   To be safe, you can always declare each global variable you want to 
+   reference/use in a function with the 'global' keyword.
+   
+   ----
+   
+   2.9  'this'
+   
+   'this' is a special keyword that borrows from Object Oriented Programming.
+   It's not used anywhere in regular Furnarchy 2 Scripting, but occurs in
+   skin scripts.
+   
+   ----
+   
+3  Event-based scripts.
+
+There are generally two classes of scripts: those that just perform a single
+task and exit, and those that run like a daemon in the background, 
+responding to events.
+
+After your script runs for the first time, Furnarchy 2 checks if you've 
+defined any global event handlers before exiting.  If you haven't, it 
+considers the script a one-shot script and terminates it, if it hasn't 
+already.  Otherwise, it keeps the script running until the user kills it or 
+it kills itself (via exit( )).
+
+There are 6 event handlers you can define.
+   
+   ----
+   
+   3.1  onRun
+   
+   onRun is called right after the outer code has been run (the code outside
+   the function bodies).
+   
+   [code]
+   /* args is an indexed table array of the command line arguments passed
+   to @scrun. */
+   global onRun = function( args )
+   {
+      print( "My command line arguments: " );
+      foreach (arg in args) {
+         print( arg, " " );
+      }
+      
+      exit( ); // Kill ourself.
+   };
+   [/code]
+   
+   ----
+   
+   3.2  onKill
+   
+   onKill is called when the script is killed, which happens if you call exit(),
+   the user @sckills or @scnukes you, or the client closes.  It's an opportunity
+   for your script to wind down or do its cleaning up.
+   
+   [code]
+   global onKill = function( ) {
+      print( "Ciao!" );
+   };
+   [/code]
+   
+   ----
+   
+   3.3  onInbound
+   
+   onInbound is called when a server -> client line is being processed by Furnarchy.
+   If you sent the client a string via netIn( ) or netInLine( ), it'll come through 
+   here, as well.
+   
+   You can modify the line in-place by simply returning a string whose contents
+   will replace the line.  If you return nothing, the line continues on unmolested.
+   
+   If you want to effectively cancel the line, just return an empty string.
+   
+   [code]
+   /* line is the S2C line being processed. */
+   /* from is 0 if the line came directly from the server (not generated). */
+   /* num is the line number. */
+   global onInbound = function( line, from, num ) {
+      print( ">> ", line, "\n" );
+      // Don't return anything to leave the line alone.
+   };
+   [/code]
+   
+   ----
+   
+   3.4  onOutBound
+   
+   onInbound is called when a client -> server line is being processed by Furnarchy.
+   If you sent the client a string via netOut( ) or netOutLine( ), it'll come through 
+   here, as well.
+   
+   You can modify the line in-place by simply returning a string whose contents
+   will replace the line.  If you return nothing, the line continues on unmolested.
+   
+   If you want to effectively cancel the line, just return an empty string.
+   
+   [code]
+   /* line is the C2S line being processed. */
+   /* from is 0 if the line came directly from the client (not generated). */
+   /* num is the line number. */
+   global onOutbound = function( line, from, num ) {
+      print( "<< ", line, "\n" );
+      // Don't return anything to leave the line alone.
+   };
+   [/code]
+   
+   ----
+   
+   3.5  onTick
+   
+   onTick is called roughly every ~160 ms.  It's an opportunity to perform timed
+   behavior.
+   
+   [code]
+   /* dt is the number of milliseconds since the last tick event. */
+   global onTick = function( dt ) {
+      print( "Last tick event was ", dt, " milliseconds ago!\n" );
+   };
+   [/code]
+   
+   ----
+   
+   3.6  onCommand
+   
+   onCommand is called whenever a '@' type command is sent through Furnarchy 2.
+   It's always sent to all scripts and modules for handling.
+   If no one handles it, Furnarchy will report to the user that it's an invalid
+   command.
+   
+   To tell Furnarchy 2 you handled it, just return true.
+   
+   [code]
+   /* The arguments are tokenized by whitespace into 
+   an indexed table array just like in onRun. */
+   global onCommand = function( args )
+   {
+      print( "@ command: " );
+      foreach (arg in args) {
+         print( arg, " " );
+      }
+      
+      // Return true to say you handled it.
+   };
+   [/code]
+   
+   ----
+   
+   3.7  onChar
+   
+   onChar is called whenever certain keyboard keys are pressed or held down.
+   onChar passes an integer parameter which holds the ASCII code equivalent 
+   of the key.  For example, if the A key was pressed, this parameter would
+   hold the character 'a'.
+   
+   Not all keys have ASCII code equivalents, those that don't have integer
+   constants defined for them in the imports file 'keys.gm'.  If you want to
+   refer to these keys by name, you should import the keys.gm file.  Have
+   a look at this file to see what non-ASCII keys are available.
+   
+   If you return 'true' in onChar, you are telling Furnarchy you've handled the
+   key press and do not want anyone else after you to receive it.
+   
+   [code]
+   /* Import the keys.gm imports file for extended keys. */
+   import( "keys" );
+   /* ch is the ASCII character code, repeat is the repeat count if the key
+      has been held down. */
+   global onChar = function( ch, repeat )
+   {
+      if (ch == ' ') {
+         print( "Spacebar pressed!" );
+      }
+      else if (ch == '\t') {
+         print( "Tab pressed!" );
+      }
+      else if (ch == KEY_F5) {
+         print( "F5 pressed!" );
+      }
+   };
+   [/code]
+   
+   ----
+   
+4  Other info, tips, caveats, etc.
+
+API FUNCTIONS
+
+Now that you've got the language and script structure down, you can explore
+the various API functions provided for Furnarchy 2 scripts at:
+      http://proxy.entwinedstudios.com/scriptapi.txt
+      
+HOW MUCH PHYSICAL DAMAGE CAN I DO?
+
+Pretty much the worst you can do with scripts is hang the client with
+an infinite loop.  You don't have access to any of the filesystem beyond
+your script's DB file and log file.
+
+STRINGS
+
+Strings in GM Script are constant, which means you can't ever modify them
+in place.  None of the string manipulation functions in the API will
+modify strings passed into them, because they can't.  They return entirely
+new strings.  
+
+When you concatenate strings via the + operator, you are also creating new strings
+each time.  This is usually not a performance concern unless you're trying
+to do it in a tight loop, then you'll get hit hard.
+
+So if you're doing something like:
+[code]
+for (i=0; i < 1000; i+=1) {
+   str = "{" + str + "}";
+}
+[/code]
+
+You're creating two new strings per iteration.
+
+Instead, consider using the strCat() API function, which combines all
+its parameters at once:
+[code]
+for (i=0; i < 1000; i+=1) {
+   str = strCat( "{", str, "}" );
+}
+[/code]
+
+----
+
+5  Links.
+
+If you have any questions about scripting, want more examples, etc.,
+take it to the Furnarchy forums at http://proxy.entwinedstudios.com/forums

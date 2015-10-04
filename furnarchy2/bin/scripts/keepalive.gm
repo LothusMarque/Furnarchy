@@ -1,0 +1,26 @@
+/**********************************************************/
+/* A script that keeps you from idling out.               */
+/**********************************************************/
+
+/* Countdown (in ms) to when we next send the keepalive message. */
+global last_update = 60000;
+
+/* Furnarchy calls this every dt milliseconds. */
+global onTick = function( dt )
+{
+   // Declare last_update as being from the global scope.
+   global last_update;
+   
+   // Decrement the countdown by dt milliseconds.
+   last_update -= dt;
+   
+   // If the countdown is complete, send a keepalive.
+   if (last_update <= 0)
+   {
+      // This sends a line to the server. 
+      netOutLine( "iamhere" );
+      
+      // Reset the countdown.
+      last_update = 60000;
+   }
+};

@@ -1,0 +1,25 @@
+[Main]
+Desc=Kiwi: Turn people into kiwis!
+0=title
+1=kiwi
+2=unkiwi
+
+[Ctitle]
+Type=LABEL
+Caption=Kiwi
+Location=10,55,10,10
+Special=CENTER
+
+[Ckiwi]
+Type=BUTTON
+Caption=Kiwify
+Location=28,20,100,20
+Command=kiwi
+Special=CENTER
+
+[Cunkiwi]
+Type=BUTTON
+Caption=Un-Kiwify
+Location=53,20,100,20
+Command=unkiwi
+Special=CENTER

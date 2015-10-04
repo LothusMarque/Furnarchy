@@ -1,0 +1,91 @@
+[Main]
+Desc=Selective Hearing\nExtended ignore and whitelist system
+0=E1
+1=B1
+2=labalA
+3=B2
+4=Bhelp
+5=Btoggle
+6=B3
+7=B4
+8=modew
+9=modeb
+10=listw
+11=listb
+
+[CE1]
+Type=EDIT
+Location=28,10,160,20
+Special=CENTER
+
+[ClabalA]
+Type=LABEL
+Caption=Selective Hearing
+Location=10,55,150,10
+Special=CENTER
+
+[CB1]
+Type=BUTTON
+Caption=Add to Whitelist
+Location=53,20,130,20
+Command=sh.addw %0%
+Special=CENTER
+
+[CB2]
+Type=BUTTON
+Caption=Remove from Whitelist
+Location=73,20,130,20
+Command=sh.remw %0%
+Special=CENTER
+
+[CBhelp]
+Type=BUTTON
+Caption=Help
+Location=205,5,50,20
+Command=sh.help
+
+[CBtoggle]
+Type=BUTTON
+Caption=Toggle Effects
+Location=180,20,130,20
+Command=sh.toggle
+Special=CENTER
+
+[CB3]
+Type=BUTTON
+Caption=Add to Blacklist
+Location=93,20,130,20
+Command=sh.addb %0%
+Special=CENTER
+
+[CB4]
+Type=BUTTON
+Caption=Remove from Blacklist
+Location=113,20,130,20
+Command=sh.remb %0%
+Special=CENTER
+
+[Cmodew]
+Type=BUTTON
+Caption=Mode: Blacklist
+Location=137,10,85,20
+Command=sh.modeb
+
+[Cmodeb]
+Type=BUTTON
+Caption=Mode: Whitelist
+Location=137,100,85,20
+Command=sh.modew
+
+[Clistb]
+Type=BUTTON
+Caption=Show Blacklist
+Location=157,10,85,20
+Command=sh.listb
+
+[Clistw]
+Type=BUTTON
+Caption=Show Whitelist
+Location=157,100,85,20
+Command=sh.listw
+

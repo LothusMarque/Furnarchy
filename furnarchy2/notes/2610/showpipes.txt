@@ -1,0 +1,89 @@
+2610
+----
+
+The chatbox knocker-outer:
+
+004745DD  |. 83FE 7C        |CMP ESI,7C
+004745E0  |. 74 12          |JE SHORT Furcadia.004745F4
+
+The network knocker-outer:
+
+00463EA5  |> 807C0C 10 7C   |/CMP BYTE PTR SS:[ESP+ECX+10],7C
+00463EAA  |. 75 05          ||JNZ SHORT Furcadia.00463EB1
+00463EAC  |. C6440C 10 20   ||MOV BYTE PTR SS:[ESP+ECX+10],20
+
+2520
+----
+
+The chatbox knocker-outer:
+
+0047436D  |. 83FE 7C        |CMP ESI,7C
+00474370  |. 74 12          |JE SHORT Furcadia.00474384
+
+The network knocker-outer:
+
+00463CB5  |> 807C0C 10 7C   |/CMP BYTE PTR SS:[ESP+ECX+10],7C
+00463CBA  |. 75 05          ||JNZ SHORT Furcadia.00463CC1
+00463CBC  |. C6440C 10 20   ||MOV BYTE PTR SS:[ESP+ECX+10],20
+
+2510
+----
+
+The network knocker-outer:
+
+004635B5  |> 807C0C 10 7C   |/CMP BYTE PTR SS:[ESP+ECX+10],7C
+004635BA  |. 75 05          ||JNZ SHORT Furcadia.004635C1
+004635BC  |. C6440C 10 20   ||MOV BYTE PTR SS:[ESP+ECX+10],20
+
+2410
+----
+
+The chatbox knocker-outer:
+
+00469567  |. 83FB 7C        |CMP EBX,7C
+0046956A  |. 74 12          |JE SHORT Furcadia.0046957E
+
+The network knocker-outer:
+
+0045B2A5  |> 807C0C 10 7C   |/CMP BYTE PTR SS:[ESP+ECX+10],7C
+0045B2AA  |. 75 05          ||JNZ SHORT Furcadia.0045B2B1
+0045B2AC  |. C6440C 10 20   ||MOV BYTE PTR SS:[ESP+ECX+10],20 ; NOP me out!
+
+2320
+----
+
+Breakpoint the 7C compares to find where pipes get knocked out of
+the chat box.
+
+00469B24  |. 83FB 7C        |CMP EBX,7C
+00469B27     74 12          |JE SHORT Furcadia.00469B3B ; NOP me out!
+
+There's another place that knocks them out of network chat lines.
+
+0045B8F5  |> 807C0C 10 7C   |/CMP BYTE PTR SS:[ESP+ECX+10],7C
+0045B8FA  |. 75 05          ||JNZ SHORT Furcadia.0045B901
+0045B8FC     C6440C 10 20   ||MOV BYTE PTR SS:[ESP+ECX+10],20 ; NOP me out!
+
+Prior to 2320
+-------------
+
+Pipes can be rendered no problem in the chat buffer if you knock out
+the == 7C compare in the chat buffer's render method at 00469910.
+
+   00469BBF  |. 837D E8 7C     |CMP [LOCAL.6],7C
+   00469BC3     74 0F          |JE SHORT Furcadia.00469BD4
+   
+   The chat buffer is not an image--it really is buffering text, so when
+   you knock out the pipe check in the rendering, you make all previously
+   hidden pipes visible, as well.
+
+This is easy to find, as there aren't many "CMP x, 7C"s in the executable.
+Note that the network handler strips pipes from chat lines even
+before it sends them to the chat buffer, so if you want to show
+pipes in THOSE, you need to knock out the other compare.
+
+   00456532  |. 83FA 7C        |CMP EDX,7C
+   00456535     EB 0C          JMP SHORT Furcadia.00456543
+   00456537  |. 8B45 08        |MOV EAX,[ARG.1]
+   0045653A  |. 0385 FCDFFFFF  |ADD EAX,[LOCAL.2049]
+   00456540  |. C600 20        |MOV BYTE PTR DS:[EAX],20

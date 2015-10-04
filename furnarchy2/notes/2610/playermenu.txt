@@ -1,0 +1,79 @@
+2610
+----
+
+0041C220: void* show_playermenu( const char* name : EDI, bool has_profile, bool is_ignored );
+
+CPU Disasm
+Address   Hex dump          Command                                  Comments
+0041C220  /$  81EC 04040000 SUB ESP,404
+0041C226  |.  A1 20755400   MOV EAX,DWORD PTR DS:[547520]
+0041C22B  |.  33C4          XOR EAX,ESP
+0041C22D  |.  898424 000400 MOV DWORD PTR SS:[LOCAL.0],EAX
+0041C234  |.  83BC24 080400 CMP DWORD PTR SS:[ARG.1],1
+0041C23C  |.  A1 B01C8100   MOV EAX,DWORD PTR DS:[811CB0]
+0041C241  |.  74 05         JE SHORT 0041C248
+0041C243  |.  A1 AC1C8100   MOV EAX,DWORD PTR DS:[811CAC]
+0041C248  |>  83BC24 0C0400 CMP DWORD PTR SS:[ARG.2],1
+0041C250  |.  56            PUSH ESI
+0041C251  |.  8B35 F4A35100 MOV ESI,DWORD PTR DS:[<&USER32.ModifyMen
+0041C257  |.  A3 981C8100   MOV DWORD PTR DS:[811C98],EAX
+0041C25C  |.  75 07         JNE SHORT 0041C265
+0041C25E  |.  68 48AF5200   PUSH OFFSET Furcadia.0052AF48            ; ASCII "Unignore"
+0041C263  |.  EB 05         JMP SHORT 0041C26A
+0041C265  |>  68 54AF5200   PUSH OFFSET Furcadia.0052AF54            ; ASCII "Ignore"
+0041C26A  |>  68 32010000   PUSH 132                                 ; |ID = 306.
+0041C26F  |.  6A 00         PUSH 0                                   ; |Flags = MF_STRING|MF_BYCOMMAND
+0041C271  |.  68 32010000   PUSH 132                                 ; |Position = 306.
+0041C276  |.  50            PUSH EAX                                 ; |hMenu
+0041C277  |.  FFD6          CALL ESI                                 ; \USER32.ModifyMenuA
+0041C279  |.  68 00020000   PUSH 200                                 ; /Arg3 = 200
+0041C27E  |.  8D4424 08     LEA EAX,[LOCAL.256]                      ; |
+0041C282  |.  50            PUSH EAX                                 ; |Arg2 => OFFSET LOCAL.256
+0041C283  |.  57            PUSH EDI                                 ; |Arg1 => ARG.EDI
+0041C284  |.  E8 67FE0200   CALL 0044C0F0                            ; \Furcadia.0044C0F0
+0041C289  |.  8D4C24 10     LEA ECX,[LOCAL.256]
+0041C28D  |.  51            PUSH ECX
+0041C28E  |.  8D9424 140200 LEA EDX,[LOCAL.128]
+0041C295  |.  68 5CAF5200   PUSH OFFSET Furcadia.0052AF5C            ; ASCII "[%s]"
+0041C29A  |.  52            PUSH EDX
+0041C29B  |.  E8 CE320E00   CALL 004FF56E
+0041C2A0  |.  8B0D 981C8100 MOV ECX,DWORD PTR DS:[811C98]
+0041C2A6  |.  83C4 18       ADD ESP,18
+0041C2A9  |.  8D8424 040200 LEA EAX,[LOCAL.128]
+0041C2B0  |.  50            PUSH EAX
+0041C2B1  |.  68 36010000   PUSH 136
+0041C2B6  |.  6A 01         PUSH 1
+0041C2B8  |.  68 36010000   PUSH 136
+0041C2BD  |.  51            PUSH ECX
+0041C2BE  |.  FFD6          CALL ESI
+0041C2C0  |.  8B8C24 040400 MOV ECX,DWORD PTR SS:[ESP+404]
+0041C2C7  |.  5E            POP ESI
+0041C2C8  |.  33CC          XOR ECX,ESP
+0041C2CA  |.  E8 A52E0E00   CALL 004FF174
+0041C2CF  |.  81C4 04040000 ADD ESP,404
+0041C2D5  \.  C3            RETN
+
+
+2520
+----
+
+0041BFC0: void* show_playermenu( const char* name : EDI, bool has_profile, bool is_ignored );
+
+2510
+----
+
+0041BDD0: void* show_playermenu( const char* name : EDI, bool has_profile, bool is_ignored );
+
+2410
+----
+
+If you search for the string "[%s]", you'll find
+the show_playermenu function.
+
+0041A570: void* show_playermenu( const char* name : EDI, bool has_profile, bool is_ignored );
+
+This may, however, be a misnomer because I'm not sure
+if the menu is actually shown (TrackPopupMenu) by this 
+function or is merely modified.
+
+In any event, this is a way to get the player name.

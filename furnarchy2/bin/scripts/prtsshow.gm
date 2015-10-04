@@ -1,0 +1,41 @@
+/************************************************************************/
+/* prtsshow.gm                                                          */
+/* A script that displays all the user portraits on the server in the   */
+/* portrait area.                                                       */
+/* To start at portrait index 1337 (rather than 1), do                  */
+/* @scrun prtsshow 1337                                                 */
+/************************************************************************/
+
+global g_curr_pid = 0;
+global g_sshow_cooldown = 0;
+
+global onRun = function( args )
+{
+   global g_curr_pid;
+   g_curr_pid = toInt( args[ 1 ] );
+   
+   if (g_curr_pid <= 0) {
+      g_curr_pid = 1;
+   }
+   
+   speak( "Portrait slideshow starting at pid: ", g_curr_pid );
+};
+
+global onTick = function( dt )
+{
+   global g_curr_pid;
+   global g_sshow_cooldown;
+   
+   if (g_sshow_cooldown < dt)
+   {               
+      netInLine( "]f             " + " " + g_curr_pid );
+      netInLine( "]&" + g_curr_pid + " pp" + g_curr_pid );
+      
+      g_curr_pid += 1;
+      
+      g_sshow_cooldown = 5000;
+   }
+   else {
+      g_sshow_cooldown -= dt;
+   }
+};

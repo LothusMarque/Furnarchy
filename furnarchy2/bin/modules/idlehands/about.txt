@@ -1,0 +1,22 @@
+Idle Hands 1.2-r4
+
+An AFK/anti-idle module for Furnarchy 2.
+
+Written by Cluracan
+(strangelove@heroinpuppy.com)
+
+Updated by Lothus Marque
+(www.mercenary-enclave.com)
+
+For source and binary releases, visit:
+http://proxy.entwinedstudios.com/
+
+------------
+
+For reading this, I present you with three more commands!
+
+To keep your current idle state from changing automatically, say "@afflock".
+
+To return things to normal, say "@affunlock".
+
+@afk <message> to go AFF and set your away message.

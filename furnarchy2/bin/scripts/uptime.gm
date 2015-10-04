@@ -1,0 +1,31 @@
+/**********************************************************/
+/* Spits out your uptime.                                 */
+/**********************************************************/
+
+dt = uptime( );
+
+s  = dt % 60;
+
+dt = dt / 60;
+m  = dt % 60;
+
+dt  = dt / 60;
+h   = dt % 24;
+
+dt  = dt / 24;
+d   = dt; 
+
+speak( "Client uptime: " );
+
+tmp = "";
+
+if (d) { tmp = tmp + " " + d + " days"; }
+if (h) { tmp = tmp + " " + h + " hours"; }
+if (m) { tmp = tmp + " " + m + " minutes"; }
+if (s) { tmp = tmp + " " + s + " seconds "; }
+
+speak(tmp);
+
+speak( "Server -> Client Lines: " + countInbound( ) );
+speak( "Client -> Server Lines: " + countOutbound( ) );   
+

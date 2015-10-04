@@ -1,0 +1,104 @@
+--chat s/\bhello\b/ahoy/gi
+--chat s/\bmy/me/gi
+--chat s/\b(?:mr[.]?|mister|master|sir)\b/admiral/gi
+--chat s/\bmiss\b/lassie/gi
+--chat s/\b(?:friend|bud|pal)(s?)\b/matey\1/gi
+--chat s/\b(?:early|earlier)\b/afore/gi
+--chat s/\bold\b/aulde/gi
+--chat s/\b(?:yes|yeah|yup)\b/aye/gi
+--chat s/\b(?:no|nope)\b/nay/gi
+--chat s/\bwasn[']?t\b/weren't/gi
+--chat s/\bhaven[']?t\b/ha'nae/gi
+--chat s/\bbetween\b/betwixt/gi
+--chat s/\baround\b/aroun'/gi
+--chat s/\bover\b/o'er/gi
+--chat s/\b(?:woman|lady)\b/wench/gi
+--chat s/\b(?:man|guy)\b/lubber/gi
+--chat s/\b(?:men|guys)\b/lubbers/gi
+--chat s/\bgirls\b/lasses/gi
+--chat s/\bgirl\b/lass/gi
+--chat s/\bboys\b/laddies/gi
+--chat s/\bboy\b/lad/gi
+--chat s/\bdog\b/pooch/gi
+--chat s/\bshe\b/me\ bonnie\ lass/gi
+--chat s/\bshe's\b/me\ bonnie\ lass\ be/gi
+--chat s/\bhe's\b/that\ scurvey\ dog\ be/gi
+--chat s/\bhe\b/that\ scurvey\ dog/gi
+--chat s/\bhim\b/that\ scurvey\ dog/gi
+--chat s/\bher('s|s)\b/that\ comely\ wench\1/gi
+--chat s/\bis\b/be/gi
+--chat s/\bfood\b/mess/gi
+--chat s/\bkitchen\b/scullery/gi
+--chat s/\bfloor(s)?\b/deck\1/gi
+--chat s/\b(?:plane|airplane|jet)\b/flyin'\ machine/gi
+--chat s/\b(?:computer|machine)\b/contraption/gi
+--chat s/\bhey\b/Arrr/gi
+--chat s/\bbeekin(s)?\b/foul\ sea\ monster\1/gi
+--chat s/\bhelp(s)?\b/aide\1/gi
+--chat s/\btalking\b/yappin'/gi
+--chat s/(.+)!/Avast,\ \1!!/gi
+--chat s/\bthat's\b/that\ be/gi
+--chat s/for/fer/gi
+--chat s/\Btain\b/'n/gi
+--chat s/\bha(?:ha)+[h]?\b/a-har-de-har-har/gi
+--chat s/\bit\ (?:isn[']?t|is\ not)\b/it\ t'aint/gi
+--chat s/\b(?:aren't|are\ not)\b/nary\ be/gi
+--chat s/\bthem\b/'em/gi
+--chat s/\b(?:not|nothing)\b/nary/gi
+--chat s/\bnot\b/nary/gi
+--chat s/\b(?:isn[']?t|is\ not)\b/be\ not/gi
+--chat s/\bwith/wit'/gi
+--chat s/\bthe[^a-z]/th'/gi
+--chat s/\bthey\b/thems/gi
+--chat s/\band\b/an'/gi
+--chat s/\bare\b/be/gi
+--chat s/\bof[^a-z]/o'/gi
+--chat s/\byou're\b/y'be/gi
+--chat s/\byou\b/ye/gi
+--chat s/\b(?:I\ am|I'm)\b/I\ be/gi
+--chat s/\Bing(s)?\b/in'\1/gi
+--chat s/\b(?:it\ is|it's)\b/it\ be/gi
+--chat s/\bthere's\b/there\ be/gi
+--chat s/\binto\b/int'/gi
+--chat s/\bto[^a-z]/t'/gi
+--chat s/\bgonna\b/goin'\ t'/gi
+--chat s/\b(?:can't|cannot|can\ not)\b/cannae/gi
+--chat s/\bher\b/'er/gi
+--chat s/\bhis\b/hims/gi
+--chat s/\b(?:didn't|did\ not)\b/dinnae/gi
+--chat s/have/'ave/gi
+--chat s/\bh(.+)\b/'\1/giu
+--chat s/\bdoes\b/be/gi
+--chat s/\bmake\b/makes/gi
+--chat s/never/ne'er/gi
+--chat s/\bthat\b/that\ there/gi
+--chat s/\bthis\b/this\ here/gi
+--chat s/\bwas\b/were/gi
+--chat s/\bbecause\b/b'cause/gi
+--chat s/\b(?:don't|do\ not)\b/dunnae/gi
+--chat s/\byour/yer/gi
+--chat s/even/e'en/gi
+--chat s/ever/e'er/gi
+--chat s/\b(?:likes|wants)\b/fancies/gi
+--chat s/\bwant\b/fancy/gi
+--chat s/\b(?:strange|weird|odd|peculiar)\b/queer/gi
+--chat s/\bthose\b/thems/gi
+--chat s/\b(?:tits|boobs|breasts|titties)\b/delicates/gi
+--chat s/\b(?:small|little|tiny)\b/wee/gi
+--chat s/\bquickly\b/smartly/gi
+--chat s/\b(?:penis|cock|dick|wang)\b/urchins/gi
+--chat s/\b(?:big|huge|large)\b/mighty/gi
+--chat s/figure/figgur/gi
+--chat s/there/thar/gi
+--chat s/out/'at/gi
+--chat s/\bago\b/agoo/gi
+--chat s/think/reckon/gi
+--chat s/\bwhat's\b/what\ be/gi
+--chat s/\bthat's\b/that\ be/gi
+--chat s/\bsaw\b/seen/gi
+--chat s/\bthose\b/those\ thar/gi
+--chat s/\bthese\b/these\ 'ere/gi
+--chat s/\bgangster\b/swarthy\ beast/gi
+--chat s/such/sooch/gi
+--chat s/\bdo\b/be\ doin'/gi
+--chat s/\bwomen\b/wenches/gi

@@ -1,0 +1,23 @@
+==2.6-r13
+Script: Abs function.
+Script: getScriptID function.
+Script: dbCountSections function.
+Script: dbReadSectionName function.
+Fix: Terminals no longer appear offscreen when Furc is minimized.
+Change: News url changed to http://proxy.entwinedstudios.com/furnarchy_cl_news.php
+
+==2.6-r9
+Script: ArcCosine (acos) function.
+Script: ArcSine (asin) function.
+Script: ArcTangent (atan) function.
+
+==2.6-r8
+-Script: Added Square Root (sqrt) function.
+-Script: Added Cosine (cos) function.
+-Script: Added Sine (sin) function.
+-Script: Added Tangent (tan) function.
+
+
+==2.6-r7
+-Disabled client subsystem commands
+-Fixed 027 specitag issue

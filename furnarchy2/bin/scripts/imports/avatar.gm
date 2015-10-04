@@ -1,0 +1,628 @@
+/************************************************************************/
+/* avatar.gm                                                            */
+/* Import script defining avatar global constants and                   */
+/* functions to extract avatar information from frame numbers           */
+/************************************************************************/
+
+global AVCLASS_MIN           = 1;
+global AVCLASS_RODENT        = 1;
+global AVCLASS_EQUINE        = 21;
+global AVCLASS_FELINE        = 41;
+global AVCLASS_CANINE        = 61;
+global AVCLASS_MUSTELINE     = 81;
+global AVCLASS_LAPINE        = 101;
+global AVCLASS_RODENTCW      = 121;
+global AVCLASS_EQUINECW      = 141;
+global AVCLASS_FELINECW      = 161;
+global AVCLASS_CANINECW      = 181;
+global AVCLASS_MUSTELINECW   = 201;
+global AVCLASS_KIWI          = 221;
+global AVCLASS_LAPINECW      = 241;
+global AVCLASS_DRAGON        = 261;
+global AVCLASS_PHOENIX       = 281;
+
+global AVCLASS_RODENTTW      = 501;
+global AVCLASS_EQUINETW      = 521;
+global AVCLASS_FELINETW      = 541;
+global AVCLASS_CANINETW      = 561;
+global AVCLASS_MUSTELINETW   = 581;
+global AVCLASS_LAPINETW      = 601;
+global AVCLASS_RODENTFW      = 661;
+global AVCLASS_EQUINEFW      = 681;
+global AVCLASS_FELINEFW      = 701;
+global AVCLASS_CANINEFW      = 721;
+global AVCLASS_MUSTELINEFW   = 741;
+global AVCLASS_LAPINEFW      = 761;
+global AVCLASS_GRYFFE        = 781;
+global AVCLASS_EAGLE         = 801;
+global AVCLASS_RODENTBW      = 821;
+global AVCLASS_EQUINEBW      = 841;
+global AVCLASS_FELINEBW      = 861;
+global AVCLASS_CANINEBW      = 881;
+global AVCLASS_MUSTELINEBW   = 901;
+global AVCLASS_LAPINEBW      = 921;
+global AVCLASS_SCIURINE      = 941;
+global AVCLASS_SCIURINECW    = 961;
+global AVCLASS_SCIURINETW    = 981;
+global AVCLASS_SCIURINEFW    = 1001;
+global AVCLASS_SCIURINEBW    = 1021;
+global AVCLASS_BOVINE        = 1041;
+global AVCLASS_BOVINECW      = 1061;
+global AVCLASS_BOVINETW      = 1081;
+global AVCLASS_BOVINEFW      = 1101;
+global AVCLASS_BOVINEBW      = 1121;
+global AVCLASS_RODENTPW      = 1141;
+global AVCLASS_EQUINEPW      = 1161;
+global AVCLASS_FELINEPW      = 1181;
+global AVCLASS_CANINEPW      = 1201;
+global AVCLASS_MUSTELINEPW   = 1221;
+global AVCLASS_LAPINEPW      = 1241;
+global AVCLASS_SCIURINEPW    = 1261;
+global AVCLASS_BOVINEPW      = 1281;
+global AVCLASS_PIXIE         = 1301;
+global AVCLASS_KITTER        = 1321;
+global AVCLASS_WOLVEN        = 1341;
+global AVCLASS_URSINE        = 1361;
+global AVCLASS_URSINECW      = 1381;
+global AVCLASS_URSINETW      = 1401;
+global AVCLASS_URSINEFW      = 1421;
+global AVCLASS_URSINEBW      = 1441;
+global AVCLASS_URSINEPW      = 1461;
+global AVCLASS_TYGARD        = 1481;
+global AVCLASS_LEONEN        = 1501;
+global AVCLASS_WEREWOLF      = 1521;
+global AVCLASS_PENGUIN       = 1541;
+global AVCLASS_BAT           = 1561;
+global AVCLASS_FOXEN         = 1581;
+global AVCLASS_FLOXEN        = 1601;
+global AVCLASS_UNICORN       = 1621;
+global AVCLASS_FURLINGM      = 1641;
+global AVCLASS_FURLINGF      = 1661;
+global AVCLASS_CHINCHILLA    = 1681;
+global AVCLASS_TOASTER       = 1701;
+global AVCLASS_BUGGE         = 1721;
+global AVCLASS_KIRIN         = 1741;
+global AVCLASS_KIRINCLOUD    = 1761;
+global AVCLASS_NOBLECANINEM  = 1781;
+global AVCLASS_NOBLECANINEF  = 1801;
+global AVCLASS_NOBLEFELINEM  = 1821;
+global AVCLASS_NOBLEFELINEF  = 1841;
+global AVCLASS_REINDEER      = 1861;
+global AVCLASS_CATTEN        = 1881;
+global AVCLASS_OWLEN         = 1901;
+global AVCLASS_LOVEBIRD      = 1921;
+global AVCLASS_RABBEN        = 1941;
+global AVCLASS_NOBLEEQUINEM  = 1961;
+global AVCLASS_NOBLEEQUINEF  = 1981;
+global AVCLASS_WOOLIE        = 2001;
+global AVCLASS_TOYTLE        = 2021;
+global AVCLASS_TUSKER        = 2041;
+global AVCLASS_NOBLERODENTM  = 2061;
+global AVCLASS_NOBLERODENTF  = 2081;
+global AVCLASS_NOBLEHUMANM   = 2101;
+global AVCLASS_NOBLEHUMANF   = 2121;
+global AVCLASS_PANOOKI       = 2141;
+global AVCLASS_NAGA          = 2161;
+
+//Locals
+global AVCLASS_LOCAL1        = 7001;
+global AVCLASS_LOCAL2        = 7021;
+global AVCLASS_LOCAL3        = 7041;
+global AVCLASS_LOCAL4        = 7061;
+global AVCLASS_LOCAL5        = 7081;
+global AVCLASS_LOCAL6        = 7101;
+global AVCLASS_LOCAL7        = 7121;
+global AVCLASS_LOCAL8        = 7141;
+global AVCLASS_LOCAL9        = 7161;
+global AVCLASS_LOCAL10       = 7181;
+global AVCLASS_LOCAL11       = 7201;
+global AVCLASS_LOCAL12       = 7221;
+global AVCLASS_LOCAL13       = 7231;
+global AVCLASS_LOCAL14       = 7241;
+global AVCLASS_LOCAL15       = 7251;
+
+//Dynamic Slots
+global AVCLASS_DYN1        = 10001;
+global AVCLASS_DYN2        = 10021;
+global AVCLASS_DYN3        = 10041;
+global AVCLASS_DYN4        = 10061;
+global AVCLASS_DYN5        = 10081;
+global AVCLASS_DYN6        = 10101;
+global AVCLASS_DYN7        = 10121;
+global AVCLASS_DYN8        = 10141;
+global AVCLASS_DYN9        = 10161;
+global AVCLASS_DYN10       = 10181;
+global AVCLASS_DYN11       = 10201;
+global AVCLASS_DYN12       = 10221;
+global AVCLASS_DYN13       = 10241;
+global AVCLASS_DYN14       = 10261;
+global AVCLASS_DYN15       = 10281;
+global AVCLASS_DYN16       = 10301;
+global AVCLASS_DYN17       = 10321;
+global AVCLASS_DYN18       = 10341;
+global AVCLASS_DYN19       = 10361;
+global AVCLASS_DYN20       = 10381;
+global AVCLASS_DYN21       = 10401;
+global AVCLASS_DYN22       = 10421;
+global AVCLASS_DYN23       = 10441;
+global AVCLASS_DYN24       = 10461;
+global AVCLASS_DYN25       = 10481;
+global AVCLASS_DYN26       = 10501;
+global AVCLASS_DYN27       = 10521;
+global AVCLASS_DYN28       = 10541;
+global AVCLASS_DYN29       = 10561;
+global AVCLASS_DYN30       = 10581;
+global AVCLASS_DYN31       = 10601;
+global AVCLASS_DYN32       = 10621;
+global AVCLASS_DYN33       = 10641;
+global AVCLASS_DYN34       = 10661;
+global AVCLASS_DYN35       = 10681;
+global AVCLASS_DYN36       = 10701;
+global AVCLASS_DYN37       = 10721;
+global AVCLASS_DYN38       = 10741;
+global AVCLASS_DYN39       = 10761;
+global AVCLASS_DYN40       = 10781;
+global AVCLASS_DYN41       = 10801;
+global AVCLASS_DYN42       = 10821;
+global AVCLASS_DYN43       = 10841;
+global AVCLASS_DYN44       = 10861;
+global AVCLASS_DYN45       = 10881;
+global AVCLASS_DYN46       = 10901;
+global AVCLASS_DYN47       = 10921;
+global AVCLASS_DYN48       = 10941;
+global AVCLASS_DYN49       = 10961;
+global AVCLASS_DYN50       = 10981;
+global AVCLASS_DYN51       = 11001;
+global AVCLASS_DYN52       = 11021;
+global AVCLASS_DYN53       = 11041;
+global AVCLASS_DYN54       = 11061;
+global AVCLASS_DYN55       = 11081;
+global AVCLASS_DYN56       = 11101;
+global AVCLASS_DYN57       = 11121;
+global AVCLASS_DYN58       = 11141;
+global AVCLASS_DYN59       = 11161;
+global AVCLASS_DYN60       = 11181;
+global AVCLASS_DYN61       = 11201;
+global AVCLASS_DYN62       = 11221;
+global AVCLASS_DYN63       = 11241;
+global AVCLASS_DYN64       = 11261;
+global AVCLASS_DYN65       = 11281;
+global AVCLASS_DYN66       = 11301;
+global AVCLASS_DYN67       = 11321;
+global AVCLASS_DYN68       = 11341;
+global AVCLASS_DYN69       = 11361;
+global AVCLASS_DYN70       = 11381;
+global AVCLASS_DYN71       = 11401;
+global AVCLASS_DYN72       = 11421;
+global AVCLASS_DYN73       = 11441;
+global AVCLASS_DYN74       = 11461;
+global AVCLASS_DYN75       = 11481;
+global AVCLASS_DYN76       = 11501;
+global AVCLASS_DYN77       = 11521;
+global AVCLASS_DYN78       = 11541;
+global AVCLASS_DYN79       = 11561;
+global AVCLASS_DYN80       = 11581;
+global AVCLASS_DYN81       = 11601;
+global AVCLASS_DYN82       = 11621;
+global AVCLASS_DYN83       = 11641;
+global AVCLASS_DYN84       = 11661;
+global AVCLASS_DYN85       = 11681;
+global AVCLASS_DYN86       = 11701;
+global AVCLASS_DYN87       = 11721;
+global AVCLASS_DYN88       = 11741;
+global AVCLASS_DYN89       = 11761;
+global AVCLASS_DYN90       = 11781;
+global AVCLASS_DYN91       = 11801;
+global AVCLASS_DYN92       = 11821;
+global AVCLASS_DYN93       = 11841;
+global AVCLASS_DYN94       = 11861;
+global AVCLASS_DYN95       = 11881;
+global AVCLASS_DYN96       = 11901;
+global AVCLASS_DYN97       = 11921;
+global AVCLASS_DYN98       = 11941;
+global AVCLASS_DYN99       = 11961;
+global AVCLASS_DYN100      = 11981;
+global AVCLASS_DYN101       = 12001;
+global AVCLASS_DYN102       = 12021;
+global AVCLASS_DYN103       = 12041;
+global AVCLASS_DYN104       = 12061;
+global AVCLASS_DYN105       = 12081;
+global AVCLASS_DYN106       = 12101;
+global AVCLASS_DYN107       = 12121;
+global AVCLASS_DYN108       = 12141;
+global AVCLASS_DYN109       = 12161;
+global AVCLASS_DYN110       = 12181;
+global AVCLASS_DYN111       = 12201;
+global AVCLASS_DYN112       = 12221;
+global AVCLASS_DYN113       = 12241;
+global AVCLASS_DYN114       = 12261;
+global AVCLASS_DYN115       = 12281;
+global AVCLASS_DYN116       = 12301;
+global AVCLASS_DYN117       = 12321;
+global AVCLASS_DYN118       = 12341;
+global AVCLASS_DYN119       = 12361;
+global AVCLASS_DYN120       = 12381;
+global AVCLASS_DYN121       = 12401;
+global AVCLASS_DYN122       = 12421;
+global AVCLASS_DYN123       = 12441;
+global AVCLASS_DYN124       = 12461;
+global AVCLASS_DYN125       = 12481;
+global AVCLASS_DYN126       = 12501;
+global AVCLASS_DYN127       = 12521;
+global AVCLASS_DYN128       = 12541;
+global AVCLASS_DYN129       = 12561;
+global AVCLASS_DYN130       = 12581;
+
+//
+global AVCLASS_MAX           = 12601;//10400;//7240;//2060;
+
+global AVPOSE_SIT   = 0;
+global AVPOSE_WALK0 = 1;
+global AVPOSE_STAND = 2;
+global AVPOSE_WALK1 = 3;
+global AVPOSE_LIE   = 4;
+
+global AVDIR_SW = 0;
+global AVDIR_SE = 1;
+global AVDIR_NW = 2;
+global AVDIR_NE = 3;
+
+global av_FRAME2CLASS = 
+{
+   AVCLASS_RODENT,
+   AVCLASS_EQUINE,
+   AVCLASS_FELINE,
+   AVCLASS_CANINE,
+   AVCLASS_MUSTELINE,
+   AVCLASS_LAPINE,
+   AVCLASS_RODENTCW,
+   AVCLASS_EQUINECW,
+   AVCLASS_FELINECW,
+   AVCLASS_CANINECW,
+   AVCLASS_MUSTELINECW,
+   AVCLASS_KIWI,
+   AVCLASS_LAPINECW,
+   AVCLASS_DRAGON,
+   AVCLASS_PHOENIX,
+   AVCLASS_MIN,
+   AVCLASS_MIN,
+   AVCLASS_MIN,
+   AVCLASS_MIN,
+   AVCLASS_MIN,
+   AVCLASS_MIN,
+   AVCLASS_MIN,
+   AVCLASS_MIN,
+   AVCLASS_MIN,
+   AVCLASS_MIN,
+   AVCLASS_RODENTTW,
+   AVCLASS_EQUINETW,
+   AVCLASS_FELINETW,
+   AVCLASS_CANINETW,
+   AVCLASS_MUSTELINETW,
+   AVCLASS_LAPINETW,
+   AVCLASS_MIN,
+   AVCLASS_MIN,
+   AVCLASS_RODENTFW,
+   AVCLASS_EQUINEFW,
+   AVCLASS_FELINEFW,
+   AVCLASS_CANINEFW,
+   AVCLASS_MUSTELINEFW,
+   AVCLASS_LAPINEFW,
+   AVCLASS_GRYFFE,
+   AVCLASS_EAGLE,
+   AVCLASS_RODENTBW,
+   AVCLASS_EQUINEBW,
+   AVCLASS_FELINEBW,
+   AVCLASS_CANINEBW,
+   AVCLASS_MUSTELINEBW,
+   AVCLASS_LAPINEBW,
+   AVCLASS_SCIURINE,
+   AVCLASS_SCIURINECW,
+   AVCLASS_SCIURINETW,
+   AVCLASS_SCIURINEFW,
+   AVCLASS_SCIURINEBW,
+   AVCLASS_BOVINE,
+   AVCLASS_BOVINECW,
+   AVCLASS_BOVINETW,
+   AVCLASS_BOVINEFW,
+   AVCLASS_BOVINEBW,
+   AVCLASS_RODENTPW,
+   AVCLASS_EQUINEPW,
+   AVCLASS_FELINEPW,
+   AVCLASS_CANINEPW,
+   AVCLASS_MUSTELINEPW,
+   AVCLASS_LAPINEPW,
+   AVCLASS_SCIURINEPW,
+   AVCLASS_BOVINEPW,
+   AVCLASS_PIXIE,
+   AVCLASS_KITTER,
+   AVCLASS_WOLVEN,
+   AVCLASS_URSINE,
+   AVCLASS_URSINECW,
+   AVCLASS_URSINETW,
+   AVCLASS_URSINEFW,
+   AVCLASS_URSINEBW,
+   AVCLASS_URSINEPW,
+   AVCLASS_TYGARD,
+   AVCLASS_LEONEN,
+   AVCLASS_WEREWOLF,
+   AVCLASS_PENGUIN,
+   AVCLASS_BAT,
+   AVCLASS_FOXEN,
+   AVCLASS_FLOXEN,
+   AVCLASS_UNICORN,
+   AVCLASS_FURLINGM,
+   AVCLASS_FURLINGF,
+   AVCLASS_CHINCHILLA,
+   AVCLASS_TOASTER,
+   AVCLASS_BUGGE,
+   AVCLASS_KIRIN,
+   AVCLASS_KIRINCLOUD,
+   AVCLASS_NOBLECANINEM,
+   AVCLASS_NOBLECANINEF,
+   AVCLASS_NOBLEFELINEM,
+   AVCLASS_NOBLEFELINEF,
+   AVCLASS_REINDEER,
+   AVCLASS_CATTEN,
+   AVCLASS_OWLEN,
+   AVCLASS_LOVEBIRD,
+   AVCLASS_RABBEN,
+   AVCLASS_NOBLEEQUINEM,
+   AVCLASS_NOBLEEQUINEF,
+   AVCLASS_WOOLIE,
+   AVCLASS_TOYTLE,
+   AVCLASS_TUSKER,
+   AVCLASS_NOBLERODENTM,
+   AVCLASS_NOBLERODENTF,
+   AVCLASS_NOBLEHUMANM,
+   AVCLASS_NOBLEHUMANF,
+   AVCLASS_PANOOKI,
+   AVCLASS_NAGA
+};
+
+global av_FRAME2LOCALCLASS =  //Separated due to massive number jump
+{
+   AVCLASS_LOCAL1,
+   AVCLASS_LOCAL2,
+   AVCLASS_LOCAL3,
+   AVCLASS_LOCAL4, 
+   AVCLASS_LOCAL5,
+   AVCLASS_LOCAL6,
+   AVCLASS_LOCAL7,
+   AVCLASS_LOCAL8,
+   AVCLASS_LOCAL9,
+   AVCLASS_LOCAL10,
+   AVCLASS_LOCAL11,
+   AVCLASS_LOCAL12,  
+   AVCLASS_LOCAL13,
+   AVCLASS_LOCAL14,
+   AVCLASS_LOCAL15
+};
+
+global av_FRAME2DYNCLASS = //Also separated due to large jumps
+{
+   AVCLASS_DYN1,
+   AVCLASS_DYN2,
+   AVCLASS_DYN3,
+   AVCLASS_DYN4,
+   AVCLASS_DYN5,
+   AVCLASS_DYN6,
+   AVCLASS_DYN7,
+   AVCLASS_DYN8,
+   AVCLASS_DYN9,
+   AVCLASS_DYN10,
+   AVCLASS_DYN11,
+   AVCLASS_DYN12,
+   AVCLASS_DYN13,
+   AVCLASS_DYN14,
+   AVCLASS_DYN15,
+   AVCLASS_DYN16,
+   AVCLASS_DYN17,
+   AVCLASS_DYN18,
+   AVCLASS_DYN19,
+   AVCLASS_DYN20,
+   AVCLASS_DYN21,
+   AVCLASS_DYN22,
+   AVCLASS_DYN23,
+   AVCLASS_DYN24,
+   AVCLASS_DYN25,
+   AVCLASS_DYN26,
+   AVCLASS_DYN27,
+   AVCLASS_DYN28,
+   AVCLASS_DYN29,
+   AVCLASS_DYN30,
+   AVCLASS_DYN31,
+   AVCLASS_DYN32,
+   AVCLASS_DYN33,
+   AVCLASS_DYN34,
+   AVCLASS_DYN35,
+   AVCLASS_DYN36,
+   AVCLASS_DYN37,
+   AVCLASS_DYN38,
+   AVCLASS_DYN39,
+   AVCLASS_DYN40,
+   AVCLASS_DYN41,
+   AVCLASS_DYN42,
+   AVCLASS_DYN43,
+   AVCLASS_DYN44,
+   AVCLASS_DYN45,
+   AVCLASS_DYN46,
+   AVCLASS_DYN47,
+   AVCLASS_DYN48,
+   AVCLASS_DYN49,
+   AVCLASS_DYN50,
+   AVCLASS_DYN51,
+   AVCLASS_DYN52,
+   AVCLASS_DYN53,
+   AVCLASS_DYN54,
+   AVCLASS_DYN55,
+   AVCLASS_DYN56,
+   AVCLASS_DYN57,
+   AVCLASS_DYN58,
+   AVCLASS_DYN59,
+   AVCLASS_DYN60,
+   AVCLASS_DYN61,
+   AVCLASS_DYN62,
+   AVCLASS_DYN63,
+   AVCLASS_DYN64,
+   AVCLASS_DYN65,
+   AVCLASS_DYN66,
+   AVCLASS_DYN67,
+   AVCLASS_DYN68,
+   AVCLASS_DYN69,
+   AVCLASS_DYN70,
+   AVCLASS_DYN71,
+   AVCLASS_DYN72,
+   AVCLASS_DYN73,
+   AVCLASS_DYN74,
+   AVCLASS_DYN75,
+   AVCLASS_DYN76,
+   AVCLASS_DYN77,
+   AVCLASS_DYN78,
+   AVCLASS_DYN79,
+   AVCLASS_DYN80,
+   AVCLASS_DYN81,
+   AVCLASS_DYN82,
+   AVCLASS_DYN83,
+   AVCLASS_DYN84,
+   AVCLASS_DYN85,
+   AVCLASS_DYN86,
+   AVCLASS_DYN87,
+   AVCLASS_DYN88,
+   AVCLASS_DYN89,
+   AVCLASS_DYN90,
+   AVCLASS_DYN91,
+   AVCLASS_DYN92,
+   AVCLASS_DYN93,
+   AVCLASS_DYN94,
+   AVCLASS_DYN95,
+   AVCLASS_DYN96,
+   AVCLASS_DYN97,
+   AVCLASS_DYN98,
+   AVCLASS_DYN99,
+   AVCLASS_DYN100,
+   AVCLASS_DYN101,
+   AVCLASS_DYN102,
+   AVCLASS_DYN103,
+   AVCLASS_DYN104,
+   AVCLASS_DYN105,
+   AVCLASS_DYN106,
+   AVCLASS_DYN107,
+   AVCLASS_DYN108,
+   AVCLASS_DYN109,
+   AVCLASS_DYN110,
+   AVCLASS_DYN111,
+   AVCLASS_DYN112,
+   AVCLASS_DYN113,
+   AVCLASS_DYN114,
+   AVCLASS_DYN115,
+   AVCLASS_DYN116,
+   AVCLASS_DYN117,
+   AVCLASS_DYN118,
+   AVCLASS_DYN119,
+   AVCLASS_DYN120,
+   AVCLASS_DYN121,
+   AVCLASS_DYN122,
+   AVCLASS_DYN123,
+   AVCLASS_DYN124,
+   AVCLASS_DYN125,
+//   AVCLASS_DYN126,
+//   AVCLASS_DYN127,
+//   AVCLASS_DYN128,
+//   AVCLASS_DYN129,
+//   AVCLASS_DYN130,
+};
+
+global av_FRAME2DIR =
+{
+   AVDIR_SW,
+   AVDIR_SE,
+   AVDIR_NW,
+   AVDIR_NE,
+};
+
+global av_FRAME2DIR2 =
+{
+   AVDIR_SW,
+   AVDIR_SE,
+   AVDIR_NE,
+   AVDIR_NW,
+};
+
+global av_FRAME2POSE =
+{
+   AVPOSE_SIT,
+   AVPOSE_WALK0,
+   AVPOSE_STAND,
+   AVPOSE_WALK1,
+   AVPOSE_LIE,
+};
+
+/** Extracts info from a frame.
+* 'frame' should be an integer.
+* Returns a table with 'class', 'dir', and 'pose' keys. */
+global av_frameInfo = function( frame )
+{
+   info = { class=AVCLASS_MIN, dir=AVDIR_SW, pose=AVPOSE_STAND };
+   
+   if (frame >= AVCLASS_MIN && frame <= AVCLASS_MAX)
+   {
+      if (frame >= 7000) { //Localspecies
+       if (frame >= 10000) { //Dynamics
+         info.class = av_FRAME2DYNCLASS[ (frame - 10001) / 20 ];
+         } else { //LS
+      info.class = av_FRAME2LOCALCLASS[ (frame - 7001) / 20 ];
+       }
+       } else { //Normal species range
+      info.class = av_FRAME2CLASS[ (frame - 1) / 20 ]; 
+       }
+      frame -= info.class;
+         
+      if (frame <= 15)
+      {
+         if (info.class != AVCLASS_KIWI) {
+            info.dir  = av_FRAME2DIR[ frame / 4 ];
+         }
+         else {
+            info.dir  = av_FRAME2DIR2[ frame / 4 ];
+         }
+            
+         info.pose = av_FRAME2POSE[ frame % 4 ];
+      }
+      else
+      {
+         info.dir  = av_FRAME2DIR2[ frame - 16 ];
+         info.pose = av_FRAME2POSE[ 4 ];
+      }
+   }
+   
+   return info;
+};
+
+/** Converts avatar info into a frame number.
+* 'info' should be a table with class, dir, and pose keys.
+* Returns an integer. */
+global av_makeFrame = function( info )
+{
+   frame = info.class;
+      
+   if (info.pose < AVPOSE_LIE) 
+   {
+      if (info.class != AVCLASS_KIWI) {
+         frame += info.dir * 4 + info.pose;
+      }
+      else {
+         frame += av_FRAME2DIR2[ info.dir ] * 4 + info.pose;
+      }      
+   }
+   else {
+      frame += 16 + av_FRAME2DIR2[ info.dir ];
+   }
+   
+   if (frame >= AVCLASS_MIN && frame <= AVCLASS_MAX) {
+      return frame;
+   }
+   
+   return AVCLASS_MIN;
+};
+

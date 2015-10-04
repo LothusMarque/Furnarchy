@@ -1,0 +1,10 @@
+/************************************************************************/
+/* term.gm                                                              */
+/* Import script defining terminal global constants.                    */
+/************************************************************************/
+
+/* Terminal text style flags. */
+global TERMSTYLE_NORMAL    = 0x0;   // Mutually exclusive with any other style.
+global TERMSTYLE_BOLD      = 0x1;
+global TERMSTYLE_ITALIC    = 0x2;
+global TERMSTYLE_UNDERLINE = 0x4;

@@ -1,0 +1,64 @@
+/* 
+ * AOC- Atack of the Clones.
+ * Type @scrun aoc <colorcode> to make everyone around. (Colorcode is optional)
+ * you look exactly the same. You must use Quotes and escape characters
+ * if the colorcode has quotation marks or spaces. Be sure to use @scrun aoc --help
+ * before trying to put in random colorcodes.
+ */
+
+global SCNAME = "AOC";       // for the sake of making easy to change the name. 
+global colour;
+global default_code = "\"6B:<8)#84";
+
+global onRun = function( args ) {
+  global SCNAME;
+  global colour;
+  global default_code;
+
+  
+  if( args[1] && length(args[1]) == 13 ) {
+    colour = strSub(args[1], 0, 10);
+    speak( strCat( SCNAME, ": Everyone's colorcodes are now ", colour, "." ) );
+  }
+  else if ( args[1] && (args[1] == "-h" || args[1] == "--help") ) {
+    speak( strCat("<b>Usage: scrun ", SCNAME, " \"<i>colourcode</i>\".</b>") );
+    speak( "If specified, <i>colourcode</i> must be a 13-character Furcadia colorcode . Use C-style escape codes if the colorcode contains \" in it. (change \" to \\\")");
+    speak( strCat( "<u>Example</u>: <i>scrun ", SCNAME, "</i> \"\\\"6B:<8)#84!\\\"" ) );
+    exit( );
+  }
+  else if ( args[1] && !length(args[1]) == 13 ){
+    speak( strCat(SCNAME, ": Incorrect arguments. Use ") );
+    speak( strCat("scrun ", SCNAME ," -h / --help for more information") );
+    exit( );
+  }  
+  else {
+    colour = default_code;
+    speak( strCat( SCNAME, ": Everyone's colorcode is now the same." ) );   
+  } 
+};    
+
+global onInbound = function( line, from, num ) {
+  global colour;
+
+  code = colour;  
+  if ( reMatch(line, `/^\]f(.+)$/`) ) {
+      suffix = strSub( line, 12);
+      line = strCat( "]f", code, suffix );
+  }
+  else if ( reMatch(line, `/^\<(.+)$/`) ) {
+    suffix = strSub(line, 11);
+    line = strCat( "<", code, suffix );
+  }
+  else if ( reMatch(line, `/^\/(.+)$/`) ) {
+    suffix = strSub(line, 11);
+    line = strCat( "/", code, suffix );
+  }
+  else if (reMatch(line, `/^\]-\#A(.+)$/`)) {
+    suffix = strSub(line , 14);
+    line = strCat( "]-#A", code, suffix);
+  }
+
+
+  return line;
+                                                                   
+};

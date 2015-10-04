@@ -1,0 +1,1 @@
+Accept @aff offset in the form (Xh Xm Xs).

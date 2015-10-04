@@ -1,0 +1,24 @@
+/************************************************************************/
+/* keys.gm                                                              */
+/* Import script defining keyboard global constants.                    */
+/************************************************************************/
+
+global KEY_F1    = 0x0100;
+global KEY_F2    = 0x0101;
+global KEY_F3    = 0x0102;
+global KEY_F4    = 0x0103;
+global KEY_F5    = 0x0104;
+global KEY_F6    = 0x0105;
+global KEY_F7    = 0x0106;
+global KEY_F8    = 0x0107;
+global KEY_F9    = 0x0108;
+global KEY_F10   = 0x0109;
+global KEY_F11   = 0x010A;
+global KEY_F12   = 0x010B;
+global KEY_LEFT  = 0x010C;
+global KEY_RIGHT = 0x010D;
+global KEY_UP    = 0x010E;
+global KEY_DOWN  = 0x010F;
+global KEY_ESC   = 0x0110;
+global KEY_SHIFT = 0x0111;
+global KEY_PAUSE = 0x0112;

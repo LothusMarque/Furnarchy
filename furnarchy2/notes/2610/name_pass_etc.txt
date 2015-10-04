@@ -1,0 +1,289 @@
+2610
+----
+(LM notes: Just memory search to find these)
+
+005BB8B8: char g_name[ ? ];
+005BE5DC: char g_password[ ? ];
+005B9FD0: char g_desc[ ? ];
+0082B3A0: int g_colors[ ? ];  //LM: Set of integer values of the original B220, search for pattern.
+
+0046FD00: void open_logfile()
+
+008281DC: LOGFILEOBJ g_logfile;   //LM: Note that this is the third byte BEFORE the text starts with C:\ ..etc.
+
+005013A7: void __cdecl fclose( FILE* )
+CPU Disasm
+Address   Hex dump          Command                                  Comments
+005013A7  /$  6A 0C         PUSH 0C                                  ; Furcadia.005013A7(guessed Arg1)
+005013A9  |.  68 78A95300   PUSH OFFSET Furcadia.0053A978
+005013AE  |.  E8 458A0000   CALL 00509DF8
+005013B3  |.  834D E4 FF    OR DWORD PTR SS:[EBP-1C],FFFFFFFF
+005013B7  |.  33C0          XOR EAX,EAX
+005013B9  |.  8B75 08       MOV ESI,DWORD PTR SS:[EBP+8]
+005013BC  |.  33FF          XOR EDI,EDI
+005013BE  |.  3BF7          CMP ESI,EDI
+005013C0  |.  0F95C0        SETNE AL
+005013C3  |.  3BC7          CMP EAX,EDI
+005013C5  |.  75 1D         JNE SHORT 005013E4
+005013C7  |.  E8 38180000   CALL 00502C04                            ; [Furcadia.00502C04
+005013CC  |.  C700 16000000 MOV DWORD PTR DS:[EAX],16
+005013D2  |.  57            PUSH EDI                                 ; /Arg5
+005013D3  |.  57            PUSH EDI                                 ; |Arg4
+005013D4  |.  57            PUSH EDI                                 ; |Arg3
+005013D5  |.  57            PUSH EDI                                 ; |Arg2
+005013D6  |.  57            PUSH EDI                                 ; |Arg1
+005013D7  |.  E8 28DFFFFF   CALL 004FF304                            ; \Furcadia.004FF304
+005013DC  |.  83C4 14       ADD ESP,14
+005013DF  |.  83C8 FF       OR EAX,FFFFFFFF
+005013E2  |.  EB 0C         JMP SHORT 005013F0
+005013E4  |>  F646 0C 40    TEST BYTE PTR DS:[ESI+0C],40
+005013E8  |.  74 0C         JE SHORT 005013F6
+005013EA  |.  897E 0C       MOV DWORD PTR DS:[ESI+0C],EDI
+005013ED  |>  8B45 E4       MOV EAX,DWORD PTR SS:[EBP-1C]
+005013F0  |>  E8 488A0000   CALL 00509E3D
+005013F5  |.  C3            RETN
+005013F6  |>  56            PUSH ESI                                 ; /Arg1 => [ARG.EBP+8]
+005013F7  |.  E8 6B1F0000   CALL 00503367                            ; \Furcadia.00503367
+005013FC  |.  59            POP ECX
+005013FD  |.  897D FC       MOV DWORD PTR SS:[EBP-4],EDI
+00501400  |.  56            PUSH ESI                                 ; /Arg1
+00501401  |.  E8 2FFFFFFF   CALL 00501335                            ; \Furcadia.00501335
+00501406  |.  59            POP ECX
+00501407  |.  8945 E4       MOV DWORD PTR SS:[EBP-1C],EAX
+0050140A  |.  C745 FC FEFFF MOV DWORD PTR SS:[EBP-4],-2
+00501411  |.  E8 05000000   CALL 0050141B
+00501416  \.^ EB D5         JMP SHORT 005013ED
+
+
+--
+To properly change the furre's colors and remap the buttons,
+you can take a look at FurEd's WM_COPYDATA trick
+(search for the 'chcol' string).
+At some point during the processing of the message, it calls
+a function that builds up a color table:
+
+00403E50 void __stdcall map_palette( const char* sz_colors : ESI,
+                                     void* target, 
+                                     int unk /* typically 0 */,
+                                     int unk /* typically 0 */,
+                                     int unk /* typically 1 */ );
+CPU Disasm
+Address   Hex dump          Command                                  Comments
+00403E50  /$  8BC6          MOV EAX,ESI                              ; Furcadia.00403E50(guessed Arg1,Arg2,Arg3,Arg4)
+00403E52  |.  81EC 00010000 SUB ESP,100
+00403E58  |.  8D50 01       LEA EDX,[EAX+1]
+00403E5B  |.  EB 03         JMP SHORT 00403E60
+00403E5D  |   8D49 00       LEA ECX,[ECX]
+00403E60  |>  8A08          /MOV CL,BYTE PTR DS:[EAX]
+00403E62  |.  83C0 01       |ADD EAX,1
+00403E65  |.  84C9          |TEST CL,CL
+00403E67  |.^ 75 F7         \JNE SHORT 00403E60
+00403E69  |.  2BC2          SUB EAX,EDX
+00403E6B  |.  8BC8          MOV ECX,EAX
+00403E6D  |.  33C0          XOR EAX,EAX
+00403E6F  |.  85C9          TEST ECX,ECX
+00403E71  |.  7E 15         JLE SHORT 00403E88
+00403E73  |>  83F8 3F       /CMP EAX,3F
+00403E76  |.  7D 10         |JGE SHORT 00403E88
+00403E78  |.  66:0FB61430   |MOVZX DX,BYTE PTR DS:[ESI+EAX]
+00403E7D  |.  66:891484     |MOV WORD PTR SS:[EAX*4+ESP],DX
+00403E81  |.  83C0 01       |ADD EAX,1
+00403E84  |.  3BC1          |CMP EAX,ECX
+00403E86  |.^ 7C EB         \JL SHORT 00403E73
+00403E88  |>  83F9 3F       CMP ECX,3F
+00403E8B  |.  66:C70484 000 MOV WORD PTR SS:[EAX*4+ESP],0
+00403E91  |.  7C 05         JL SHORT 00403E98
+00403E93  |.  B9 3F000000   MOV ECX,3F
+00403E98  |>  8B8424 100100 MOV EAX,DWORD PTR SS:[ARG.4]
+00403E9F  |.  8B9424 0C0100 MOV EDX,DWORD PTR SS:[ARG.3]
+00403EA6  |.  50            PUSH EAX                                 ; /Arg6 => [ARG.4]
+00403EA7  |.  8B8424 0C0100 MOV EAX,DWORD PTR SS:[ARG.2]             ; |
+00403EAE  |.  52            PUSH EDX                                 ; |Arg5 => [ARG.3]
+00403EAF  |.  8B9424 0C0100 MOV EDX,DWORD PTR SS:[ARG.1]             ; |
+00403EB6  |.  50            PUSH EAX                                 ; |Arg4 => [ARG.2]
+00403EB7  |.  51            PUSH ECX                                 ; |Arg3
+00403EB8  |.  8D4C24 10     LEA ECX,[LOCAL.63]                       ; |
+00403EBC  |.  51            PUSH ECX                                 ; |Arg2 => OFFSET LOCAL.63
+00403EBD  |.  52            PUSH EDX                                 ; |Arg1 => [ARG.1]
+00403EBE  |.  E8 0D000000   CALL 00403ED0                            ; \Furcadia.00403ED0
+00403EC3  |.  81C4 00010000 ADD ESP,100
+00403EC9  \.  C2 1000       RETN 10
+
+                                     
+                                     
+The 'target' argument for the buttons' color table is
+0082AF40, but the first 80 bytes of it gets copied to
+the actual color table at 0082B260.
+
+CPU Stack
+Address   Value       ASCII Comments
+0082B260   00EBF3FF   .
+0082B264   00B7CBE7   ?.
+0082B268   008FABCF   ?.
+0082B26C   00678BBB   g.
+0082B270   00476FA3   oG.
+0082B274   002B578F   W+.
+
+CPU Disasm
+Address   Hex dump          Command                                  Comments
+0082B25C    0000            ADD BYTE PTR DS:[EAX],AL
+0082B25E    0000            ADD BYTE PTR DS:[EAX],AL
+0082B260    FFF3            PUSH EBX
+0082B262    EB 00           JMP SHORT 0082B264
+0082B264    E7 CB           OUT 0CB,EAX                              ; I/O command
+
+
+
+
+
+2520
+----
+
+005BAE38: char g_name[ ? ];
+005BDB5C: char g_password[ ? ];
+005B9550: char g_desc[ ? ];
+00828C68: int g_colors[ ? ];
+
+0046FB60: void open_logfile()
+
+00825AA4: LOGFILEOBJ g_logfile;
+
+005011A7: void __cdecl fclose( FILE* )
+
+To properly change the furre's colors and remap the buttons,
+you can take a look at FurEd's WM_COPYDATA trick
+(search for the 'chcol' string).
+At some point during the processing of the message, it calls
+a function that builds up a color table:
+
+00403DB0 void __stdcall map_palette( const char* sz_colors : ESI,
+                                     void* target, 
+                                     int unk /* typically 0 */,
+                                     int unk /* typically 0 */,
+                                     int unk /* typically 1 */ );
+                                    
+The 'target' argument for the buttons' color table is
+00828808, but the first 80 bytes of it gets copied to
+the actual color table at 00828B28.
+
+2510
+----
+
+005BAA78: char g_name[ ? ];
+005BE73C: char g_password[ ? ];
+005B8510: char g_desc[ ? ];
+008C52B0: int g_colors[ ? ];
+
+0046EB70: void open_logfile()
+
+008C20F0: LOGFILEOBJ g_logfile;
+
+005003F5: void __cdecl fclose( FILE* )
+
+2410
+----
+
+00532318: char g_name[ ? ];
+00533A6C: char g_password[ ? ];
+00531670: char g_desc[ ? ];
+007384C8: int  g_colors[ ? ];  // You can find this near the "chcol %s\n" string.
+
+00464960: void open_logfile()
+
+The structure of the LOGFILEOBJ is now
+struct LOGFILEOBJ
+{
+   FILE* fp;
+   int   loaded; //secretly bool
+   int   unk1; // always zero?
+   char  filename[ ? ];
+};
+
+00735144: LOGFILEOBJ g_logfile;
+
+004AAB07: void __cdecl fclose( FILE* )
+
+2320
+----
+
+00513448 char g_name[ ? ];
+00514C18 char g_password[ ? ];
+005127A0 char g_desc[ ? ];
+
+Colors are still stored as full ints.
+Each int is just the color byte - 35.
+
+6CBAD8 int g_colors[ 13 ]
+
+For secondary (fileserver) connections, the name
+and passwords are read again for each
+transaction. They're stored in a big object.
+
+If you trace back from the "USER %s" string used
+in a method of the object, you'll see the 
+pointer to the object itself is at
+
+00512578 void* p_fserv_obj;
+
+The offsets to the name and passwords are
+
+p_fserv_obj+0x5304 char name[ 128 ]
+p_fserv_obj+0x5384 char name[ 128 ]
+
+
+LOGFILES
+
+The log file is opened with fopen() in the function
+
+00465230 void open_logfile()
+
+To find it, you just have to breakpoint
+every "ab" string (or the "%FURC_LOGS%" string).
+
+open_logfile generates the logfile name, opens it,
+and stores information in a static structure at
+006C8750.
+
+The structure appears to be:
+
+struct LOGFILEOBJ
+{
+   FILE* fp;
+   int   loaded; //secretly bool
+   char  filename[ ? ];
+};
+
+It remains valid until disconnection.
+
+In order to make furc recreate the logfile after modifying
+the player name, you have to zero out all fields of
+the object, then call open_logfile() again.
+
+Well, you don't actually have to call open_logfile()
+because the log() function checks for it
+and does it automatically.
+
+It's a good idea to fclose( fp ), but compiler libraries
+may disagree, so you'll have to use furc's fclose function
+at 
+
+004AB5EC void __cdecl fclose( FILE* )
+
+
+Client RC3 023
+----------
+
+Colors are now stored as full ints per field,
+and as plain numbers at 006BCD40.
+
+
+Old
+---
+
+Just look at the code for the 'connect' string formation for these.
+I don't know the bounds of these buffers, but they seem fairly large.
+
+004BBC48 const char g_desc[ ? ];
+004C02CC const char g_colors[ ? ];
+004C4518 const char g_name[ ? ];
+004D1AB8 const char g_password[ ? ];

@@ -1,0 +1,14 @@
+ToDo:
+-Fox3 loading support
+-Option to save digo preview per-INI (Erilyyn)
+
+Done:
+-Allow clicking on avatar preview box to cycle through available positions.
+-Run With/Without Furnarchy checkbox should be persistent
+-Random clothes colors button
+-Enter-press on character list launches Furc
+-Add Coming Soon hidden popup to Curses text image.
+-Random full colors/Random Everything (Erilyyn)
+
+
+

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="common">
+      <UniqueIdentifier>{2f31be08-97fd-43a8-aeb6-74e5a0a0bf2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tinyxml">
+      <UniqueIdentifier>{96409e18-fe33-4143-8acf-83672c4b6abf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="common\crc32.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\IniFile.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\x86pp.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml\tinystr.h">
+      <Filter>tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml\tinyxml.h">
+      <Filter>tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="image_locate.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="common\IniFile.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\x86pp.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml\tinystr.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml\tinyxml.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml\tinyxmlerror.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml\tinyxmlparser.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="image_locate.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+</Project>

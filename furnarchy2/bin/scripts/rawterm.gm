@@ -1,0 +1,85 @@
+/************************************************************************/
+/* rawterm.gm                                                           */
+/* Creates a terminal that outputs all raw network data.                */
+/* Incoming data is colored red and outgoing data is colored green.     */
+/* Typing in the input buffer injects inbound data.                     */
+/* If the input is prefixed with a backtick (`), it is sent to the      */
+/* server, instead.                                                     */
+/************************************************************************/
+
+/* Import terminal constants. */
+import( "term" );
+
+global g_term_id = 0;
+global INBOUND_COLOR = rgb( 225, 0, 0 );
+global OUTBOUND_COLOR = rgb( 0, 160, 0 );
+
+global onRun = function( args )
+{
+   /* Create the terminal. */
+   g_term_id = termCreate( );
+   speak( "Created terminal " + g_term_id );
+   
+   /* Set some attributes. */
+   termSet( g_term_id, { title="Raw terminal (" + getName( ) + ")",
+                         onDestroy=onTermDestroy,
+                         onInput=onTermInput,
+                         font={ name="Courier New" },
+                         types={ input={ color=rgb( 96, 0, 0 ), style=TERMSTYLE_BOLD } }
+                       } );
+                       
+   /* Print a friendly greeting. */
+   termPrint( g_term_id, 
+      "<b>This window sends, receives, and injects raw network traffic #SW.</b>" );
+   termPrint( g_term_id, 
+      "<b>Type in the input buffer to inject raw traffic.</b>" );
+   termPrint( g_term_id, 
+      "<b>To send raw traffic, prefix your input with a backtick.</b>" );
+};
+
+global onTermDestroy = function( id )
+{
+   /* Terminal destroyed, so quit. */
+   exit( 0 );
+};
+
+global onTermInput = function( id, input )
+{  
+   /* Send out anything with a ` prefix. */
+   if (input[ 0 ] == '`')
+   {
+      termWrite( id, strSub( input, 1 ), 
+                 TERMSTYLE_ITALIC | TERMSTYLE_BOLD, OUTBOUND_COLOR );
+      netOutLine( strSub( input, 1 ) );
+   }
+   /* Inject everything else. */
+   else
+   {
+      termWrite( id, input,
+                 TERMSTYLE_ITALIC | TERMSTYLE_BOLD, INBOUND_COLOR );
+      netInLine( input );
+   }  
+};
+
+global onInbound = function( line )
+{   
+   global g_term_id;
+
+   /* Write out any inbound lines in the inbound color. */
+   if (length( line ))
+   {
+      termWrite( g_term_id, line, null, INBOUND_COLOR );
+   }
+};
+
+global onOutbound = function( line )
+{
+   global g_term_id;
+   
+   /* Write out any outbound lines in the outbound color. */
+   if (length( line ))
+   {   
+      termWrite( g_term_id, line, null, OUTBOUND_COLOR );
+   }
+};
+

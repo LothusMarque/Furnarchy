@@ -1,0 +1,151 @@
+2610
+----
+0040A2A0: void __cdecl chatbox_push_sysmsg( const char* sz );
+
+CPU Disasm
+Address   Hex dump          Command                                  Comments
+0040A2A0  /$  A1 84E65B00   MOV EAX,DWORD PTR DS:[5BE684]            ; Furcadia.0040A2A0(guessed Arg1)
+0040A2A5  |.  85C0          TEST EAX,EAX
+0040A2A7  |.  74 26         JE SHORT 0040A2CF
+0040A2A9  |.  8378 24 00    CMP DWORD PTR DS:[EAX+24],0
+0040A2AD  |.  74 20         JE SHORT 0040A2CF
+0040A2AF  |.  8B4C24 04     MOV ECX,DWORD PTR SS:[ARG.1]
+0040A2B3  |.  E8 78330100   CALL 0041D630
+0040A2B8  |.  6A 01         PUSH 1                                   ; /Arg1 = 1
+0040A2BA  |.  E8 211E0100   CALL 0041C0E0                            ; \Furcadia.0041C0E0
+0040A2BF  |.  83C4 04       ADD ESP,4
+0040A2C2  |.  C74424 04 010 MOV DWORD PTR SS:[ARG.1],1
+0040A2CA  |.  E9 A11C0100   JMP 0041BF70
+0040A2CF  |>  8B4424 04     MOV EAX,DWORD PTR SS:[ARG.1]
+0040A2D3  |.  8B0D 44B95B00 MOV ECX,DWORD PTR DS:[5BB944]
+0040A2D9  |.  6A 30         PUSH 30                                  ; /Type = MB_OK|MB_ICONEXCLAMATION|MB_DEFBUTTON1|MB_APPLMODAL
+0040A2DB  |.  68 04985200   PUSH OFFSET Furcadia.00529804            ; |Caption = "Furcadia"
+0040A2E0  |.  50            PUSH EAX                                 ; |Text => [ARG.1]
+0040A2E1  |.  51            PUSH ECX                                 ; |hOwner => [5BB944] = 002E073A, class = Furcadia@Client@DragonsEyeProductionsInc, text = Furcadia - Opus
+0040A2E2  |.  FF15 24A45100 CALL DWORD PTR DS:[<&USER32.MessageBoxA> ; \USER32.MessageBoxA
+0040A2E8  \.  C3            RETN
+
+
+
+0040A2F0: void __cdecl chatbox_push_network( const char* sz );
+CPU Disasm
+Address   Hex dump          Command                                  Comments
+0040A2F0  /$  A1 84E65B00   MOV EAX,DWORD PTR DS:[5BE684]
+0040A2F5  |.  85C0          TEST EAX,EAX
+0040A2F7  |.  74 26         JE SHORT 0040A31F
+0040A2F9  |.  8378 24 00    CMP DWORD PTR DS:[EAX+24],0
+0040A2FD  |.  74 20         JE SHORT 0040A31F
+0040A2FF  |.  8B4424 04     MOV EAX,DWORD PTR SS:[ARG.1]
+0040A303  |.  E8 88330100   CALL 0041D690
+0040A308  |.  6A 01         PUSH 1                                   ; /Arg1 = 1
+0040A30A  |.  E8 D11D0100   CALL 0041C0E0                            ; \Furcadia.0041C0E0
+0040A30F  |.  83C4 04       ADD ESP,4
+0040A312  |.  C74424 04 010 MOV DWORD PTR SS:[ARG.1],1
+0040A31A  |.  E9 511C0100   JMP 0041BF70
+0040A31F  |>  A1 44B95B00   MOV EAX,DWORD PTR DS:[5BB944]
+0040A324  |.  6A 30         PUSH 30                                  ; /Type = MB_OK|MB_ICONEXCLAMATION|MB_DEFBUTTON1|MB_APPLMODAL
+0040A326  |.  68 04985200   PUSH OFFSET Furcadia.00529804            ; |Caption = "Furcadia"
+0040A32B  |.  51            PUSH ECX                                 ; |Text => ARG.ECX
+0040A32C  |.  50            PUSH EAX                                 ; |hOwner => [5BB944] = 002E073A, class = Furcadia@Client@DragonsEyeProductionsInc, text = Furcadia - Opus
+0040A32D  |.  FF15 24A45100 CALL DWORD PTR DS:[<&USER32.MessageBoxA> ; \USER32.MessageBoxA
+0040A333  \.  C3            RETN
+
+
+
+
+004590A0: void __fastcall? pushChatbox( const char* sz : ECX, 
+                                        void* unk1 : EAX, 
+                                        void* unk2 : ESI );
+
+                                        CPU Disasm
+Address   Hex dump          Command                                  Comments
+004590A0  /$  8038 00       CMP BYTE PTR DS:[EAX],0
+004590A3  |.  8B56 08       MOV EDX,DWORD PTR DS:[ESI+8]
+004590A6  |.  57            PUSH EDI
+004590A7  |.  8BF9          MOV EDI,ECX
+004590A9  |.  74 1C         JE SHORT 004590C7
+004590AB  |.  8B4A 30       MOV ECX,DWORD PTR DS:[EDX+30]
+004590AE  |.  66:C701 0000  MOV WORD PTR DS:[ECX],0
+004590B3  |.  8B4A 30       MOV ECX,DWORD PTR DS:[EDX+30]
+004590B6  |.  50            PUSH EAX                                 ; /Arg1 => ARG.EAX
+004590B7  |.  33C0          XOR EAX,EAX                              ; |
+004590B9  |.  C641 02 00    MOV BYTE PTR DS:[ECX+2],0                ; |
+004590BD  |.  E8 6EC5FFFF   CALL 00455630                            ; \Furcadia.00455630
+004590C2  |.  8B56 08       MOV EDX,DWORD PTR DS:[ESI+8]
+004590C5  |.  EB 0F         JMP SHORT 004590D6
+004590C7  |>  8B42 30       MOV EAX,DWORD PTR DS:[EDX+30]
+004590CA  |.  66:C700 0000  MOV WORD PTR DS:[EAX],0
+004590CF  |.  8B4A 30       MOV ECX,DWORD PTR DS:[EDX+30]
+004590D2  |.  C641 02 00    MOV BYTE PTR DS:[ECX+2],0
+004590D6  |>  57            PUSH EDI                                 ; /Arg1
+004590D7  |.  33C0          XOR EAX,EAX                              ; |
+004590D9  |.  E8 52C5FFFF   CALL 00455630                            ; \Furcadia.00455630
+004590DE  |.  8B56 08       MOV EDX,DWORD PTR DS:[ESI+8]
+004590E1  |.  8B46 0C       MOV EAX,DWORD PTR DS:[ESI+0C]
+004590E4  |.  6A 01         PUSH 1                                   ; /Arg4 = 1
+004590E6  |.  6A 01         PUSH 1                                   ; |Arg3 = 1
+004590E8  |.  52            PUSH EDX                                 ; |Arg2
+004590E9  |.  50            PUSH EAX                                 ; |Arg1
+004590EA  |.  E8 E1BEFFFF   CALL 00454FD0                            ; \Furcadia.00454FD0
+004590EF  |.  8B7E 0C       MOV EDI,DWORD PTR DS:[ESI+0C]
+004590F2  |.  E8 B9A2FFFF   CALL 004533B0                            ; [Furcadia.004533B0
+004590F7  |.  8B46 34       MOV EAX,DWORD PTR DS:[ESI+34]
+004590FA  |.  85C0          TEST EAX,EAX
+004590FC  |.  74 09         JE SHORT 00459107
+004590FE  |.  8B4E 0C       MOV ECX,DWORD PTR DS:[ESI+0C]
+00459101  |.  51            PUSH ECX
+00459102  |.  FFD0          CALL EAX
+00459104  |.  83C4 04       ADD ESP,4
+00459107  |>  8B56 0C       MOV EDX,DWORD PTR DS:[ESI+0C]
+0045910A  |.  52            PUSH EDX                                 ; /Arg2
+0045910B  |.  56            PUSH ESI                                 ; |Arg1
+0045910C  |.  E8 0F000000   CALL 00459120                            ; \Furcadia.00459120
+00459111  |.  5F            POP EDI
+00459112  \.  C3            RETN
+
+
+
+2520
+----
+
+0040A1C0: void __cdecl chatbox_push_sysmsg( const char* sz );
+0040A210: void __cdecl chatbox_push_network( const char* sz );
+
+00458EB0: void __fastcall? pushChatbox( const char* sz : ECX, 
+                                        void* unk1 : EAX, 
+                                        void* unk2 : ESI );
+
+2410
+----
+
+OK, these are normal again.
+0040A2F0: void __cdecl chatbox_push_sysmsg( const char* sz );
+0040A340: void __cdecl chatbox_push_network( const char* sz );
+
+00450A40: void __fastcall? pushChatbox( const char* sz : ECX, 
+                                        void* unk1 : EAX, 
+                                        void* unk2 : ESI );
+
+2320
+----
+
+There seem to be more than one push method now.
+The one used by system messages is:
+
+00409D30: void __cdecl chatbox_push_sysmsg( const char* sz : ECX );
+0041AD10: void __cdecl chatbox_push_network( const char* sz : ECX );
+0041ACB0: void __cdecl chatbox_push_local2( const char* sz : ECX );
+
+And there's more, but these cover most chatbox pushes.
+
+Eventually, all the higher level calls boil down to a
+function that looks refactored by the compiler.
+
+00450FE0 : void __fastcall? pushChatbox( const char* sz : ECX, 
+                                         void* unk1 : EAX, 
+                                         void* unk2 : ESI );
+
+Prior to 2320
+-------------
+
+00405260 : void chatbox_push( const char* sz );

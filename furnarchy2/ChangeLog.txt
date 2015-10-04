@@ -1,0 +1,339 @@
+2.6-r13
+-------
+ADDED   Script: dbCountSections() function.
+ADDED   Script: dbReadSectionName() function.
+ADDED   Script: abs() function.
+ADDED   Script: getScriptID() function.
+CHANGED No longer yells about missing memlocs in the chat window, as most memloc functions are gone now.
+FIXED   Terminals no longer appear offscreen when Furc is minimized.
+
+2.6-r12
+-------
+ADDED	@timestampsecs on|off to add seconds to Furnarchy timestamping.
+ADDED	Script: altState function.
+ADDED	Script: shiftState function.
+
+2.6-r11
+-------
+FIXED	Knows the new location of the webserver used for news, no longer catches wrong TCP connect.
+
+2.6-r10
+------
+FIXED    Folder creation related to scripts in single user mode.
+CHANGED  @rawchat on/off starts/closes the rawchat script instead.
+CHANGED  No longer uses direct chatbox push. Causes issues in Furc28B for some reason.
+
+2.6-r9
+------
+ADDED    Script: ArcCosine (acos) function.
+ADDED    Script: ArcSine (asin) function.
+ADDED    Script: ArcTangent (atan) function.
+FIXED    Fixed world uninitialize bug/typo.
+FIXED    Script Docs: Fixed toLocalTime documentation.
+REMOVED  Most of the memlocs. Only 4 remain right now, Chatbox-related and the Playermenu.
+
+2.6-r8
+------
+ADDED    Script: Square Root (sqrt) function.
+ADDED    Script: Cosine (cos) function.
+ADDED    Script: Sine (sin) function.
+ADDED    Script: Tangent (tan) function.
+
+2.6-r7
+------
+FIXED    Memlocs, functions to go with client 2720 - All thanks to Cluracan.
+
+2.6-r6 (ES/MEP Version)
+------
+CHANGED  News.xml url and message.
+CHANGED  Library versions with new compiler environment. 
+
+2.6-r5
+------
+ADDED    F2M_ISNOTDLGWND message for windows to opt out of dialog processing.
+ADDED    "@speedlimit on|off" command to prevent furnarchy from buffering your chat.
+ADDED    NetSubsystem::InboundDsEmitEvent.
+CHANGED  Updated the bundled FreeImage library.
+
+2.6-r4
+------
+FIXED   The character '>' is echoed twice in @ commands.
+CHANGED No more need to call f2_setcurdialog(). F2 should do dialog message processing fine on its own.
+ADDED   CLI module ModuleHost::broadcastValue() and ModuleHost::BroadcastValueEvent.
+ADDED   CLI module ClientSubsystem::DrawClientEvent.
+ADDED   CLI module ClientSubsystem::ClientWindow property (returns an IWin32Window).
+
+2.6-r3
+------
+FIXED   Digo buttons and butler not fully remapping with player's colors.
+
+2.6-r2
+------
+FIXED   hide_flags not working in CLI modules.
+
+2.6-r1
+------
+ADDED   f2_monstervisible().
+ADDED   CLI module NetSubsystem::format().
+FIXED   CLI modules not being able to modify lines.
+FIXED   CLI module player menus not generating Click events.
+FIXED   CLI module color codes being strings in some cases (they should be byte[]s).
+FIXED   Various CLI module crash bugs.
+FIXED   CLI module MonsterInfo-related bugs.
+FIXED   Handling of new avatar server command.
+FIXED   Incorrect parsing of avatar guids.
+CHANGED No more MONSTER_VISIBLE flag, added some new ones, changed existing ones' values.
+CHANGED CLI modules now don't raise events on lines they inject()/send() themselves.
+
+2.6-r0
+------
+ADDED CLI (.NET) module support ;-)
+
+2.5-r4
+------
+FIXED Script terminals mangling launched links that begin with 'http://'
+
+2.5-r3
+------
+FIXED   Now works with May 27ish network protocol update.
+CHANGED News is now XML-based.
+
+2.5-r2
+------
+ADDED more memlocs.
+FIXED "red mouse syndrome" with SS users during login.
+
+2.5-r1
+------
+FIXED infinite color changing glitch with SS chcol command.
+
+2.5-r0
+-------
+ADDED   Client version 2520 memlocs.
+ADDED   KEY_PAUSE to scripts' onChar handler.
+FIXED   KEY_F10 not being captured by scripts' onChar.
+FIXED   embed.exe not reading the right launch.ini file.
+FIXED   DS buttons not properly remapping.
+CHANGED now loads scripts with commonly messed up ".gm.txt" extensions if ".gm" cannot be found.
+CHANGED memloc files are now stored in the 'memlocs' folder, and multiple memlocs files may co-exist.
+
+2.4-r5
+------
+
+ADDED   new avatar frames to the avatar.gm import script.
+CHANGED further improved rendering performance.
+
+2.4-r4
+------
+
+FIXED 100% CPU usage with the fox update.
+FIXED Furc news popup window not rendering borders properly.
+
+2.4-r3
+------
+
+FIXED exact whispers work again!
+
+2.4-r2 & 2.4-r1
+------
+nada
+
+2.4-r0
+------
+ADDED 'has_profile' boolean to structure returned by script function getMonsterInfo().
+FIXED parsing of avatar creation commands that changed after the late December server reset.
+FIXED monster list not being cleared after going to a custom map.
+FIXED works with the new server IP now.
+
+2.3-r0
+------
+ADDED   f2_playermenu_set(), f2_playermenu_unset(), f2__playermenu_name().
+ADDED   CL_EVENT_SCRIPT event when the running scripts list changes.
+CHANGED getMonsterInfo(name) now converts 'name' to a shortname and searches
+        by shortname.
+CHANGED all regex operations don't match empty strings.
+CHANGED fly.gm now shows players as you fly around.
+FIXED   [] and {} escape sequences in raw in/out commands (` and ``) only accept
+        digits now.
+FIXED	problems loading skin images in the User folder.
+FIXED   modules not being able to load DLL dependencies inside their folder.
+FIXED   Dream/Portrait downloads sometimes not working.
+FIXED   f2_makeshortname() not properly handling "&amp;".
+        
+2.2-r0
+------
+ADDED   toChar(), toShortname() script functions.
+ADDED   KEY_SHIFT to onChar() script handler.
+ADDED   f2_createdirs() module function.
+ADDED   f2_script_enum(), f2_script_argv(), f2_script_run(), 
+        and f2_script_kill() module functions.
+FIXED   script DBs not saving to the document root if the script is in the program root.
+FIXED   timestamps no longer screw up beekin badges in descs.
+FIXED   "@scedit -force ..." now creates files in the per-user scripts folder.
+FIXED   memlocs crc mismatch not being reported.
+FIXED   f2:// command links not being executed properly in script terminals.
+FIXED   memlocs updated for 2.4.1.0 client
+CHANGED the skin host (skin.dll) now searches the document root
+        program root on a file-by-file basis.
+CHANGED the skin host (skin.dll) now copies and writes to the skin.db
+        file in the document root.
+CHANGED f2_monsterinfo_byname() now accepts a "by_shortname" parameter to
+        search by shortname.
+        
+2.1-r2
+------
+
+ADDED   ignore() and unignore() script functions.
+ADDED   Timestamping with the @timestamp <on|off> command.
+CHANGED All outbound descs, whispers, chat, etc., gets
+        raw non-ascii characters converted into 
+        xml entity references.
+FIXED   Better juggling of the per-user and single-user
+        options.xml and launch.ini files.
+FIXED   Logs were still being saved to the same logfile
+        even though the character had switched.
+FIXED   Dream uploading errors when character switching.
+FIXED   Desctags not updating after character switching.
+
+2.1-r1
+------
+
+FIXED   Rawchat hiding accent characters.
+
+2.1-r0
+----
+ADDED   Script function asciiToLatin().
+ADDED   Hooks into furc's ignore system.
+ADDED   All the new smilies to script terminals.
+ADDED   API call f2_makeshortname().
+ADDED   Script function parseChat() for an easier way to parse chat text.
+ADDED   Script function netScan() for an easier way to parse lines.
+ADDED   Monster tracking APIs: f2_monsterinfo(), f2_monsterinfo_byname(), f2_monsters_enum().
+ADDED   Monster tracking script functions: getMonsters(), getMonsterInfo().
+ADDED   API call f2_myplayerinfo() to supercede f2_myplayer().
+ADDED   "Script Terminals": Cute little popup terminals scripts can create
+        for a little, intimate I/O session with the user.
+ADDED   Script functions reMatch2() and reSubst2():
+        more legible wrapper functions for their ugly predecessors.
+ADDED   Script functions uintToString() and stringToUint() for converting to/from 
+        different base strings to/from unsigned integers.
+ADDED   Script functions base220ToInt() and intToBase220() for the update.
+ADDED   Script function aliases base95toInt() and intToBase95() for
+        furcToInt() and intToFurc(), respectively.
+ADDED   f2__setplayerinfo(), f2__setmainsocket(), f2__pushchatbox(),
+        f2__ignore_add(), f2__ignore_rm(), f2__ignore_test()
+        "advanced" API functions.
+ADDED   you can say commands with a '@' prefix out loud by using '@@' instead.
+ADDED   commandPrefix option, to change the command prefix from '@' to something else.
+ADDED   now prevents the client from creating tooltips when the mouse cursor is
+        outside of the furcadia window.
+ADDED   hack to keep tooltips from showing up as separate windows under WINE.
+ADDED   @scrun '--late' option, which allows the script to receive network events
+        AFTER modules, instead of before.
+ADDED   CL_EVENT_CHATBOX is generated whenever something is pushed into the 
+        chat buffer.
+ADDED   Brand new, multi-user (Vista) friendly folder hierarchy.
+ADDED   "singleUserMode" option to use the old folder hierarchy.
+ADDED   New folder functions which everyone should make use of
+        to be well-behaved in Vista: f2_moddataroot(), f2_moddocroot(), 
+        f2_cldataroot(), f2_cldocroot(), f2_dataroot(), f2_docroot().
+ADDED   f2_connlvl() function to determine the connection level easier.
+ADDED   script function -> string automatic conversion.
+FIXED   memlocs
+FIXED   script table -> string automatic conversion had a superfluous comma at 
+        the beginning of associative tables.
+FIXED   having a systray icon stuck in your systray if you 
+        minimize a maximized furc.
+FIXED   @skuse with a bad skin name no longer crashes the client.
+FIXED   @scls, @igls, @ifls, @ofls, and echoed commands display raw HTML.
+CHANGED Updated bundled scripts.
+CHANGED removed f2_myplayer() API.
+CHANGED Characters under 0x20 (aside from \r and \n) can be sent/received/spoken.
+CHANGED strEsc() now takes an optional parameter specifying what character
+        to escape.
+CHANGED '|' characters aren't just shown indiscriminately in the chat buffer now.
+CHANGED CL_EVENT_SOCKSWAP is now CL_EVENT_SETMAINSOCKET, and actually
+        gets raised.
+CHANGED the furc window is now always created with the
+        WS_CLIPCHILDREN style to prevent it from drawing over embedded widgets.
+CHANGED module indices are unsigned ints now, not index_t.
+CHANGED outbound empty lines are now discarded instead of sent to the server.
+CHANGED flashWindow() only flashes the window if minimized or the foreground
+        window belongs to another thread.
+CHANGED no more 'index_t' type for module IDs.  just unsigned int now.
+CHANGED COLORCODE struct in furn2.h is gone. Color-codes are just strings now.
+CHANGED modules/exclude.txt and modules/order.txt have been zapped in favor of
+        options.xml
+CHANGED No more tab-completion :(
+CHANGED Removed SOCKS workarounds because the new client works fine.
+CHANGED No more @ig stuff for ignores, just use regular furc ignores because
+        f2 hooks into them now.
+
+December 13, 2006 - 2.0-r2
+--------------------------
+
+ADDED new script import, avatar.gm, to help with avatar frame numbers.
+ADDED collectGarbage() script API.
+FIXED MOD_EVENT_STOP not being sent if the client terminates 
+      before the window closes.
+FIXED scripts getting string literals garbage collected.
+
+December 12, 2006 - 2.0-r1
+--------------------------
+
+ADDED modMsgSz(), getClipboard(), setClipboard() script APIs.
+CHANGED on_world(), on_module(), and on_client() should now return intptr_t,
+        not int.
+
+December 10, 2006 - 2.0-r0
+--------------------------
+
+ADDED f2_setcurdialog() C API for automatic dialog box message processing.
+ADDED modFind() and modMsg() script APIs.
+ADDED @news command.
+ADDED f2_netincount() and f2_netoutcount() C APIs to help track/identify 
+          network lines.
+ADDED new, fat, fat skin!
+CHANGED f2_version() fills up an F2VERSION structure now.
+CHANGED fiddled with speech buffering some more!
+FIXED desctags no longer unregister when disconnected.
+FIXED filters and ignores running when not logged in.
+FIXED furnarchy wasn't shutting down properly at all (kind of critical).
+FIXED '\0' capture with inverted filters.
+FIXED Crash/corruption bugs associated with sending network data.
+FIXED f2_command()'s noecho parameter did nothing.
+FIXED skins not handling mouse events/refreshing properly when scaled.
+FIXED skin crashing if you gave elements empty attribute values.
+FIXED nasty skin memory leaks.
+FIXED netOutLine family of functions didn't return anything useful.
+FIXED on_inet and on_onet's num parameter were garbage.
+
+November 30, 2006
+-----------------
+FIXED skins weren't using module fancy names.
+FIXED empty desc crash bug.
+FIXED onln command crash bug.
+FIXED script launching another script crash bug.
+FIXED potential script toLocalTime() crash bug.
+FIXED the client forgets to get keyboard focus when handling WM_ACTIVATE.
+ADDED many more table functions for scripts.
+ADDED message if no scripts killed via @sckill.
+ADDED f2_name_complete() and f2_name_push() C APIs.
+ADDED f2_netoutline() and f2_netinline() C APIs.
+ADDED f2_badge_cancel() C API.
+ADDED netOutLine() and netInLine() script functions.
+ADDED badgeCancel() script function.
+ADDED @igadd, @igrm ignore commands.
+ADDED @scrun --replace flag.
+CHANGED the way modules receive network lines is more like it was in F3.
+CHANGED the on_onet() and on_inet() function signatures have changed.
+CHANGED speech buffering is now more conservative.
+CHANGED netOut() and netIn() script functions now accept ONLY strings
+CHANGED onInbound() and onOutbound() script handler signatures have changed.
+CHANGED print() and speak() can now display table data recursively.
+CHANGED restricted the client to only calling TranslateAccelerator for 
+        its own window.
+CHANGED tab completion cycles through to the original letter now.
+CHANGED command()/f2_command(), netOut()/f2_netout(), netIn()/f2_netin() no
+        longer process data immediately, they only queue.
+        

@@ -1,0 +1,204 @@
+2720
+----
+
+005F1448: char g_name[ ? ];
+005F416C: char g_password[ ? ];
+005EF760: char g_desc[ ? ];
+00932E28: int g_colors[ ? ];
+
+00471FD0: void open_logfile()
+
+0092DB48: LOGFILEOBJ g_logfile;
+
+0051B22D: void __cdecl fclose( FILE* )
+
+00403D30: void __stdcall map_palette( const char* sz_colors : ESI,
+                                      void* target, 
+                                      int unk /* typically1 */,
+                                      int unk /* typically 0 */ );
+									  
+The 'target' argument for the buttons' color table is
+009329E8, but the first 80 bytes of it gets copied to
+the actual color table at 00932CE8.
+
+2610
+----
+
+005BB8B8: char g_name[ ? ];
+005BE5DC: char g_password[ ? ];
+005B9FD0: char g_desc[ ? ];
+0082B3A0: int g_colors[ ? ];
+
+0046FD00: void open_logfile()
+
+008281DC: LOGFILEOBJ g_logfile;
+
+005013A7: void __cdecl fclose( FILE* )
+
+To properly change the furre's colors and remap the buttons,
+you can take a look at FurEd's WM_COPYDATA trick
+(search for the 'chcol' string).
+At some point during the processing of the message, it calls
+a function that builds up a color table:
+
+00403E50 void __stdcall map_palette( const char* sz_colors : ESI,
+                                     void* target, 
+                                     int unk /* typically 0 */,
+                                     int unk /* typically 0 */,
+                                     int unk /* typically 1 */ );
+
+The 'target' argument for the buttons' color table is
+0082AF40, but the first 80 bytes of it gets copied to
+the actual color table at 0082B260.
+
+2520
+----
+
+005BAE38: char g_name[ ? ];
+005BDB5C: char g_password[ ? ];
+005B9550: char g_desc[ ? ];
+00828C68: int g_colors[ ? ];
+
+0046FB60: void open_logfile()
+
+00825AA4: LOGFILEOBJ g_logfile;
+
+005011A7: void __cdecl fclose( FILE* )
+
+To properly change the furre's colors and remap the buttons,
+you can take a look at FurEd's WM_COPYDATA trick
+(search for the 'chcol' string).
+At some point during the processing of the message, it calls
+a function that builds up a color table:
+
+00403DB0 void __stdcall map_palette( const char* sz_colors : ESI,
+                                     void* target, 
+                                     int unk /* typically 0 */,
+                                     int unk /* typically 0 */,
+                                     int unk /* typically 1 */ );
+                                    
+The 'target' argument for the buttons' color table is
+00828808, but the first 80 bytes of it gets copied to
+the actual color table at 00828B28.
+
+2510
+----
+
+005BAA78: char g_name[ ? ];
+005BE73C: char g_password[ ? ];
+005B8510: char g_desc[ ? ];
+008C52B0: int g_colors[ ? ];
+
+0046EB70: void open_logfile()
+
+008C20F0: LOGFILEOBJ g_logfile;
+
+005003F5: void __cdecl fclose( FILE* )
+
+2410
+----
+
+00532318: char g_name[ ? ];
+00533A6C: char g_password[ ? ];
+00531670: char g_desc[ ? ];
+007384C8: int  g_colors[ ? ];  // You can find this near the "chcol %s\n" string.
+
+00464960: void open_logfile()
+
+The structure of the LOGFILEOBJ is now
+struct LOGFILEOBJ
+{
+   FILE* fp;
+   int   loaded; //secretly bool
+   int   unk1; // always zero?
+   char  filename[ ? ];
+};
+
+00735144: LOGFILEOBJ g_logfile;
+
+004AAB07: void __cdecl fclose( FILE* )
+
+2320
+----
+
+00513448 char g_name[ ? ];
+00514C18 char g_password[ ? ];
+005127A0 char g_desc[ ? ];
+
+Colors are still stored as full ints.
+Each int is just the color byte - 35.
+
+6CBAD8 int g_colors[ 13 ]
+
+For secondary (fileserver) connections, the name
+and passwords are read again for each
+transaction. They're stored in a big object.
+
+If you trace back from the "USER %s" string used
+in a method of the object, you'll see the 
+pointer to the object itself is at
+
+00512578 void* p_fserv_obj;
+
+The offsets to the name and passwords are
+
+p_fserv_obj+0x5304 char name[ 128 ]
+p_fserv_obj+0x5384 char name[ 128 ]
+
+
+LOGFILES
+
+The log file is opened with fopen() in the function
+
+00465230 void open_logfile()
+
+To find it, you just have to breakpoint
+every "ab" string (or the "%FURC_LOGS%" string).
+
+open_logfile generates the logfile name, opens it,
+and stores information in a static structure at
+006C8750.
+
+The structure appears to be:
+
+struct LOGFILEOBJ
+{
+   FILE* fp;
+   int   loaded; //secretly bool
+   char  filename[ ? ];
+};
+
+It remains valid until disconnection.
+
+In order to make furc recreate the logfile after modifying
+the player name, you have to zero out all fields of
+the object, then call open_logfile() again.
+
+Well, you don't actually have to call open_logfile()
+because the log() function checks for it
+and does it automatically.
+
+It's a good idea to fclose( fp ), but compiler libraries
+may disagree, so you'll have to use furc's fclose function
+at 
+
+004AB5EC void __cdecl fclose( FILE* )
+
+
+Client RC3 023
+----------
+
+Colors are now stored as full ints per field,
+and as plain numbers at 006BCD40.
+
+
+Old
+---
+
+Just look at the code for the 'connect' string formation for these.
+I don't know the bounds of these buffers, but they seem fairly large.
+
+004BBC48 const char g_desc[ ? ];
+004C02CC const char g_colors[ ? ];
+004C4518 const char g_name[ ? ];
+004D1AB8 const char g_password[ ? ];

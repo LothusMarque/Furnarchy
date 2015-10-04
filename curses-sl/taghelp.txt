@@ -1,0 +1,15 @@
+Available Keywords:
+
+[furre] - The whispering furre
+[desc] - Your original description
+[afkreason] - Idle Message
+[afkhours] - Hours AFK
+[afkminutes] - Minutes AFK
+[afkseconds] - Seconds AFK
+[afktotalminutes] - Total minutes
+[time] - Current time
+[date] - Current date
+
+Example:
+Hi [furre]! I've been away for [afkhours] hours.
+

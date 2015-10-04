@@ -1,0 +1,12 @@
+All Idle Hands module messages accept a regular C-string as a 
+parameter/command.
+
+   "state"
+      Returns true if currently in away mode.
+   
+   "awaymsg foo"
+      Sets the auto-reply whisper to "foo". Returns true always.
+      
+   "awaytag foo"
+      Sets the away desctag to "foo". Returns true always.
+   

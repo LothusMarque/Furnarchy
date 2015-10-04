@@ -1,0 +1,49 @@
+/************************************************************************/
+/* uinttest.gm                                                          */
+/* Test a bunch of unsigned integer conversions.                        */
+/************************************************************************/
+
+termid = 
+   termCreate( { 
+                 title="Conversion Unit Tests",
+                 font="Lucida Console",
+                 textColors={ rgb( 0, 0, 0 ), rgb( 0, 0, 255 ), 
+                              rgb( 255, 0, 0 ), rgb( 0, 200, 0 ) },
+                 onDestroy=function( ) { exit( 0 ); }, 
+               } );
+
+for (i = 0; i < 16; i+=1)
+{
+   n = rand( );
+   // Make sure we get some negatives in the mix.
+   if (rand( ) % 2) {
+      n = n | 0x80000000;
+   }
+   
+   termWrite( termid, 
+       strCat( uintToString( n ), "/",
+               toString( n ), "/", uintToString( n, 16, 8 ),
+               " = ", intToBase220( n ), " or ",
+               intToBase95( n ) ) );
+   
+   if (n != base220ToInt( intToBase220( n ) )) {
+      termWrite( termid, "Failed 220.", 1, 2 );
+   }
+   else {
+      termWrite( termid, "220 OK!", 1, 3 );
+   }
+   
+   if (n != base95ToInt( intToBase95( n ) )) {
+      termWrite( termid, "Failed 95!", 1, 2 );
+   }
+   else {
+      termWrite( termid, "95 OK!", 1, 3 );
+   }
+   
+   if (n != stringToUint( uintToString( n, 16, 8 ), 16 )) {
+      termWrite( termid, "Failed hex.", 1, 2 );
+   }
+   else {
+      termWrite( termid, "Hex OK!", 1, 3 );
+   }
+}

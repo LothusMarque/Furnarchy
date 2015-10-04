@@ -1,0 +1,268 @@
+global MAX_MODFRAMES  = 5;
+global g_num_modules  = 0;
+global g_modframes    = { };
+global g_scroll_pos   = 0;
+
+global onLoad = function( )
+{   
+   // Stack the components horizontally.
+   bar_l_rect = elemRect( elemFind( "bar_l" ) );
+   curr_x = bar_l_rect.x + bar_l_rect.w;
+   
+   global g_num_modules = modCount( );
+   num_frames = g_num_modules;
+   
+   if (num_frames > MAX_MODFRAMES) {
+      num_frames = MAX_MODFRAMES;
+   }
+    
+   /* Construct a module frame for each module visible. */
+   for (i = 0; i < num_frames; i+=1)
+   {
+      // Construct returns a table of the top-level elements created.
+      // The first (and only) element returned should be the frame.
+      e = construct( "tmpl_mod" )[ 0 ];
+      g_modframes[ i ] = e;  // Keep track of the element.
+      
+      e.x = curr_x;
+      curr_x += elemRect( e ).w;
+   }
+   
+   elemFind( "bar_r" ).x = curr_x;
+   
+   /* Fill up the module frames with modules. */
+   populateModList( );
+   
+   /* Reposition the icon according to the coords in the DB file. */
+   e = elemFind( "icon" );
+   dbOpen( );
+   if (dbRead( "iconX" ) != "") {
+      e.x = toInt( dbRead( "iconX" ) );
+   }      
+   if (dbRead( "iconY" ) != "") {
+      e.y = toInt( dbRead( "iconY" ) );
+   }
+   dbClose( );   
+};
+
+global onIconClick = function( pt )
+{
+   positionModList( );
+   
+   // Toggle the visibility of the list.
+   e = elemFind( "modlist" );
+   if (e.visible == "no")
+   {
+      e.visible = "yes";
+      this.scrollY = "0";
+      this.tip = "Hide modules";
+   }
+   else
+   {
+      e.visible = "no";
+      this.scrollY = "36";
+      this.tip = "Show modules";
+   }
+};
+
+global onModOver = function( pt )
+{
+   // Show the glow when the mouse is over a module entry.
+   e_glow = elemFind( "glow", this );
+   e_glow.visible = "yes";
+};
+
+global onModOut = function( pt )
+{
+   // Hide the glow when the mouse leaves a module entry.
+   e_glow = elemFind( "glow", this );
+   e_glow.visible = "no";
+};
+
+global onModClick = function( pt )
+{
+   // Toggle the enable state of the module.
+   if (toInt( this.modState ) & 0x1) {
+      modEnable( toInt( this.modIndex ), false );
+   }
+   else {
+      modEnable( toInt( this.modIndex ), true );
+   }
+};
+
+global onModRClick = function( pt )
+{
+   // Touch the module.
+   modTouch( toInt( this.modIndex ) );
+};
+
+global onModState = function( mod, state )
+{
+   // This goes to every module frame in the skin, so got to make
+   // sure we're the right one.
+   if (toInt( this.modIndex ) == mod)
+   {
+      // Just store the new state.
+      this.modState = state;            
+   }
+   
+   refreshElements( );
+};
+
+global onRScroll = function( pt )
+{
+   global g_scroll_pos;
+   if (g_scroll_pos + length( g_modframes ) < g_num_modules)
+   {
+      g_scroll_pos += 1;
+      populateModList( );
+   }
+};
+
+global onLScroll = function( pt )
+{
+   global g_scroll_pos;
+   if (g_scroll_pos > 0)
+   {
+      g_scroll_pos -= 1;
+      populateModList( );
+   }
+};
+
+global onMouseWheel = function( pt, dir )
+{
+   // Simulate a left or right scroll.
+   if (dir < 0) {
+      onRScroll( pt );
+   }
+   else if (dir > 0) {
+      onLScroll( pt );
+   }
+};
+
+global onIconDown = function( pt, repeat )
+{
+   // If the shift key is down, begin dragging.
+   if (shiftState( ))
+   {
+      // To make dragging work, we install mousemove and mouseup event
+      // listeners in the root element (whose domain is the entire window).
+      e_root = elemRoot( );
+      e_root.onMouseMove = "onDrag";
+      e_root.onMouseUp   = "onDragEnd";
+      
+      // Stop us from getting mousedown events on the icon.
+      this.onMouseDown = "";
+   }
+};
+
+global onDrag = function( from, to )
+{
+   // Drag the icon.
+   e_icon = elemFind( "icon" );
+   // This assumes the icon is at the root level.
+   e_icon.x = toInt( e_icon.x ) + (to.x - from.x);
+   e_icon.y = toInt( e_icon.y ) + (to.y - from.y);   
+};
+
+global onDragEnd = function( pt )
+{
+   // Remove event listeners.
+   this.onMouseMove = "";
+   this.onMouseUp   = "";
+   
+   // Restore the icon's event listener.
+   e_icon = elemFind( "icon" );
+   e_icon.onMouseDown = "onIconDown";
+   
+   // Reposition the modlist if it's visible.
+   if (elemFind( "modlist" ).visible != "no") {
+      positionModList( );
+   }
+   
+   // Save the position of the icon to the DB file.
+   r = elemRect( e_icon );
+   dbOpen( );
+   dbWrite( "iconX", toString( r.x ) );
+   dbWrite( "iconY", toString( r.y ) );
+   dbClose( );
+
+   // Don't let this onMouseUp bubble down, or else the
+   // icon will think it was clicked.
+   return true;
+};
+
+global positionModList = function( )
+{
+   // Reposition the modules list nicely.
+   e_modlist = elemFind( "modlist" );
+   rect_icon = elemRect( elemFind( "icon" ) );
+   rect_modlist = elemRect( e_modlist );
+   
+   e_modlist.y = rect_icon.y - 7;
+   
+   if (rect_icon.x + rect_icon.w / 2 < 320)
+   {
+      // Icon is on the left side of the screen,
+      // so put the module list on its right.
+      e_modlist.x = rect_icon.x + rect_icon.w + 10;
+   }
+   else
+   {
+      // Icon is on the right side of the screen,
+      // so put the module list on its left.
+      e_modlist.x = (rect_icon.x - 10) - rect_modlist.w;
+   }
+};
+
+global populateModList = function( )
+{   
+   mod_index = g_scroll_pos;
+   foreach (e_modframe in g_modframes)
+   {
+      info = modInfo( mod_index );
+      e_modframe.tip = info.name;
+      // Store the module index and state in some made up attribute.
+      e_modframe.modIndex = mod_index;
+      mod_index += 1;
+      e_modframe.modState = info.state;
+      
+      e = elemFind( "thumb", e_modframe );
+      e.src = info.root + "\\" + info.thumb;
+   }
+   
+   refreshElements( );
+};
+
+global refreshElements = function( )
+{
+   // Refresh the modules.
+   foreach (e_modframe in g_modframes)
+   {
+      // Set the slot image according to the module's state.
+      state = toInt( e_modframe.modState );
+      e_slot = elemFind( "slot", e_modframe );
+      if (state & 0x1) {
+         e_slot.scrollY = "0";
+      }
+      else {
+         e_slot.scrollY = "50";
+      }
+   }
+      
+   // If there's more modules to the left or right, show
+   // the respective scroll button.
+   if (g_scroll_pos > 0) {
+      elemFind( "scroll_l" ).visible = "yes";
+   }
+   else {
+      elemFind( "scroll_l" ).visible = "no";
+   }
+   
+   if (g_scroll_pos + length( g_modframes ) < g_num_modules) {
+      elemFind( "scroll_r" ).visible = "yes";
+   }
+   else {
+      elemFind( "scroll_r" ).visible = "no";
+   }
+};

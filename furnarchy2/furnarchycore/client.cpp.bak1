@@ -1,0 +1,1040 @@
+#include "client.h"
+#include "core.h"
+#include "memlocs.h"
+#include "world.h"
+#include "net.h"
+#include "options.h"
+#include "modules.h"
+#include "window.h"
+#include "common/x86pp.h"
+#include "common/xml_charset.h"
+#include <algorithm>
+#include <winsock.h>
+#include <iomanip>
+#include <io.h>
+
+namespace client {
+
+//////////////////////////////////////////////////////////////////////////
+
+enum { SENDBLOCK_NONE = 0, SENDBLOCK_PRIMARY = 0x1, SENDBLOCK_ALL = 0x3 };
+
+//////////////////////////////////////////////////////////////////////////
+
+struct CLSTR_GLYPH
+{
+   int ch;
+   int unk;
+   bool operator ==( char c ) { return (0xFF & ch) == c; }
+   bool operator !=( char c ) { return (0xFF & ch) != c; }
+   operator bool( ) { return (0xFF & ch) ? true : false; }
+   size_t length( )
+   {
+      CLSTR_GLYPH* p = this;
+      size_t len = 0;
+      while ((p++)->ch) ++len;
+      return len;
+   }
+};
+
+//////////////////////////////////////////////////////////////////////////
+
+struct patches
+{
+private:
+   static char*  g_scratch;
+   static size_t g_scratch_pos;
+public:
+   static void initialize( );
+   static void uninitialize( );
+   static void enable_render_floors( bool on );
+   static void enable_render_walls( bool on );
+   static void enable_render_objects( bool on );
+   static void enable_render_avatars( bool on );
+private:
+   static void create_scratch( );
+   static void free_scratch( );
+   static void patch_chatbox_pipes( );
+   static void hook_inputbox_process( );
+   static void patch_inputbox_getsz_intercept( );
+   static void hook_chatbox_push( );
+   static void hook_show_playermenu( );
+
+   /* It's bad juju calling hooks directly. */
+private:
+   static bool FASTCALL inputbox_process( const char* sz );
+   /** And don't even think about calling this. */
+   static void CDECL socks_send_intercept( char* buf, size_t size );
+   /** You'd have to be nuts. */
+   static void CDECL inputbox_getsz_intercept( char* buf );
+   /** Alexander, be REASONABLE!! */
+   static int CDECL chatbox_push( char* line, void* unk1, void* unk2 );
+   /** Weeeeeeeeeee<bzzt>. */
+   static void CDECL show_playermenu( const char* name );
+};
+
+//////////////////////////////////////////////////////////////////////////
+
+namespace wrappers
+{
+   void inputbox_get_sz( char* buf );
+   void chatbox_push_sysmsg( const char* sz );
+   void render_world( );
+   void inputbox_push_history( const char* sz );
+   void map_buttons_palette( const char* sz_colors );
+};
+
+/************************************************************************/
+/* client                                                               */
+/************************************************************************/
+
+bool   g_initialized = false;
+bool   g_rawmode     = true;
+bool   g_timestamp   = false;
+HMENU  g_playermenu  = NULL;
+string g_playermenu_name;
+
+bool initialize( )
+{
+   if (!g_initialized)
+   {
+      g_initialized = true;
+      patches::initialize( );
+   }
+   return true;
+}
+
+bool uninitialize( )
+{
+   if (g_initialized)
+   {
+      g_initialized = false;
+      patches::uninitialize( );
+   }
+   return true;
+}
+
+bool on_command( const ArgList& args )
+{
+   string arg = args[ 0 ];
+   to_lower( &arg );
+
+   if (arg == "render")
+   {
+      if (args.size( ) == 3)
+      {
+         to_lower( &(arg = args[ 1 ]) );
+
+         if (arg == "floors")
+         {
+            to_lower( &(arg = args[ 2 ]) );
+            if (arg == "on")
+            {
+               if (memlocs::valid( ))
+               {
+                  patches::enable_render_floors( true );
+                  core::system_speak( "Floor rendering enabled." );
+                  wrappers::render_world( );
+               }
+               return true;
+            }
+            else if (arg == "off")
+            {
+               if (memlocs::valid( ))
+               {
+                  patches::enable_render_floors( false );
+                  core::system_speak( "Floor rendering disabled." );
+                  wrappers::render_world( );
+               }
+               return true;
+            }
+         }
+         else if (arg == "walls")
+         {
+            to_lower( &(arg = args[ 2 ]) );
+            if (arg == "on")
+            {
+               if (memlocs::valid( ))
+               {
+                  patches::enable_render_walls( true );
+                  core::system_speak( "Wall rendering enabled." );
+                  wrappers::render_world( );
+               }
+               return true;
+            }
+            else if (arg == "off")
+            {
+               if (memlocs::valid( ))
+               {
+                  patches::enable_render_walls( false );
+                  core::system_speak( "Wall rendering disabled." );
+                  wrappers::render_world( );
+               }
+               return true;
+            }
+         }
+         else if (arg == "objects" )
+         {
+            to_lower( &(arg = args[ 2 ]) );
+            if (arg == "on")
+            {
+               if (memlocs::valid( ))
+               {
+                  patches::enable_render_objects( true );
+                  core::system_speak( "Object rendering enabled." );
+                  wrappers::render_world( );
+               }
+               return true;
+            }
+            else if (arg == "off")
+            {
+               if (memlocs::valid( ))
+               {
+                  patches::enable_render_objects( false );
+                  core::system_speak( "Object rendering disabled." );
+                  wrappers::render_world( );
+               }
+               return true;
+            }
+         }
+         else if (arg == "avatars" )
+         {
+            to_lower( &(arg = args[ 2 ]) );
+            if (arg == "on")
+            {
+               if (memlocs::valid( ))
+               {
+                  patches::enable_render_avatars( true );
+                  core::system_speak( "Avatar rendering enabled." );
+                  wrappers::render_world( );
+               }
+               return true;
+            }
+            else if (arg == "off")
+            {
+               if (memlocs::valid( ))
+               {
+                  patches::enable_render_avatars( false );
+                  core::system_speak( "Avatar rendering disabled." );
+                  wrappers::render_world( );
+               }
+               return true;
+            }
+         }
+      }  // if (args.size( ) > 2)
+
+      core::system_speak( "Usage: @render <'floors'|'walls'|'objects'|'avatars'> <'on'|'off'>" );
+      return true;
+   } // if (arg == "render")
+   
+
+   else
+  if (arg == "rawchat")
+   {
+      if (args.size( ) == 2)
+      {
+         arg = args[ 1 ];
+         to_lower( &arg );
+
+         if (arg == "on")
+         {
+            g_rawmode = true;
+            core::system_speak( "Raw chat characters enabled." );
+            return true;
+         }
+         else if (arg == "off")
+         {
+            g_rawmode = false;
+            core::system_speak( "Raw chat characters disabled." );
+            return true;
+         }
+      }
+
+      core::system_speak( "Usage: @rawchat <'on'|'off'>" );
+      return true;
+   }
+   else if (arg == "timestamp")
+   {
+      if (args.size( ) == 2)
+      {
+         arg = args[ 1 ];
+         to_lower( &arg );
+
+         if (arg == "on")
+         {
+            g_timestamp = true;
+            core::system_speak( "Timestamping enabled." );
+            return true;
+         }
+         else if (arg == "off")
+         {
+            g_timestamp = false;
+            core::system_speak( "Timestamping disabled." );
+            return true;
+         }
+      }
+
+      core::system_speak( "Usage: @timestamp <'on'|'off'>" );
+      return true;
+   }
+   else if (arg == "setws")
+   {
+      if (args.size( ) == 2)
+      {
+         arg = args[ 1 ];
+         to_lower( &arg );
+
+         string::const_iterator i = arg.begin( );
+         for (; i != arg.end( ); ++i)
+            if (!isdigit( *i ))
+               break;
+         if (i == arg.end( ))
+         {
+            unsigned ul = strtoul( arg.c_str( ), NULL, 10 );
+            if (ul <= 256)
+            {
+               SIZE_T ws_goal = ul * 1000000;
+               SIZE_T ws_min, ws_max;
+               GetProcessWorkingSetSize( GetCurrentProcess( ), &ws_min, &ws_max );
+               for (ws_max = 50 * 4096; ws_max < ws_goal; ws_max += 4096) ;
+               SetProcessWorkingSetSize( GetCurrentProcess( ), ws_min, ws_max );
+
+               std::ostringstream ss;
+               ss << "Max working set size set to " << ws_max << " bytes.";
+               core::system_speak( ss.str( ) );
+               return true;
+            }
+         }
+      }
+      core::system_speak( "Usage: @setws <0-256>" );
+   }
+
+   return false;
+}
+
+HMENU on_client_LoadMenu( HINSTANCE inst, LPCTSTR name )
+{
+   HMENU r = LoadMenu( inst, name );
+   if ((unsigned)(intptr_t) name <= 0xFFFF)
+   {
+      if ((unsigned)(intptr_t) name == 0x7C) // The player menu resource.
+      {
+         g_playermenu = GetSubMenu( r, 0 );
+         modules::on_playermenu_created( );
+      }
+   }
+   return r;
+}
+
+HMENU playermenu_menu( )
+{
+   return g_playermenu;
+}
+
+const string& playermenu_name( )
+{
+   return g_playermenu_name;
+}
+
+void chatbox_push_sysmsg( const string& line) 
+{
+   if (memlocs::valid( ))
+   {
+      wrappers::chatbox_push_sysmsg( line.c_str( ) );
+   }
+}
+
+void set_main_socket( SOCKET s )
+{
+   if (memlocs::valid( ))
+   {
+      SOCKET* netobj_socket = (SOCKET*)
+         (*((char**) memlocs::get( memlocs::NETOBJ_P )) + (unsigned) memlocs::get( memlocs::NETOBJ_SOCKET_OFFSET ));
+
+      if (*netobj_socket != s)
+      {
+         *netobj_socket = s;
+
+         net::set_main_socket( s );
+
+         // Send an event.
+         core::event_set_main_socket( s );
+      }
+   }
+}
+
+void set_player_info( const char* name, const char* pw, 
+                      const char* colors, const char* desc,
+                      const unsigned int* guid )
+{
+   if (memlocs::valid( ))
+   {
+      if (name)
+      {
+         strcpy( (char*) memlocs::get( memlocs::PLAYER_NAME_BUF ), name );
+
+         struct LOGFILE_OBJ
+         {
+            FILE* fp;
+            int   ok;
+            int   unk1;
+            char  fname[ 1 ];
+         };
+
+         LOGFILE_OBJ* lf = (LOGFILE_OBJ*) memlocs::get( memlocs::LOGFILE_OBJ );
+         if (lf->fp)
+            ((void(__cdecl *)(FILE*)) memlocs::get( memlocs::FCLOSE_FN ))( lf->fp );
+         lf->fp = 0;
+         lf->ok = 0;
+         lf->fname[ 0 ] = '\0';
+      }
+      if (pw)
+      {
+         strcpy( (char*) memlocs::get( memlocs::PLAYER_PASSWORD_BUF ), pw );
+      }
+      if (colors && colors[ 0 ] == 't') // Client only supports old-style colors.
+      {         
+         for (unsigned i = 0; i < 13 && colors[ i + 1 ]; ++i)
+            ((unsigned int*) memlocs::get( memlocs::PLAYER_COLORS_BUF ))[ i ] = (unsigned char) colors[ i + 1 ] - 35;
+
+         wrappers::map_buttons_palette( colors );
+      }
+      if (desc)
+         strcpy( (char*) memlocs::get( memlocs::PLAYER_DESC_BUF ), desc );
+      if (guid && memlocs::get( memlocs::PLAYER_GUID )) // ehh
+         *(unsigned int*) memlocs::get( memlocs::PLAYER_GUID ) = *guid;
+   }
+
+   world::set_player_info( name, pw, colors, desc, guid, NULL );
+}
+
+bool ignore_add( const char* name )
+{
+   if (memlocs::valid( ))
+   {
+      if (!ignore_test( name ))
+      {
+         void* fn = memlocs::get( memlocs::IGNORE_ADD_FN );
+         int r;
+         __asm
+         {
+            mov ecx, name;
+            call fn;
+            mov r, eax;
+         }
+         return r == 0;
+      }
+   }
+
+   return false;
+}
+
+bool ignore_rm( const char* name )
+{
+   if (memlocs::valid( ))
+   {
+      if (ignore_test( name ))
+      {
+         return ((int (CDECL *)(const char*)) memlocs::get( memlocs::IGNORE_RM_FN ))( name ) == 0;
+      }
+   }
+
+   return false;
+}
+
+bool ignore_test( const char* name )
+{
+   if (memlocs::valid( ))
+   {
+      int test_ret = 0;
+      {
+         void* ignore_test_fn = memlocs::get( memlocs::IGNORE_TEST_FN );
+         __asm
+         {
+            mov ebx, name;
+            call ignore_test_fn;
+            mov test_ret, eax;
+         }
+      }
+      return test_ret >= -1;
+   }
+   return false;
+}
+
+bool ignore_line_test( const char* line )
+{
+   if (memlocs::valid( ))
+   {
+      void* fn = memlocs::get( memlocs::IGNORE_LINE_TEST_FN );
+      int len = strlen( line );
+      int rval;
+      __asm
+      {
+         mov ecx, line;
+         push len;
+         call fn;
+         mov rval, eax;
+         add esp, 4;
+      }
+
+      return rval == 0;
+   }
+
+   return false;
+}
+
+/************************************************************************/
+/* patches                                                              */
+/************************************************************************/
+
+#define VUNPROTECT( addr, size ) { DWORD _oprot; \
+      VirtualProtect( addr, size, PAGE_EXECUTE_READWRITE, &_oprot ); }
+#define VPROTECT( addr, size ) { DWORD _oprot; \
+      VirtualProtect( addr, size, PAGE_EXECUTE_READ, &_oprot ); }
+
+char*  patches::g_scratch     = 0;
+size_t patches::g_scratch_pos = 0;
+
+void patches::initialize( )
+{
+   if (!memlocs::valid( ))
+      return;
+
+   create_scratch( );
+
+   patch_chatbox_pipes( );
+   hook_inputbox_process( );
+   hook_chatbox_push( );
+   patch_inputbox_getsz_intercept( );
+   hook_show_playermenu( );
+}
+
+void patches::uninitialize( )
+{
+   if (!memlocs::valid( ))
+      return;
+
+   /* Oops, I don't actually do anything. */
+}
+
+void patches::create_scratch( )
+{
+   g_scratch = (char*) VirtualAlloc( 0, 1024, MEM_COMMIT, PAGE_EXECUTE_READWRITE );
+   g_scratch_pos = 0;
+}
+
+void patches::free_scratch( )
+{
+   VirtualFree( g_scratch, 1024, MEM_DECOMMIT );
+   g_scratch = 0;
+   g_scratch_pos = 0;
+}
+
+void patches::patch_chatbox_pipes( )
+{
+   using namespace x86pp;
+   using namespace x86pp::Registers;
+
+   char* pipe_jmp = (char*) memlocs::get( memlocs::CHATBOX_RENDER_PIPE_JMP );
+
+   /* The point in the chatbox's render routine that
+   *  knocks out pipes is:
+   *  0047436D  |. 83FE 7C        |CMP ESI,7C
+      00474370  |. 74 12          |JE SHORT Furcadia.00474384 ; NOP me out! */
+   
+   assert( pipe_jmp[ 0 ] == 0x74 );
+
+   VUNPROTECT( pipe_jmp, 2 );
+
+   // NOP out the jump.
+   asm_nop( pipe_jmp );
+   asm_nop( pipe_jmp + 1 );
+
+   VPROTECT( pipe_jmp, 2 );
+}
+
+void patches::hook_chatbox_push( )
+{
+   using namespace x86pp;
+   using namespace x86pp::Registers;
+
+   char* fn      = (char*) memlocs::get( memlocs::CHATBOX_PUSH_FN );
+   char* p;
+
+   /* Top of the function looks like this:
+   *  00450FE0  /$ 8038 00        CMP BYTE PTR DS:[EAX],0
+   *  00450FE3  |. 8B56 08        MOV EDX,DWORD PTR DS:[ESI+8]
+   *  00450FE6  |. 57             PUSH EDI
+   *  00450FE7  |. 8BF9           MOV EDI,ECX
+   *  00450FE9  |. 74 1D          JE SHORT Furcadia.00451008   */
+
+   // The function being hooked is refactored to something like a fastcall,
+   // but with ECX (the string), EAX (unknown), and ESI (unknown) to pass parameters.
+
+   char* fixup = p = g_scratch + g_scratch_pos;
+   p += asm_push( p, ESI );
+   p += asm_push( p, EAX );
+   p += asm_push( p, ECX );
+   // The hook will take care of doing the clobbered instructions and calling the
+   // original.
+   p += asm_call( p, (rel32) chatbox_push - (rel32) p );
+   p += asm_add( p, ESP, 12 );
+   p += asm_ret( p );
+
+   g_scratch_pos = (size_t) p - (size_t) g_scratch;
+
+   VUNPROTECT( fn, 6 );
+
+   p = fn;
+   p += asm_jmp( p, (rel32) fixup - (rel32) p );
+   p += asm_nop( p );
+
+   assert( (ptrdiff_t) p - (ptrdiff_t) fn == 6 );
+
+   VPROTECT( fn, 6 );
+}
+
+void patches::enable_render_floors( bool on )
+{
+   using namespace x86pp;
+   using namespace x86pp::Registers;
+
+   /* Kill off the looped call to render floors.
+   *  004511F9     E8 7295FCFF    ||CALL Furcadia.0041A770 */
+
+   char* call = (char*) memlocs::get( memlocs::RENDER_FLOOR_CALL );
+   char* fn   = (char*) memlocs::get( memlocs::RENDER_FLOOR_FN );
+   char* p;
+   
+   VUNPROTECT( call, 5 );
+
+   if (on) // Restore call.
+   {
+      p = call;
+      p += asm_call( p, (rel32) fn - (rel32) p );
+   }
+   else // NOP call.
+   {
+      p = call;
+      p += asm_nop( p );
+      p += asm_nop( p );
+      p += asm_nop( p );
+      p += asm_nop( p );
+      p += asm_nop( p );
+   }
+
+   assert( (ptrdiff_t) p - (ptrdiff_t) call == 5 );
+
+   VPROTECT( call, 5 );
+}
+
+void patches::enable_render_walls( bool on )
+{
+   using namespace x86pp;
+   using namespace x86pp::Registers;
+
+   /* Kill off the looped call to render walls.
+   *  00451413     E8 B888FCFF    ||CALL Furcadia.00419CD0 */
+
+   char* call = (char*) memlocs::get( memlocs::RENDER_WALL_CALL );
+   char* fn   = (char*) memlocs::get( memlocs::RENDER_WALL_FN );
+   char* p;
+
+   VUNPROTECT( call, 5 );
+
+   if (on) // Restore call.
+   {
+      p = call;
+      p += asm_call( p, (rel32) fn - (rel32) p );
+   }
+   else // NOP call.
+   {
+      p = call;
+      p += asm_nop( p );
+      p += asm_nop( p );
+      p += asm_nop( p );
+      p += asm_nop( p );
+      p += asm_nop( p );
+   }
+
+   assert( (ptrdiff_t) p - (ptrdiff_t) call == 5 );
+
+   VPROTECT( call, 5 );
+}
+
+void patches::enable_render_objects( bool on )
+{
+   using namespace x86pp;
+   using namespace x86pp::Registers;
+
+   /* Kill off the looped call to render objects.
+   *  0045141C     E8 2F8EFCFF    ||CALL Furcadia.0041A250 */
+
+   char* call = (char*) memlocs::get( memlocs::RENDER_OBJECT_CALL );
+   char* fn   = (char*) memlocs::get( memlocs::RENDER_OBJECT_FN );
+   char* p;
+
+   VUNPROTECT( call, 5 );
+
+   if (on) // Restore call.
+   {
+      p = call;
+      p += asm_call( p, (rel32) fn - (rel32) p );
+   }
+   else // NOP call.
+   {
+      p = call;
+      p += asm_nop( p );
+      p += asm_nop( p );
+      p += asm_nop( p );
+      p += asm_nop( p );
+      p += asm_nop( p );
+   }
+
+   assert( (ptrdiff_t) p - (ptrdiff_t) call == 5 );
+
+   VPROTECT( call, 5 );
+}
+
+void patches::enable_render_avatars( bool on )
+{
+   using namespace x86pp;
+   using namespace x86pp::Registers;
+
+   /* Kill off the looped call to render avatars.
+   *  00451460     E8 5B90FCFF    ||CALL Furcadia.0041A4C0  */
+
+   char* call = (char*) memlocs::get( memlocs::RENDER_AVATAR_CALL );
+   char* fn   = (char*) memlocs::get( memlocs::RENDER_AVATAR_FN );
+   char* p;
+
+   VUNPROTECT( call, 5 );
+
+   if (on) // Restore call.
+   {
+      p = call;
+      p += asm_call( p, (rel32) fn - (rel32) p );
+   }
+   else // NOP call.
+   {
+      p = call;
+      p += asm_nop( p );
+      p += asm_nop( p );
+      p += asm_nop( p );
+      p += asm_nop( p );
+      p += asm_nop( p );
+   }
+
+   assert( (ptrdiff_t) p - (ptrdiff_t) call == 5 );
+
+   VPROTECT( call, 5 );
+}
+
+void patches::hook_inputbox_process( )
+{
+   using namespace x86pp;
+   using namespace x86pp::Registers;
+
+   /* Redirect the inputbox_process( ) call to our own.
+   *  0040F4DE  |. 8BCB           MOV ECX,EBX                              
+   *  0040F4E0  |. E8 FBF6FFFF    CALL Furcadia.0040EBE0
+   *  0040F4E5  |. 85C0           TEST EAX,EAX
+   *  0040F4E7  |. 0F85 0A050000  JNZ Furcadia.0040F9F7
+   *  0040F4ED  |. 8BC3           MOV EAX,EBX            ; EBX is preserved. */
+
+   char* call = (char*) memlocs::get( memlocs::INPUTBOX_PROCESS_CALL );
+
+   // Need a fixup to preserve EBX.
+   char* p;
+   char* fixup = p = g_scratch + g_scratch_pos;
+   p += asm_push( p, ECX );
+   p += asm_call( p, (rel32) inputbox_process - (rel32) p );
+   p += asm_pop( p, EBX );
+   p += asm_jmp( p, (rel32) (call + 5) - (rel32) p ); 
+   g_scratch_pos = (size_t) p - (size_t) g_scratch;
+
+   VUNPROTECT( call, 5 );
+
+   p = call;
+   p += asm_jmp( p, (rel32) fixup - (rel32) p );
+
+   assert( (ptrdiff_t) p - (ptrdiff_t) call == 5 );
+   
+   VPROTECT( call, 5 );
+}
+
+
+void patches::patch_inputbox_getsz_intercept( )
+{
+   using namespace x86pp;
+   using namespace x86pp::Registers;
+
+   /* The call to the getSZ method looks like this:
+   * 0040FF44  |> BB B0B85B00    MOV EBX,Furcadia.005BB8B0
+   * 0040FF49  |. E8 A2FC0400    CALL Furcadia.0045FBF0
+   * 0040FF4E  |. 8BCB           MOV ECX,EBX ; ebx must be preserved */
+
+   char* call = (char*) memlocs::get( memlocs::INPUTBOX_GETSZ_CALL );
+   
+   char* p;
+   char* fixup = p = g_scratch + g_scratch_pos;
+   p += asm_push( p, EBX );
+   p += asm_call( p, (rel32) inputbox_getsz_intercept - (rel32) p );
+   p += asm_pop( p, EBX );
+   p += asm_jmp( p, (rel32) (call + 5) - (rel32) p );
+   g_scratch_pos = (size_t) p - (size_t) g_scratch;
+
+   VUNPROTECT( call, 5 );
+
+   p = call;
+   p += asm_jmp( p, (rel32) fixup - (rel32) p ); // Call our cdecl intercept.
+
+   assert( (ptrdiff_t) p - (ptrdiff_t) call == 5 );
+
+   VPROTECT( call, 5 );
+}
+
+void patches::hook_show_playermenu( )
+{
+   using namespace x86pp;
+   using namespace x86pp::Registers;
+
+   /* Top of the function looks like.
+   * 0041A570  /$ 81EC 04040000  SUB ESP,404
+   * 0041A576  |. A1 20854E00    MOV EAX,DWORD PTR DS:[4E8520] */
+
+   char* fn = (char*) memlocs::get( memlocs::SHOWPLAYERMENU_FN );
+
+   // Need a fixup because EDI contains the player name.
+   char* p;
+   char* fixup = p = g_scratch + g_scratch_pos;
+   p += asm_push( p, EDI );
+   p += asm_call( p, (rel32) show_playermenu - (rel32) p );
+   p += asm_pop( p, EDI );
+   p += asm_sub( p, ESP, 0x404 );
+   p += asm_jmp( p, (rel32) (fn + 5) - (rel32) p ); 
+   g_scratch_pos = (size_t) p - (size_t) g_scratch;
+
+   VUNPROTECT( fn, 6 );
+
+   p = fn;
+   p += asm_jmp( p, (rel32) fixup - (rel32) p );
+   p += asm_nop( p );
+
+   assert( (ptrdiff_t) p - (ptrdiff_t) fn == 6 );
+
+   VPROTECT( fn, 6 );
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+bool FASTCALL patches::inputbox_process( const char* sz )
+{
+   const string& cmdpfx = options::get_command_prefix( );
+
+   if (cmdpfx.compare( 0, cmdpfx.length( ), sz, cmdpfx.length( ) ) == 0) // Command?
+   {
+      // Double-prefix translates into a spoken prefix, not a command.
+      if (cmdpfx.compare( 0, cmdpfx.length( ), sz + cmdpfx.length( ), cmdpfx.length( ) ) == 0)
+      {
+         string chat = "\"";
+         chat += sz + cmdpfx.length( );
+         net::push_outbound_line( chat.c_str( ), chat.length( ), FROM_CLIENT );
+         wrappers::inputbox_push_history( sz );
+         return true;
+      }
+      else
+      {
+         core::push_command( sz + cmdpfx.length( ) );
+         wrappers::inputbox_push_history( sz );
+         return true;
+      }
+   }
+   
+   if (sz[ 0 ] == '`') 
+   {
+      if (sz[ 1 ] == '`') // Raw incoming.
+      {
+         string raw = sz + 2;
+         resolve_braces( &raw );
+         raw.push_back( '\n' );
+         net::push_inbound( raw.c_str( ), raw.size( ) );
+         wrappers::inputbox_push_history( sz );
+         return true;
+      }
+
+      if (std::strncmp( sz + 1, "debug", 5 ) && std::strncmp( sz + 1, "reconnect", 5 ))
+      {        
+         // Raw outgoing.
+         string raw = sz + 1;
+         resolve_braces( &raw );
+         raw.push_back( '\n' );
+         net::push_outbound( raw.c_str( ), raw.size( ) );
+         wrappers::inputbox_push_history( sz );
+         return true;
+      }
+   }
+
+   /* Call the original function. */
+   void* fn = memlocs::get( memlocs::INPUTBOX_PROCESS_FN );
+   int retval;
+   __asm
+   {
+      mov ecx, sz;
+      call fn;
+      mov retval, eax;
+   }
+   return retval ? true : false;
+}
+
+void CDECL patches::inputbox_getsz_intercept( char* buf )
+{
+   // Fill up the buffer.
+   wrappers::inputbox_get_sz( buf );
+
+   if (g_rawmode)
+   {
+      /* Replace &lt; and &gt; with real characters. */
+      string raw;
+      for (const char* p = buf; *p; ++p)
+      {
+         if (*p == '&')
+         {
+            if (p[ 1 ] == 'g' && p[ 2 ] == 't' && p[ 3 ] == ';')
+               raw += ">", p += 3;
+            else if (p[ 1 ] == 'l' && p[ 2 ] == 't' && p[ 3 ] == ';')
+               raw += "<", p += 3;
+            else
+               raw += *p;
+         }
+         else
+            raw += *p;
+      }
+
+      strncpy( buf, raw.c_str( ), raw.length( ) );
+      buf[ raw.length( ) ] = '\0';
+   }
+}
+
+int CDECL patches::chatbox_push( char* line, void* unk1, void* unk2 )
+{
+   const bool cancel = core::event_chatbox( line );
+
+   if (strcmp( line, "Retrying..." ) && !cancel)
+   {
+      string str_line;
+      if (g_timestamp && line[ 0 ] != '#')
+      {
+         SYSTEMTIME st;
+         GetLocalTime( &st );
+
+         ostringstream ss;
+         ss << "<font color=\"success\">(" 
+            << std::setw( 2 ) << std::setfill( '0' ) << st.wHour 
+            << ":" 
+            << std::setw( 2 ) << std::setfill( '0' ) << st.wMinute
+            << ")</font> "
+            << line;
+
+         str_line = ss.str( );
+      }
+      else
+      {
+         str_line = line;
+      }
+
+      void* fn = memlocs::get( memlocs::CHATBOX_PUSH_FN );
+      *(int*) &fn += 5; // Skip the hook jump to call the real function.
+      const char* sz_line = str_line.c_str( );
+      int r;
+
+      /* Gotta redo the asm that got eated by the hook jump.
+      *  00450FE0  /$ 8038 00        CMP BYTE PTR DS:[EAX],0
+      *  00450FE3  |. 8B56 08        MOV EDX,DWORD PTR DS:[ESI+8] */
+
+      __asm
+      {
+         mov ecx, sz_line;
+         mov eax, unk1;
+         mov esi, unk2;
+         cmp byte ptr [eax], 0;
+         mov edx, dword ptr [esi+8];
+         call fn;
+         mov r, eax;
+      }
+
+      return r;
+   }
+
+   return 0; // Seems ok.
+}
+
+void patches::show_playermenu( const char* name )
+{
+   g_playermenu_name = name;
+   modules::on_playermenu_show( g_playermenu_name );
+}
+
+/************************************************************************/
+/* wrappers                                                             */
+/************************************************************************/
+
+void wrappers::chatbox_push_sysmsg( const char* sz )
+{
+   core::event_chatbox( sz );
+
+   void* fn = memlocs::get( memlocs::CHATBOX_PUSH_SYSMSG_FN );
+   ((void (CDECL *)(const char*)) fn)( sz );
+}
+
+void wrappers::inputbox_get_sz( char* buf )
+{
+   *buf = '\0';
+   void* fn = memlocs::get( memlocs::INPUTBOX_GETSZ_FN );
+   __asm
+   {
+      mov ebx, buf;
+      call fn;
+   };
+}
+
+void wrappers::render_world( )
+{
+   void* fn = memlocs::get( memlocs::RENDER_WORLD_FN );
+   int* suppress = (int*) memlocs::get( memlocs::SUPPRESS_RENDERING );
+
+   *suppress = 1;
+   ((bool (CDECL *)( bool, bool, bool )) fn)( true, false, false );
+   *suppress = 0;
+   ((bool (CDECL *)( bool, bool, bool )) fn)( true, false, false );
+}
+
+void wrappers::inputbox_push_history( const char* sz )
+{
+   void* fn = memlocs::get( memlocs::INPUTBOX_PUSH_HISTORY_FN );
+
+   __asm
+   {
+      mov ebx, sz;
+      call fn;
+   }
+}
+
+void wrappers::map_buttons_palette( const char* sz_colors )
+{
+   void* fn = memlocs::get( memlocs::MAP_PALETTE_FN );
+   void* dst = memlocs::get( memlocs::BUTTONS_PALETTE );
+   __asm
+   {
+      push 1;
+      push 0;
+      push 0;
+      push dst;
+      mov esi, sz_colors;
+      call fn;
+   };
+
+   // memcpy( dst, tmp_dst, 82 * 4 );
+}
+
+} // namespace client

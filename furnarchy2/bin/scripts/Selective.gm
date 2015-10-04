@@ -1,0 +1,342 @@
+//Selective Hearing: Whitelist-based ignoring
+//Version 1.7.8
+//Created by Merc
+
+//EDIT THIS IF YOU WANT IT TO SAVE/RESTORE LAST RUNNING MODE
+global restoremode = false;  //Set to true to save/restore modes!
+
+//EDIT THIS IF YOU WANT TO SPEED S.H. UP SLIGHTLY BY DISABLING CONSTANT DATABASE OPEN/CLOSE
+//NOTE: "false" *WILL* CAUSE DATA LOSS BETWEEN TWO COPIES OF FURCADIA.
+global activedatabase = true;
+
+
+//Defs
+global M_WL = 1;
+global M_BL = 2;
+//System
+global notify = false;
+global active = true;
+global mode = M_BL;
+
+//Regular Expressions
+global reg_speech = `^\(<name shortname='([^ ]+)'>([^ ]+)</name>: (.*)$`;
+global reg_s_name = 1;
+global reg_l_name = 2;
+//From YIFFurc
+global reg_emote = `^\(<font color='emote'><name shortname='([^']*)'>([\x21-\x3B\=\x3F-\x7E]+)</name>(.*)</font>$`;
+global reg_e_sname = 1;
+global reg_e_lname = 2;
+global reg_whisper = `^\(<font color='whisper'>\[ <name shortname='([^']*)' src='whisper-from'>([\x21-\x3B\=\x3F-\x7E]+)</name> whispers, "(.*)" to you\. ]</font>$`;
+global reg_w_sname = 1;
+global reg_w_lname = 2;
+
+global identify = function () {
+global mode;
+if (mode == M_WL) { speak("SH: <b>Whitelist</b> Mode"); }
+else { speak("SH: <b>Blacklist</b> Mode"); }
+};
+
+global onRun = function( args )
+{
+global mode;
+global restoremode;
+global activedatabase;
+dbOpen();
+mode = M_BL; //Default to blacklist
+if (restoremode) {
+ speak("SH: <b><i>Restoring last used mode!</i></b>");
+ mode = toInt(dbRead("Mode", "Main"));
+ if ((mode < M_WL) || (mode > M_BL)) {
+  mode = M_BL; //Default to blacklist.
+  }
+ }
+if (activedatabase) { dbClose(); }
+identify();
+};
+
+global onKill = function( )
+{
+global mode;
+global activedatabase;
+if (activedatabase) { dbOpen(); }
+dbWrite("Mode",toString(mode),"Main");
+dbClose();
+};
+  
+global onInbound = function( line, from )
+{
+global whitelist;
+global reg_speech;
+global reg_s_name;
+global reg_emote;
+global reg_e_sname;
+global reg_whisper;
+global reg_w_sname;
+global notify;
+global active;
+global mode;
+global activedatabase;
+if (active) {
+ if (activedatabase) { dbOpen(); }
+ if (mode == M_WL) {
+ //==Speech==
+ if (reMatch2(line,reg_speech)) {
+   if ((dbRead(reCap(reg_s_name),"WL") != "") || (toShortname(getName()) == reCap(reg_s_name)))  {
+	if (activedatabase) { dbClose(); }
+	return(line);  //Whitelisted
+	}
+   if (notify) { speak("Caught speech from ",reCap(reg_l_name),".");}
+   if (activedatabase) { dbClose(); }
+   return "";
+   }
+//==Emotes==
+ if (reMatch2(line,reg_emote)) {
+   if ((dbRead(reCap(reg_e_sname),"WL") != "") || (toShortname(getName()) == reCap(reg_e_sname))) { 
+    if (activedatabase) { dbClose(); }
+	return(line);  //Whitelisted
+	}
+   if (notify) { speak("Caught emote from ",reCap(reg_e_lname),".");}
+   if (activedatabase) { dbClose(); }
+   return "";
+   }
+//==Whispers==
+ if (reMatch2(line,reg_whisper)) {
+   if (dbRead(reCap(reg_w_sname),"WL") != "") {
+    if (activedatabase) { dbClose(); }
+	return(line);  //Whitelisted
+	}
+	if (notify) { speak("Caught whisper from ",reCap(reg_e_lname),"."); }
+   if (activedatabase) { dbClose(); }
+   return "";
+   }
+  } //else {return line;}
+
+//BLACKLIST
+if (mode == M_BL) {
+ //==Speech==
+ if (reMatch2(line,reg_speech)) {
+   if (dbRead(reCap(reg_s_name),"BL") == "") {
+    if (activedatabase) { dbClose(); }
+	return(line);  //Whitelisted
+	}
+   if (notify) { speak("Blocked speech from ",reCap(reg_l_name),".");}
+   if (activedatabase) { dbClose(); }
+   return "";
+   }
+//==Emotes==
+ if (reMatch2(line,reg_emote)) {
+   if (dbRead(reCap(reg_e_sname),"BL") == "") {
+	if (activedatabase) { dbClose(); }
+	return(line);  //Whitelisted
+	}
+   if (notify) { speak("Blocked emote from ",reCap(reg_e_lname),".");}
+   if (activedatabase) { dbClose(); }
+   return "";
+   }
+//==Whispers==
+ if (reMatch2(line,reg_whisper)) {
+   if (dbRead(reCap(reg_w_sname),"BL") == "") {
+	if (activedatabase) { dbClose(); }
+	return(line);  //Whitelisted
+	}
+	if (notify) { speak("Blocked whisper from ",reCap(reg_e_lname),"."); }
+   if (activedatabase) { dbClose(); }
+   return "";
+   } 
+ } else {
+  if (activedatabase) { dbClose(); }
+  return line;
+  }
+ }
+};
+
+global onCommand = function( args )
+{
+global notify;
+global active;
+global mode;
+global activedatabase;
+//Add name - WHITELIST
+if (args[0] == "sh.addw") 
+ {
+ if (activedatabase) { dbOpen(); }
+ str = "";
+ total = tableCount(args);
+ for (z=1; z < total; z+=1) 
+  { if (z != 1) {str = strCat(str, "|",args[z]);}
+  else
+  {str = strCat(str,args[z]);}
+ }
+ ID = toShortname(str);
+ dbWrite(ID,"1","WL"); 
+ speak("SH: ",ID," Added. (Whitelist)");
+ if (activedatabase) { dbClose(); }
+ return true;
+ }
+ 
+//Remove name - WHITELIST
+if (args[0] == "sh.remw") 
+ {
+ if (activedatabase) { dbOpen(); }
+ str = "";
+ total = tableCount(args);
+ for (z=1; z < total; z+=1) 
+  { if (z != 1) {str = strCat(str, "|",args[z]);}
+  else
+  {str = strCat(str,args[z]);}
+ }
+ ID = toShortname(str);
+ dbErase(ID,"WL"); 
+ speak("SH: ",ID," Removed. (Whitelist)");
+ if (activedatabase) { dbClose(); }
+ return true;
+ }
+
+//Add name - BLACKLIST
+if (args[0] == "sh.addb") 
+ {
+ if (activedatabase) { dbOpen(); }
+ str = "";
+ total = tableCount(args);
+ for (z=1; z < total; z+=1) 
+  { if (z != 1) {str = strCat(str, "|",args[z]);}
+  else
+  {str = strCat(str,args[z]);}
+ }
+ ID = toShortname(str);
+ dbWrite(ID,"1","BL"); 
+ speak("SH: ",ID," Added. (Blacklist)");
+ if (activedatabase) { dbClose(); }
+ return true;
+ }
+ 
+//Remove name - BLACKLIST
+if (args[0] == "sh.remb") 
+ {
+ if (activedatabase) { dbOpen(); }
+ str = "";
+ total = tableCount(args);
+ for (z=1; z < total; z+=1) 
+  { if (z != 1) {str = strCat(str, "|",args[z]);}
+  else
+  {str = strCat(str,args[z]);}
+ }
+ ID = toShortname(str);
+ dbErase(ID,"BL"); 
+ speak("SH: ",ID," Removed. (Blacklist)");
+ if (activedatabase) { dbClose(); }
+ return true;
+ }
+ 
+//NukeList
+if (args[0] == "sh.nukewlist") {
+ if (activedatabase) { dbOpen(); }
+ dbEraseSection("WL");
+ speak("SH: Whitelist completely erased!");
+ if (activedatabase) { dbClose(); }
+ return true;
+ }
+//NukeList
+if (args[0] == "sh.nukeblist") {
+ if (activedatabase) { dbOpen(); }
+ dbEraseSection("BL");
+ speak("SH: Blacklist completely erased!");
+ if (activedatabase) { dbClose(); }
+ return true;
+ }
+ 
+//Notification
+if (args[0] == "sh.notify") {
+ notify = !notify;
+ if (notify) {speak("SH: Notification on.");}
+  else
+   {speak("SH: Notification off.");}
+ return true;
+ }
+
+//ModeW
+if (args[0] == "sh.modew") {
+ mode = M_WL;
+ identify();
+ return true;
+ }
+//ModeB
+if (args[0] == "sh.modeb") {
+ mode = M_BL;
+ identify();
+ return true;
+ }
+ 
+//Toggle
+if (args[0] == "sh.toggle") {
+ active = !active;
+ if (active) {speak("SH: Running.");}
+  else
+   {speak("SH: Disabled.");}
+ return true;
+ }
+ 
+//Whitelist display
+if (args[0] == "sh.listw") {
+ if (activedatabase) { dbOpen(); }
+ x = dbCount("WL");
+ speak("SL: Players Whitelisted: ",x);
+ tmpstr = "";
+ for (y=0; y < x; y+=1) {
+  tmp = dbReadAt(y,"WL");
+  tmpstr = strCat(tmpstr, tmp["key"],", ");
+  if (length(tmpstr) > 300) {
+   speak("SL: ", tmpstr);
+   tmpstr = "";
+   }
+  }
+ if (length(tmpstr)) {
+  speak("SL: ", tmpstr);
+  }
+ if (activedatabase) { dbClose(); }
+ return true;
+ }
+ 
+//Blacklist display
+if (args[0] == "sh.listb") {
+ if (activedatabase) { dbOpen(); }
+ x = dbCount("BL");
+ speak("SL: Players Blacklisted: ",x);
+ tmpstr = "";
+ for (y=0; y < x; y+=1) {
+  tmp = dbReadAt(y,"BL");
+  tmpstr = strCat(tmpstr, tmp["key"],", ");
+  if (length(tmpstr) > 300) {
+   speak("SL: ", tmpstr);
+   tmpstr = "";
+   }
+  }
+ if (length(tmpstr)) {
+  speak("SL: ", tmpstr);
+  }
+ if (activedatabase) { dbClose(); }
+ return true;
+ }
+ 
+//Help
+if (args[0] == "sh.help") {
+ speak("SH: Selective Hearing, the enhanced ignore script. Commands:");
+ speak("SH: sh.help - This message");
+ speak("SH: sh.addw  - Add someone to whitelist.");
+ speak("SH: sh.remw  - Remove someone from whitelist.");
+ speak("SH: sh.addb  - Add someone to blacklist.");
+ speak("SH: sh.remb  - Remove someone from blacklist.");
+ speak("SH: sh.toggle - Toggle ignoring function.");
+ speak("SH: sh.modew - Set to whitelist mode.");
+ speak("SH: sh.modeb - Set to blacklist mode.");
+ speak("SH: sh.notify - Toggle notification on blocking.");
+ speak("SH: sh.listw - Display whitelist.");
+ speak("SH: sh.listb - Display blacklist."); 
+ speak("SH: sh.nukewlist - Completely clear whitelist. NO CONFIRMATION!");
+ speak("SH: sh.nukeblist - Completely clear blacklist. NO CONFIRMATION!");
+ return true;
+ }
+};
+
+speak("SH: Selective Hearing: Running.");
+speak("SH: sh.help for help!");
