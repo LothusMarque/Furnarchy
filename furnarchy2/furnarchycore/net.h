@@ -9,6 +9,7 @@ enum { FROM_SERVER = 0, FROM_CLIENT = 0, FROM_OTHER = 1 };
 namespace net
 {
    using namespace std;
+   extern const char *FURC_WEBSITE_IP;
 
    bool          initialize( );
    bool          uninitialize( );

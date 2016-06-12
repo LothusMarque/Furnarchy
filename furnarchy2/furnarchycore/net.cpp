@@ -13,6 +13,16 @@ enum { SELECT_WAIT_MS = 500, SEND_CHUNK_SIZE = 256, MAX_OLINE_LEN = 1024*3 };
 enum Net_State { NETSTATE_DISCONNECTED, NETSTATE_CONNECTING, 
                  NETSTATE_NEGOTIATING, NETSTATE_CONNECTED };
 
+/* 
+If Furcadia ever moves their website, this HAS to change.
+This is a very hacky way to get around the fact that the client asks for news FIRST for some
+reason, THEN tries to connect to the game server. Symptoms will include the client working
+normally - but news won't appear and F2 never activates (commands are passthrough being an obvious
+symptom)
+*/
+const char *FURC_WEBSITE_IP = "72.232.1.185";
+
+
 struct NETLINE 
 { 
    int from; string line; 
@@ -94,8 +104,11 @@ void flush_bufs( )
 
 bool push_inbound( const char* buf, size_t size, int from /* = FROM_OTHER */ )
 {
+	//OutputDebugString("Push_Inbound");
    if (g_state >= NETSTATE_CONNECTED)
    {
+	   //OutputDebugString("Connected> Pushing");
+
       bool jobs = false;
 
       if (from == FROM_SERVER)
@@ -119,8 +132,10 @@ bool push_inbound( const char* buf, size_t size, int from /* = FROM_OTHER */ )
          }
       }
 
-      if (jobs)
+      if (jobs) {
+		  //OutputDebugString("BATCH_NET push");
          core::batch_add( BATCH_NET );
+	  }
       return true;
    }
 
@@ -253,13 +268,15 @@ bool set_main_socket( SOCKET s )
 
 int on_client_recv( SOCKET s, char* buf, size_t max )
 {
+	//OutputDebugString("on_client_recv - init");
    if (s != g_socket)
       return recv( s, buf, (int) max, 0 );
 
    /* Dealing with main socket. */
-
+   //OutputDebugString("on_client_recv - main");
    if (g_state == NETSTATE_NEGOTIATING)
    {
+	   //OutputDebugString("on_client_recv - NEGOTIATING");
       /* Let SOCKS stuff pass through unmolested. */
       if (g_proxy_state != SOCKS_DONE)
       {
@@ -286,6 +303,7 @@ int on_client_recv( SOCKET s, char* buf, size_t max )
 
    static char recv_buf[ 512 ];  // Ah, the singleton life.
 
+   //OutputDebugString("on_client_recv - Data fetch");
    /* Fetch all the data. */
    int r = 0;
    do 
@@ -394,9 +412,12 @@ int on_client_connect( SOCKET s, const sockaddr_in* addr )
 	//OutputDebugString("General connection attempted: ");
 	//OutputDebugString(inet_ntoa(addr->sin_addr));
    // Just take the first connection that isn't to the news server.
+
+	OutputDebugString("Socket Test");
    if (g_socket == INVALID_SOCKET 
-       && addr->sin_addr.S_un.S_addr != inet_addr( "72.232.1.171" ))   // Hacky. 72.233.19.231
+       && (addr->sin_addr.S_un.S_addr != inet_addr( FURC_WEBSITE_IP )))   // Hacky. 72.233.19.231, 72.232.1.171
    {
+	   OutputDebugString("Socket Test Passed");
 	   //OutputDebugString("Server connection attempted: ");
 	   //OutputDebugString(inet_ntoa(addr->sin_addr));
       // This is our main connection.
@@ -412,6 +433,8 @@ int on_client_connect( SOCKET s, const sockaddr_in* addr )
       core::event_set_main_socket( g_socket );
 
       set_state( NETSTATE_CONNECTING );
+   } else {
+   
    }
 
    return connect( s, (sockaddr*) addr, sizeof( sockaddr_in ) );
@@ -455,8 +478,20 @@ void on_screen_load( Client_Screen screen )
 {
    if (g_state == NETSTATE_NEGOTIATING)
    {
+	   switch (screen) {
+	   case SCREEN_BORDER: 
+		   OutputDebugString("SCREEN load: Border");
+		   break;
+	   case SCREEN_PICKEM:
+		   OutputDebugString("SCREEN load: PickEm");
+		   break;
+	   case SCREEN_MARBLED:
+		   //MessageBox(NULL, "Marbled", "Filename", MB_OK);
+		   OutputDebugString("SCREEN load: Marbled");
+		   break;
+	   }
       /* Cheap and dirty way to know we've gotten through negotiations. */
-      if (screen == SCREEN_BORDER || screen == SCREEN_PICKEM)
+      if (screen == SCREEN_BORDER || screen == SCREEN_PICKEM || screen == SCREEN_MARBLED)
          set_state( NETSTATE_CONNECTED );
    }
 }
@@ -587,13 +622,17 @@ void finalize_outbound_line( const string& line )
 
 void set_state( Net_State state )
 {
+	OutputDebugString("set_state");
    if (g_state != state)
    {
       g_state = state;
 
       /* Inform the core. */
       if (state == NETSTATE_CONNECTED)
+	  {
          core::event_connected( );
+		 OutputDebugString("State: Connected!");
+	  }
       else if (state == NETSTATE_DISCONNECTED)
          core::event_disconnected( );
    }
